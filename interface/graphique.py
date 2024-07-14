@@ -19,8 +19,16 @@ import pygame
 
 
 class Image:
+    """class pour gérer les images
+    avec des fonctions pour les afficher et les redimentionner
+
+    agrs:
+        texture (str or pygame.Surface) : est l'image
+        ancre (tuple[int, int]) : est l'ancre de l'image
+    """
+
     def __init__(self, texture: str | pygame.Surface, ancre: tuple[int, int] = None):
-        if ancre == None:
+        if ancre is None:
             ancre = (0, 0)
         if isinstance(texture, str):
             texture = pygame.image.load(texture)
@@ -38,7 +46,13 @@ class Image:
         return self.__dimention
 
     def get_ancre(self):
+        """retourne l'ancre de l'objet"""
         return self.ancre
+
+    def redimentione(self, taille: tuple[int, int]):
+        """redimentionne l'image"""
+        self.__texture = pygame.transform.scale(self.__texture, taille)
+        self.__dimention = self.__texture.get_size()
 
     def if_in_zone(self, pos_self: tuple, pos_zone: tuple, size_zone: tuple) -> bool:
         """permet de savoir si l'objet est dans une zone
@@ -69,12 +83,167 @@ class Image:
         )
 
     def affiche(self, surface: pygame.Surface, position):
+        """affiche l'image sur la fenêtre"""
         if self.if_in_zone(position, (0, 0), surface.get_size):
             emplacement = (position[0] - self.ancre[0], position[1] - self.ancre[1])
             surface.blit(self.__texture, emplacement)
 
 
-def gener_texture(taille: tuple[int], color: tuple[int] = False) -> pygame.Surface:
+class ObjetGraphique:
+    """objet graphique qui a le but d'etre affiché
+
+    Args:
+        coordonnee (list): est les coordonées de l'objet
+        texture (list[str, Image, pygame.Surface]): est la texture de l'objet
+        taille (list): est la taille de l'objet
+        animation (int, optional): est l'animation de l'objet. Defaults to 0.
+    """
+
+    def __init__(
+        self,
+        coordonnee: list,
+        texture: list[str, Image, pygame.Surface],
+        taille,
+        animation=0,
+    ):
+        self.texture: list[Image] = []
+        for i in texture:
+            if isinstance(i, str):
+                i = Image(i)
+            if isinstance(i, pygame.Surface):
+                i = Image(i)
+            self.texture.append(i)
+        self.coordonnee = coordonnee
+        self.taille = taille
+        self.animation = animation
+
+    def get_coordonnee(self) -> tuple[int, int] | int:
+        """renvoi les coordonées de l'objet
+        Args:
+            axe (int, optional): {0= axe x, 1= axe y}. Defaults to None."""
+
+        return self.coordonnee
+
+    def set_coordonnee(self, valu):
+        """defini les coordonées de l'objet"""
+        self.coordonnee = valu
+
+    def get_taille(self) -> tuple[int, int] | int:
+        """renvoi la taille de l'objet"""
+        return self.taille
+
+    def get_center(self) -> tuple[float, float]:
+        """renvoi le centre de l'objet"""
+        return (
+            self.coordonnee[0] + self.taille[0] / 2,
+            self.coordonnee[1] + self.taille[1] / 2,
+        )
+
+    def image_actuel(self) -> pygame.Surface:
+        """donne l'image actuel"""
+        return self.texture[self.animation]
+
+    def redimentione_all_image(self, taille: tuple[int]):
+        """redimentionne toute les images"""
+        for image in self.texture:
+            image.redimentione(taille)
+
+    def x_y_dans_objet(self, x: int, y: int):
+        """pour savoir si un point est dans l'objet
+
+        entre :
+            x (int) : est les coordonees du point sur l'axe x
+            y (int) : est les coordonees du point sur l'axe y
+
+        retun (bool) : si le point est dans l'objet
+
+        """
+        return (self.coordonnee[0] <= x < self.coordonnee[0] + self.taille[0]) and (
+            self.coordonnee[1] <= y < self.coordonnee[1] + self.taille[1]
+        )
+
+    def collision_in_axe(self, obj_pos: int, obj_size: int, axe: int) -> bool:
+        """pemet de voir si un objet a une colisiont sur un plan
+
+        Args:
+            obj_pos (int): est la position de l'objet sur l'axe
+            obj_size (int): est la taille de l'objet sur l'axe
+            axe (int): {1= axe x, 2= axe y}
+
+        Returns: (bool)
+        """
+        coin_1_self = self.get_coordonnee()[axe]
+        coin_2_self = self.get_coordonnee()[axe] + self.get_taille()[axe]
+
+        coin_1_obj = obj_pos
+        coin_2_obj = obj_pos + obj_size
+
+        return (
+            coin_1_obj <= coin_1_self < coin_2_obj
+            or coin_1_self <= coin_1_obj < coin_2_self
+        )
+
+    def collision(self, obj_pos: tuple[int], obj_size: tuple[int]) -> bool:
+        """pemet savoir l'objet à une colision avec un autre objet dans l'espace
+        args:
+            obj_pos (tuple[int]) : est la position de l'objet
+            obj_size (tuple[int]) : est la taille de l'objet
+        """
+        return self.collision_in_axe(
+            obj_pos[0], obj_size[0], 0
+        ) and self.collision_in_axe(obj_pos[1], obj_size[1], 1)
+
+    def objet_dans_zone(self, pos_zone: tuple, size_zone: tuple) -> bool:
+        """permet de savoir si un bojet est dans une zone
+
+        Args:
+            axe_x (tuple): à une longuer de 2 (le premier est le plus petit)
+            axe_y (tuple): à une longuer de 2 (le premier est le plus petit)
+
+        Returns:
+            bool: si l'objet
+        """
+        coin_1_self = self.coordonnee
+        coin_2_self = [self.coordonnee[i] + self.taille[i] for i in range(2)]
+
+        coin_1_zone = pos_zone
+        coin_2_zone = [pos_zone[0] + size_zone[0], pos_zone[1] + size_zone[1]]
+
+        return (
+            coin_1_zone[0] <= coin_1_self[0] < coin_2_zone[0]
+            or coin_1_self[0] <= coin_1_zone[0] < coin_2_self[0]
+        ) and (
+            coin_1_zone[1] <= coin_1_self[1] < coin_2_zone[1]
+            or coin_1_self[1] <= coin_1_zone[1] < coin_2_self[1]
+        )
+
+    def afficher(
+        self,
+        decalage: tuple[int, int] = None,
+        surface: pygame.Surface = None,
+    ) -> bool:
+        """permet de l'affiché sur la sur une surface et de savoir si il est affiché
+
+        Args:
+            decalage (tuple[int, int], optional): est le decalage de l'objet. Defaults to None.
+            surface (pygame.Surface, optional): est la surface sur laquel afficher. Defaults None.
+
+        if la surface est None alors c'est directement sur l'écran
+        """
+        if surface is None:
+            surface = screen
+        if decalage is None:
+            decalage = (0, 0)
+        if self.objet_dans_zone(decalage, surface.get_size()):
+            self.texture[self.animation].affiche(
+                surface,
+                (self.coordonnee[0] - decalage[0], self.coordonnee[1] - decalage[1]),
+            )
+            return True
+        return False
+
+
+def gener_texture(taille: tuple[int, int], color: tuple) -> pygame.Surface:
     """génere une texture rectangulaire
 
     Args:

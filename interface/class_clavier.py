@@ -191,11 +191,10 @@ class Souris:
         return res
 
 
-if __name__ == "__main__":
-    pygame.init()
-    # print(pygame.key.get_pressed())
-    # print(pygame.key.get_repeat())
-    # print(pygame.key.get_mods())
-    # print(pygame.key.name(121))
-    # print(pygame.key.key_code("y"))
-    
+# if __name__ == "__main__":
+#     pygame.init()
+#     print(pygame.key.get_pressed())
+#     print(pygame.key.get_repeat())
+#     print(pygame.key.get_mods())
+#     print(pygame.key.name(121))
+#     print(pygame.key.key_code("y"))

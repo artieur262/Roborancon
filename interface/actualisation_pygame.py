@@ -7,11 +7,13 @@ il y a 2 fonctions:
     - change_fullscreen : change le mode plein écran"""
 
 # pylint: disable=no-member
-from interface.graphique import screen, pygame
+import pygame
+
+from interface.graphique import screen
 from interface.class_clavier import Clavier, Souris
 
 
-def actualise_event(clavier: Clavier, souris: Souris)->set:
+def actualise_event(clavier: Clavier, souris: Souris) -> set:
     """actualise les événement et retourne les événement autre que les touches et les cliques"""
     event_autre = set()
     souris.actualise_all_clique()
