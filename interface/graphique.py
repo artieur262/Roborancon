@@ -34,12 +34,12 @@ class Image:
             texture = pygame.image.load(texture)
             texture.convert()
         self.ancre: tuple[int, int] = ancre
-        self.__texture: pygame.surface = texture
-        self.__dimention: tuple[int, int] = self.__texture.get_size()
+        self.texture: pygame.surface = texture
+        self.__dimention: tuple[int, int] = self.texture.get_size()
 
     def get_texture(self) -> pygame.surface:
         """retourne la texture de l'objet"""
-        return self.__texture
+        return self.texture
 
     def get_dimention(self):
         """retourne la dimention de l'objet"""
@@ -51,8 +51,8 @@ class Image:
 
     def redimentione(self, taille: tuple[int, int]):
         """redimentionne l'image"""
-        self.__texture = pygame.transform.scale(self.__texture, taille)
-        self.__dimention = self.__texture.get_size()
+        self.texture = pygame.transform.scale(self.texture, taille)
+        self.__dimention = self.texture.get_size()
 
     def if_in_zone(self, pos_self: tuple, pos_zone: tuple, size_zone: tuple) -> bool:
         """permet de savoir si l'objet est dans une zone
@@ -86,7 +86,7 @@ class Image:
         """affiche l'image sur la fenêtre"""
         if self.if_in_zone(position, (0, 0), surface.get_size):
             emplacement = (position[0] - self.ancre[0], position[1] - self.ancre[1])
-            surface.blit(self.__texture, emplacement)
+            surface.blit(self.texture, emplacement)
 
 
 class ObjetGraphique:
@@ -148,7 +148,7 @@ class ObjetGraphique:
         for image in self.texture:
             image.redimentione(taille)
 
-    def x_y_dans_objet(self, x: int, y: int):
+    def point_dans_objet(self, point):
         """pour savoir si un point est dans l'objet
 
         entre :
@@ -158,9 +158,9 @@ class ObjetGraphique:
         retun (bool) : si le point est dans l'objet
 
         """
-        return (self.coordonnee[0] <= x < self.coordonnee[0] + self.taille[0]) and (
-            self.coordonnee[1] <= y < self.coordonnee[1] + self.taille[1]
-        )
+        return (
+            self.coordonnee[0] <= point[0] < self.coordonnee[0] + self.taille[0]
+        ) and (self.coordonnee[1] <= point[1] < self.coordonnee[1] + self.taille[1])
 
     def collision_in_axe(self, obj_pos: int, obj_size: int, axe: int) -> bool:
         """pemet de voir si un objet a une colisiont sur un plan
@@ -385,12 +385,12 @@ def place_texte_in_texture(
     return image
 
 
-def vider_affichage(couleur_du_fond: list | int = 0):
+def vider_affichage(couleur_du_fond: tuple | int = 0):
     """permet de vider l'affichage
     donc de tout retire et met la couleur qui est entre en fond
 
     Args:
-        couleur_du_fond (list or tuple or int): bref c'est une couleur RGB (red, green, blue)
+        couleur_du_fond (tuple or int): bref c'est une couleur RGB (red, green, blue)
     """
     screen.fill(couleur_du_fond)
 
