@@ -1,6 +1,6 @@
 """module pour actualiser les événement de pygame
 
-il y a 2 fonctions:
+il y a 3 fonctions:
     - actualise_event : actualise les événement et retourne 
                         les événement autre que les touches et les cliques
     - get_fullscreen : retourne si on est en plein écran
@@ -29,11 +29,10 @@ def actualise_event(clavier: Clavier, souris: Souris) -> set:
             event_autre.add("redimentione")
 
         elif event.type == pygame.KEYDOWN:
-            if event.key in clavier.dict_touches:
-                clavier.set_pression(event.key, "vien_presser")
+            clavier.set_pression(event.key, "vien_presser")
+
         elif event.type == pygame.KEYUP:
-            if event.key in clavier.dict_touches:
-                clavier.set_pression(event.key, "vien_lacher")
+            clavier.set_pression(event.key, "vien_lacher")
 
         elif event.type == pygame.MOUSEBUTTONDOWN:
             if event.button in souris.dict_clique:
