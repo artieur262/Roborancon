@@ -35,12 +35,10 @@ def actualise_event(clavier: Clavier, souris: Souris) -> set:
             clavier.set_pression(event.key, "vien_lacher")
 
         elif event.type == pygame.MOUSEBUTTONDOWN:
-            if event.button in souris.dict_clique:
-                souris.set_pression(event.button, "vien_presser")
+            souris.set_pression(event.button, "vien_presser")
 
         elif event.type == pygame.MOUSEBUTTONUP:
-            if event.button in souris.dict_clique:
-                souris.set_pression(event.button, "vien_lacher")
+            souris.set_pression(event.button, "vien_lacher")
         # if event.type not in (pygame.MOUSEMOTION, pygame.FINGERMOTION):
         #     print(event)
 

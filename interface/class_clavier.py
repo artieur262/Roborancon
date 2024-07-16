@@ -3,6 +3,10 @@
 il y a 2 class:
     - Clavier : class pour gérer le clavier
     - Souris : class pour gérer la souris
+
+et 2 dictionnaire:
+    - key_names : dictionnaire pour les noms des touches
+    - mouse_names : dictionnaire pour les noms des cliques de la souris
 """
 
 import pygame

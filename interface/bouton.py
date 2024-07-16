@@ -1,3 +1,10 @@
+"""Module qui gère les boutons de l'interface graphique
+
+Classes:
+    - Bouton
+    - BoutonText
+"""
+
 import pygame  # for typing
 
 from interface.graphique import ObjetGraphique, place_texte_in_texture
@@ -52,7 +59,7 @@ class BoutonText(Bouton):
         super().__init__(coordonnee, texture, taille, data)
         self.text = text
         for image in self.texture:
-            place_texte_in_texture(image.texture, text, police, couleur_text,mode)
+            place_texte_in_texture(image.texture, text, police, couleur_text, mode)
 
     def get_text(self):
         """retourne le texte du bouton"""

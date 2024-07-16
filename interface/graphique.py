@@ -1,20 +1,23 @@
 """cette parti est la pour gérer l'interface graphique du jeu
 
-il y a une class:
-    ObjetGraphique : est un objet graphique qui a le but d'etre affiché
+il y a 2 class:
+    - Image : class pour gérer les images
+    - ObjetGraphique : class pour gérer les objet graphique
 
-il y a des fonctions:
-    - gener_texture : génere une texture rectangulaire
-    - gener_texture_arc_ciel : génere une texture arc en ciel
-    - decoupe_texte : découpe un texte en plusieur ligne
-    - place_texte_in_texture : ajoute du texte sur une image
+il y a 6 fonctions:
+    - gener_texture : permet de générer une texture rectangulaire
+    - gener_texture_arc_ciel : permet de générer une texture arc en ciel
+    - decoupe_texte : permet de découper un texte en plusieur ligne
+    - place_texte_in_texture : permet de mettre du texte sur une image
     - vider_affichage : permet de vider l'affichage
     - quitter : permet de quitter
-
-
+    
+et 1 variable:
+    - screen : est la fenêtre du jeu
 """
 
 # pylint: disable=no-member
+
 import pygame
 
 
