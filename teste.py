@@ -27,11 +27,11 @@ scrollbar2 = ScrollBar(
 )
 indicateur1 = gener_texture((300, 50), (230, 230, 230))
 indicateur2 = gener_texture((300, 50), (230, 230, 230))
-
-while True:
+encours = True
+while encours:
     event_autre = actualise_event(clavier, souris)
     if "quitter" in event_autre:
-        break
+        encours = False
     if "redimentione" in event_autre:
         screen.fill((0, 0, 0))
         pygame.display.update()

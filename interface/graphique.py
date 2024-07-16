@@ -44,7 +44,7 @@ class Image:
         """retourne la texture de l'objet"""
         return self.texture
 
-    def get_dimention(self):
+    def get_size(self):
         """retourne la dimention de l'objet"""
         return self.__dimention
 
@@ -67,7 +67,7 @@ class Image:
         Returns:
             bool: si l'objet
         """
-        size_self = self.get_dimention()
+        size_self = self.get_size()
         coin_1_self = [pos_self[0] - self.ancre[0], pos_self[1] - self.ancre[1]]
         coin_2_self = [
             pos_self[0] + size_self[0] - self.ancre[0],
@@ -85,8 +85,10 @@ class Image:
             or coin_1_self[1] <= coin_1_zone[1] < coin_2_self[1]
         )
 
-    def afficher(self, position, surface: pygame.Surface):
+    def afficher(self, position, surface: pygame.Surface = None):
         """affiche l'image sur la fenêtre"""
+        if surface is None:
+            surface = screen
         if self.if_in_zone(position, (0, 0), surface.get_size()):
             emplacement = (position[0] - self.ancre[0], position[1] - self.ancre[1])
             surface.blit(self.texture, emplacement)
@@ -134,6 +136,10 @@ class ObjetGraphique:
     def get_taille(self) -> tuple[int, int] | int:
         """renvoi la taille de l'objet"""
         return self.__taille
+
+    def set_taille(self, valu):
+        """defini la taille de l'objet"""
+        self.__taille = valu
 
     def get_center(self) -> tuple[float, float]:
         """renvoi le centre de l'objet"""
