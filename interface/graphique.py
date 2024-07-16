@@ -85,9 +85,9 @@ class Image:
             or coin_1_self[1] <= coin_1_zone[1] < coin_2_self[1]
         )
 
-    def affiche(self, surface: pygame.Surface, position):
+    def afficher(self, position, surface: pygame.Surface):
         """affiche l'image sur la fenêtre"""
-        if self.if_in_zone(position, (0, 0), surface.get_size):
+        if self.if_in_zone(position, (0, 0), surface.get_size()):
             emplacement = (position[0] - self.ancre[0], position[1] - self.ancre[1])
             surface.blit(self.texture, emplacement)
 
@@ -117,7 +117,7 @@ class ObjetGraphique:
                 i = Image(i)
             self.texture.append(i)
         self.coordonnee = coordonnee
-        self.taille = taille
+        self.__taille = taille
         self.animation = animation
 
     def get_coordonnee(self) -> tuple[int, int] | int:
@@ -133,13 +133,13 @@ class ObjetGraphique:
 
     def get_taille(self) -> tuple[int, int] | int:
         """renvoi la taille de l'objet"""
-        return self.taille
+        return self.__taille
 
     def get_center(self) -> tuple[float, float]:
         """renvoi le centre de l'objet"""
         return (
-            self.coordonnee[0] + self.taille[0] / 2,
-            self.coordonnee[1] + self.taille[1] / 2,
+            self.coordonnee[0] + self.__taille[0] / 2,
+            self.coordonnee[1] + self.__taille[1] / 2,
         )
 
     def image_actuel(self) -> pygame.Surface:
@@ -151,7 +151,7 @@ class ObjetGraphique:
         for image in self.texture:
             image.redimentione(taille)
 
-    def point_dans_objet(self, point):
+    def point_dans_objet(self, point: tuple[int, int]) -> bool:
         """pour savoir si un point est dans l'objet
 
         entre :
@@ -162,8 +162,8 @@ class ObjetGraphique:
 
         """
         return (
-            self.coordonnee[0] <= point[0] < self.coordonnee[0] + self.taille[0]
-        ) and (self.coordonnee[1] <= point[1] < self.coordonnee[1] + self.taille[1])
+            self.coordonnee[0] <= point[0] < self.coordonnee[0] + self.__taille[0]
+        ) and (self.coordonnee[1] <= point[1] < self.coordonnee[1] + self.__taille[1])
 
     def collision_in_axe(self, obj_pos: int, obj_size: int, axe: int) -> bool:
         """pemet de voir si un objet a une colisiont sur un plan
@@ -207,7 +207,7 @@ class ObjetGraphique:
             bool: si l'objet
         """
         coin_1_self = self.coordonnee
-        coin_2_self = [self.coordonnee[i] + self.taille[i] for i in range(2)]
+        coin_2_self = [self.coordonnee[i] + self.__taille[i] for i in range(2)]
 
         coin_1_zone = pos_zone
         coin_2_zone = [pos_zone[0] + size_zone[0], pos_zone[1] + size_zone[1]]
@@ -238,9 +238,9 @@ class ObjetGraphique:
         if decalage is None:
             decalage = (0, 0)
         if self.objet_dans_zone(decalage, surface.get_size()):
-            self.texture[self.animation].affiche(
-                surface,
+            self.texture[self.animation].afficher(
                 (self.coordonnee[0] - decalage[0], self.coordonnee[1] - decalage[1]),
+                surface,
             )
             return True
         return False
