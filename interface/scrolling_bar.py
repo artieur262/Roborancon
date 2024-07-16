@@ -32,10 +32,11 @@ class ScrollBar(ObjetGraphique):
         self.redimentione_all_image(taille)
 
         self.__taille_scroll = taille_scroll
-        self.position_scroll = 0
+        self.position_scroll = marge
         self.__sens = sens
         self.__marge = marge
 
+        self.actif = False
         if sens == "vertical":
             if not isinstance(texture_scroll, Image):
                 texture_scroll = Image(texture_scroll)
@@ -46,6 +47,14 @@ class ScrollBar(ObjetGraphique):
                 texture_scroll = Image(texture_scroll)
             self.__scroll = texture_scroll
             self.__scroll.redimentione((taille_scroll, taille[1] - 2 * marge))
+
+    def activer(self):
+        """active la barre de défilement"""
+        self.actif = True
+
+    def desactiver(self):
+        """desactive la barre de défilement"""
+        self.actif = False
 
     def afficher(
         self, decalage: tuple[int, int] = None, surface: Surface = None
@@ -98,7 +107,7 @@ class ScrollBar(ObjetGraphique):
 
     def souris_scroll(self, pos_souris: tuple[int, int]):
         """déplace la barre de défilement en fonction de la position de la souris"""
-        if self.point_dans_objet(pos_souris):
+        if self.actif:
             if self.__sens == "vertical":
                 self.position_scroll = (
                     pos_souris[1] - self.coordonnee[1] - self.__taille_scroll / 2

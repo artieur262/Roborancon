@@ -9,7 +9,7 @@ from interface.scrolling_bar import ScrollBar
 
 clavier = Clavier()
 souris = Souris()
-scrollbar = ScrollBar(
+scrollbar1 = ScrollBar(
     (100, 100),
     (20, 200),
     gener_texture((1, 1), (125, 125, 125)),
@@ -17,7 +17,16 @@ scrollbar = ScrollBar(
     50,
     "vertical",
 )
-indicateur = gener_texture((300, 50), (230, 230, 230))
+scrollbar2 = ScrollBar(
+    (200, 100),
+    (200, 20),
+    gener_texture((1, 1), (125, 125, 125)),
+    gener_texture((1, 1), (175, 175, 175)),
+    50,
+    "horizontal",
+)
+indicateur1 = gener_texture((300, 50), (230, 230, 230))
+indicateur2 = gener_texture((300, 50), (230, 230, 230))
 
 while True:
     event_autre = actualise_event(clavier, souris)
@@ -26,19 +35,41 @@ while True:
     if "redimentione" in event_autre:
         screen.fill((0, 0, 0))
         pygame.display.update()
-    scrollbar.souris_scroll(souris.pos)
+    if souris.get_pression(1) == "vien_presser":
+        if scrollbar1.point_dans_objet(souris.pos):
+            scrollbar1.activer()
+        if scrollbar2.point_dans_objet(souris.pos):
+            scrollbar2.activer()
+    if souris.get_pression(1) == "vien_lacher":
+        scrollbar1.desactiver()
+        scrollbar2.desactiver()
+
+    scrollbar1.souris_scroll(souris.pos)
+    scrollbar2.souris_scroll(souris.pos)
     screen.fill((0, 0, 0))
-    scrollbar.afficher()
-    indicateur.fill((230, 230, 230))
-    indicateur.blit(
+    scrollbar1.afficher()
+    scrollbar2.afficher()
+    indicateur1.fill((230, 230, 230))
+    indicateur1.blit(
         place_texte_in_texture(
-            indicateur,
-            str(round(scrollbar.get_pourcentage(),3)),
+            indicateur1,
+            str(round(scrollbar1.get_pourcentage(), 3)),
             pygame.font.Font(None, 50),
             (0, 0, 0),
         ),
         (0, 0),
     )
-    screen.blit(indicateur, (400, 100))
+    indicateur2.fill((230, 230, 230))
+    indicateur2.blit(
+        place_texte_in_texture(
+            indicateur2,
+            str(round(scrollbar2.get_pourcentage(), 3)),
+            pygame.font.Font(None, 50),
+            (0, 0, 0),
+        ),
+        (0, 0),
+    )
+    screen.blit(indicateur1, (100, 400))
+    screen.blit(indicateur2, (600, 100))
     pygame.display.update()
     pygame.time.Clock().tick(60)

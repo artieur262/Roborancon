@@ -72,11 +72,14 @@ class Clavier:
 
     def actualise_all_touche(self):
         """actualise toute les touches"""
+        clee_a_supprimer = []
         for clee, touche in self.dict_touches.items():
             if touche == "vien_presser":
                 self.dict_touches[clee] = "presser"
             elif touche in ("vien_lacher", "lacher"):
-                del self.dict_touches[clee]
+                clee_a_supprimer.append(clee)
+        for clee in clee_a_supprimer:
+            del self.dict_touches[clee]
 
     def get_pression(self, clee: int):
         """get la pression d'une touche"""
@@ -109,11 +112,14 @@ class Souris:
 
     def actualise_all_clique(self):
         """actualise toute les touches"""
+        clee_a_supprimer = []
         for clee, touche in self.dict_clique.items():
             if touche == "vien_presser":
                 self.dict_clique[clee] = "presser"
             elif touche in ("vien_lacher", "lacher"):
-                del self.dict_clique[clee]
+                clee_a_supprimer.append(clee)
+        for clee in clee_a_supprimer:
+            del self.dict_clique[clee]
 
     def get_pression(self, clee: int):
         """get la pression d'une touche"""
