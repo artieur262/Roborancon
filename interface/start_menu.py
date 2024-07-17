@@ -181,7 +181,7 @@ class StartMenu:
             (5, 5),
         )
         fond = gener_texture((150, 150), (200, 200, 200))
-        fond = r".git\IMG_4840.jpg"
+        fond = "textures/charançon2.png"
         start_menu = StartMenu(fond, texture_bouton, taille_bouton, langue)
         encours = True
         start_menu.reset()

@@ -11,7 +11,7 @@ def main():
     langue = "fr"
     clavier = Clavier()
     souris = Souris()
-    clock = pygame.time.Clock()
+    # clock = pygame.time.Clock()
     encours = True
     action = "menu_start"
     while encours:
