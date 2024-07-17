@@ -14,7 +14,11 @@ class Bouton(ObjetGraphique):
     """Classe qui gère les boutons"""
 
     def __init__(
-        self, coordonnee: tuple[int, int], texture, taille: tuple[int, int], data=None
+        self,
+        coordonnee: tuple[int, int],
+        texture: tuple,
+        taille: tuple[int, int],
+        data=None,
     ):
         super().__init__(coordonnee, texture, taille)
         self.data = data
@@ -58,9 +62,17 @@ class BoutonText(Bouton):
     ):
         super().__init__(coordonnee, texture, taille, data)
         self.text = text
+        self.image_original = [image.texture for image in self.texture]
         for image in self.texture:
             place_texte_in_texture(image.texture, text, police, couleur_text, mode)
 
     def get_text(self):
         """retourne le texte du bouton"""
         return self.text
+
+    def set_text(self, text, police, couleur_text, mode="centrage"):
+        """change le texte du bouton"""
+        self.text = text
+        for image, image_original in zip(self.texture, self.image_original):
+            image.texture = image_original.copy()
+            place_texte_in_texture(image.texture, text, police, couleur_text, mode)

@@ -14,7 +14,7 @@ def indent_map(lien, indentation: int):
         json.dump(contenu, file, indent=indentation)
 
 
-def open_json(lien: str):
+def load_json(lien: str):
     """charge un json"""
     with open(lien, encoding="utf8") as file:
         contenu = json.load(file)

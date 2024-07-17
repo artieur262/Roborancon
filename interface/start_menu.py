@@ -29,6 +29,11 @@ class StartMenu:
         - langue : str : langue du menu
     """
 
+    button_langue = {
+        "fr": ["Démarrer", "Options", "Quitter"],
+        "en": ["Start", "Options", "Quit"],
+    }
+
     def __init__(
         self,
         fond: Image | pygame.Surface | str,
@@ -59,11 +64,6 @@ class StartMenu:
                 place_texte_in_texture(
                     image.texture, bouton.data, pygame.font.Font(None, 50), (0, 0, 0)
                 )
-
-    button_langue = {
-        "fr": ["Démarrer", "Options", "Quitter"],
-        "en": ["Start", "Options", "Quit"],
-    }
 
     def positionne_bouton(self):
         """positionne les boutons au centre de l'écran"""

@@ -1,7 +1,8 @@
-import pygame
+# import pygame
 
 import teste
-from interface.graphique import gener_texture
+
+# from interface.graphique import gener_texture
 from interface.start_menu import StartMenu
 from interface.class_clavier import Clavier, Souris
 

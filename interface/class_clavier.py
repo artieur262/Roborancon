@@ -11,61 +11,56 @@ et 2 dictionnaire:
 
 import pygame
 
-key_names = {
-    "en": {
-        8: "backspace",
-        9: "tab",
-        13: "return",
-        27: "escape",
-        32: "space",
-        127: "delete",
-        1073741881: "caps lock",
-        1073741903: "right",
-        1073741904: "left",
-        1073741905: "down",
-        1073741906: "up",
-        1073742048: "left ctrl",
-        1073742049: "left shift",
-        1073742050: "left alt",
-        1073742051: "left windows",
-        1073742052: "right ctrl",
-        1073742053: "right shift",
-        1073742054: "right alt",
-        1073742055: "right windows",
-    },
-    "fr": {
-        8: "retour arrière",
-        9: "tabulation",
-        13: "entrée",
-        27: "échap",
-        32: "espace",
-        127: "suppr",
-        1073741881: "verr maj",
-        1073741903: "droite",
-        1073741904: "gauche",
-        1073741905: "bas",
-        1073741906: "haut",
-        1073742048: "ctrl gauche",
-        1073742049: "shift gauche",
-        1073742050: "alt gauche",
-        1073742051: "windows gauche",
-        1073742052: "ctrl droit",
-        1073742053: "shift droit",
-        1073742054: "alt droit",
-        1073742055: "windows droit",
-    },
-}
-
-mouse_names = {
-    "en": {1: "left click", 2: "wheel click", 3: "right click"},
-    "fr": {1: "clique gauche", 2: "clique molette", 3: "clique droit"},
-}
-
 
 class Clavier:
     """cette class permet de gérer le clavier
     et de savoir si une touche est presser ou lacher
     """
+
+    key_names = {
+        "en": {
+            8: "backspace",
+            9: "tab",
+            13: "return",
+            27: "escape",
+            32: "space",
+            127: "delete",
+            1073741881: "caps lock",
+            1073741903: "right",
+            1073741904: "left",
+            1073741905: "down",
+            1073741906: "up",
+            1073742048: "left ctrl",
+            1073742049: "left shift",
+            1073742050: "left alt",
+            1073742051: "left windows",
+            1073742052: "right ctrl",
+            1073742053: "right shift",
+            1073742054: "right alt",
+            1073742055: "right windows",
+        },
+        "fr": {
+            8: "retour arrière",
+            9: "tabulation",
+            13: "entrée",
+            27: "échap",
+            32: "espace",
+            127: "suppr",
+            1073741881: "verr maj",
+            1073741903: "droite",
+            1073741904: "gauche",
+            1073741905: "bas",
+            1073741906: "haut",
+            1073742048: "ctrl gauche",
+            1073742049: "shift gauche",
+            1073742050: "alt gauche",
+            1073742051: "windows gauche",
+            1073742052: "ctrl droit",
+            1073742053: "shift droit",
+            1073742054: "alt droit",
+            1073742055: "windows droit",
+        },
+    }
 
     def __init__(self) -> None:
         self.dict_touches = {}
@@ -105,6 +100,11 @@ class Souris:
     peremet de savoir la position de la souris
     et permet de savoir si un clique est vien_presser, presser, vien_lacher ou lacher
     """
+
+    click_names = {
+        "en": {1: "left click", 2: "wheel click", 3: "right click"},
+        "fr": {1: "clique gauche", 2: "clique molette", 3: "clique droit"},
+    }
 
     def __init__(self):
         self.actualise_position()

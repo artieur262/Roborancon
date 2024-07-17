@@ -38,7 +38,11 @@ class Image:
             texture.convert()
         self.ancre: tuple[int, int] = ancre
         self.texture: pygame.surface = texture
-        self.__dimention: tuple[int, int] = self.texture.get_size()
+        self.actualise_size()
+
+    def actualise_size(self):
+        """actualise la dimention de l'image"""
+        self.__dimention = self.texture.get_size()
 
     def get_texture(self) -> pygame.surface:
         """retourne la texture de l'objet"""
@@ -55,7 +59,7 @@ class Image:
     def redimentione(self, taille: tuple[int, int]):
         """redimentionne l'image"""
         self.texture = pygame.transform.scale(self.texture, taille)
-        self.__dimention = self.texture.get_size()
+        self.actualise_size()
 
     def if_in_zone(self, pos_self: tuple, pos_zone: tuple, size_zone: tuple) -> bool:
         """permet de savoir si l'objet est dans une zone
