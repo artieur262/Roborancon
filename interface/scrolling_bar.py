@@ -1,6 +1,6 @@
 """Module qui gère les barres de défilement"""
 
-from pygame import Surface
+import pygame
 from interface.graphique import ObjetGraphique, Image, screen
 
 
@@ -21,8 +21,8 @@ class ScrollBar(ObjetGraphique):
         self,
         coordonnee: tuple[int, int],
         taille: tuple[int, int],
-        texture: Image | Surface | str,
-        texture_scroll: Image | Surface | str,
+        texture: Image | pygame.Surface | str,
+        texture_scroll: Image | pygame.Surface | str,
         taille_scroll: int,
         sens: str,
         marge: int = 3,
@@ -57,7 +57,7 @@ class ScrollBar(ObjetGraphique):
         self.actif = False
 
     def afficher(
-        self, decalage: tuple[int, int] = None, surface: Surface = None
+        self, decalage: tuple[int, int] = None, surface: pygame.Surface = None
     ) -> bool:
         if decalage is None:
             decalage = (0, 0)

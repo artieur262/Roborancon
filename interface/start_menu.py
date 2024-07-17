@@ -1,3 +1,5 @@
+"""Module qui gère le menu de démarrage"""
+
 import pygame
 
 # import copy
@@ -16,13 +18,22 @@ from interface.bouton import Bouton
 
 
 class StartMenu:
-    """Classe qui gère le menu de démarrage"""
+    r"""Classe qui gère le menu de démarrage
+
+    agrs :
+        - fond : Image | pygame.Surface | str : texture de fond
+        - tecture_bouton : list[Image | pygame.Surface | str] : texture des boutons
+                           /!\ il faut au moins 2 texture
+        - taille_bouton : tuple[int, int] : taille des boutons
+        - langue : str : langue du menu
+    """
 
     def __init__(
         self,
         fond: Image | pygame.Surface | str,
         tecture_bouton: list[Image | pygame.Surface | str],
         taille_bouton: tuple[int, int],
+        langue: str,
     ) -> None:
         if not isinstance(fond, Image):
             fond = Image(fond)
@@ -30,7 +41,7 @@ class StartMenu:
         self.fond_original = fond.texture
         self.fond = fond
 
-        nom_bouton = ["start", "option", "quitter"]
+        nom_bouton = self.button_langue[langue]
         self.taille_bouton = taille_bouton
         self.bouton = [
             Bouton(
@@ -48,8 +59,13 @@ class StartMenu:
                     image.texture, bouton.data, pygame.font.Font(None, 50), (0, 0, 0)
                 )
 
+    button_langue = {
+        "fr": ["Démarrer", "Options", "Quitter"],
+        "en": ["Start", "Options", "Quit"],
+    }
+
     def positionne_bouton(self):
-        """positionne les boutons"""
+        """positionne les boutons au centre de l'écran"""
         ecart = 10
         debut = (
             screen.get_height() // 2
@@ -67,8 +83,11 @@ class StartMenu:
                 )
             )
 
-    def actualise_dimention(self):  # attende d'une réponce pour continuer
-        """actualise la dimention"""
+    def actualise_dimention(self):
+        """actualise la dimention
+        ajuste la taille de l'image de fond pour qu'elle soit toujours visible
+        et positionne les boutons au centre de l'écran
+        """
         ration_fond = self.fond.get_size()[0] / self.fond.get_size()[1]
         ration_screen = screen.get_width() / screen.get_height()
         self.fond.texture = self.fond_original
@@ -124,7 +143,7 @@ class StartMenu:
             bouton.animation = 0
         self.actualise_dimention()
 
-    def play(self, clavier, souris):
+    def play(self, clavier, souris) -> str:
         """joue le menu de démarrage"""
         event = actualise_event(clavier, souris)
         temp = self.actualise(souris)
