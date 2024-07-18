@@ -57,7 +57,10 @@ class MenuOption:
         self.onglet = [
             Bouton(
                 (0, 0),
-                [gener_texture((1, 1), (125, 125, 125)) for _ in range(3)],
+                [
+                    assembleur.cadre(taille_onget, (125, 125, 125), i, 5)
+                    for i in ((150, 150, 150), (200, 200, 200), (100, 100, 100))
+                ],
                 (taille_onget),
                 data,
             )
@@ -65,24 +68,6 @@ class MenuOption:
         ]
         for i, onglet in enumerate(self.onglet):
             onglet.set_pos((50 + i * 170, 10))
-            onglet.texture[0].texture.blit(
-                gener_texture(
-                    (taille_onget[0] - 10, taille_onget[1] - 10), (150, 150, 150)
-                ),
-                (5, 5),
-            )
-            onglet.texture[1].texture.blit(
-                gener_texture(
-                    (taille_onget[0] - 10, taille_onget[1] - 10), (200, 200, 200)
-                ),
-                (5, 5),
-            )
-            onglet.texture[2].texture.blit(
-                gener_texture(
-                    (taille_onget[0] - 10, taille_onget[1] - 10), (100, 100, 100)
-                ),
-                (5, 5),
-            )
             for texture in onglet.texture:
                 texture.texture = place_texte_in_texture(
                     texture.texture,

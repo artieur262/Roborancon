@@ -275,40 +275,6 @@ def gener_texture(taille: tuple[int, int], color: tuple) -> pygame.Surface:
     return image
 
 
-def gener_texture_arc_ciel(taille: list[int], decalage: int = 0):
-    """génere une texture arc en ciel
-    créer à cause de lgwythyr
-    je n'avais pas le choix
-
-    agrs:
-        taille (list[int]) : est la taille de l'image
-        decalage (int) : est le décalage de l'arc en ciel
-    """
-    couleur = [
-        (255, 0, 0),
-        (255, 125, 0),
-        (255, 255, 0),
-        (0, 255, 0),
-        (0, 255, 255),
-        (0, 0, 255),
-        (125, 0, 255),
-    ]
-    min_taille = 0
-    if taille[0] < taille[1]:
-        min_taille = taille[0]
-    else:
-        min_taille = taille[1]
-        texture = gener_texture(taille, couleur[0 + decalage])
-    for i in range(1, min_taille // 10):
-        texture.blit(
-            gener_texture(
-                [taille[0] - 10 * i, taille[1] - i * 10],
-                couleur[(i + decalage) % len(couleur)],
-            ),
-            (i * 5, i * 5),
-        )
-    return texture
-
 
 def decoupe_texte(
     texte: str, longueur_ligne: int, police: pygame.font.Font
