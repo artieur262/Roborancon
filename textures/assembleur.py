@@ -74,15 +74,17 @@ def bouton1(taille: list[int]):
 
     taille_surface = surface.get_size()
     # place les coins
-    coin = pygame.image.load("textures/bouton/coin1.png")
+    coin1 = pygame.image.load("textures/bouton/coin1.1.png")
 
-    for i in (
-        ((0, 0), 0),
-        ((taille_surface[0] - 30, 0), 270),
-        ((0, taille_surface[1] - 30), 90),
-        ((taille_surface[0] - 30, taille_surface[1] - 30), 180),
-    ):
-        surface.blit(pygame.transform.rotate(coin, i[1]), i[0])
+    surface.blit(coin1, (0, 0))
+    surface.blit(
+        pygame.transform.rotate(coin1, 180),
+        (taille_surface[0] - 30, taille_surface[1] - 30),
+    )
+
+    coin2 = pygame.image.load("textures/bouton/coin1.2.png")
+    surface.blit(coin2, (taille_surface[0] - 30, 0))
+    surface.blit(pygame.transform.rotate(coin2, 180), (0, taille_surface[1] - 30))
 
     # place le dessus et le dessous
     dessus = pygame.image.load("textures/bouton/dessus1.png")
