@@ -102,9 +102,12 @@ class MenuOption:
             ),
             (
                 "all",
-                ["textures/charançon.png", "textures/charançon2.png"],
+                [
+                    assembleur.cadre((160, 50), (125, 125, 125), i, 5)
+                    for i in ((100, 100, 100), (150, 150, 150))
+                ],
                 (0, 0),
-                [150, 50],
+                [160, 50],
                 self.bouton_langue[self.menu_langue][2],
                 (0, 0, 0),
                 pygame.font.Font(None, 35),
@@ -112,9 +115,12 @@ class MenuOption:
             ),
             (
                 "all",
-                ["textures/charançon.png", "textures/charançon2.png"],
+                [
+                    assembleur.cadre((160, 50), (125, 125, 125), i, 5)
+                    for i in ((100, 100, 100), (150, 150, 150))
+                ],
                 [0, 50],
-                (150, 50),
+                (160, 50),
                 self.bouton_langue[self.menu_langue][3],
                 (0, 0, 0),
                 pygame.font.Font(None, 35),
@@ -122,9 +128,12 @@ class MenuOption:
             ),
             (
                 "all",
-                ["textures/charançon.png", "textures/charançon2.png"],
+                [
+                    assembleur.cadre((160, 50), (125, 125, 125), i, 5)
+                    for i in ((100, 100, 100), (150, 150, 150))
+                ],
                 [0, 100],
-                (150, 50),
+                (160, 50),
                 self.bouton_langue[self.menu_langue][4],
                 (0, 0, 0),
                 pygame.font.Font(None, 35),
@@ -184,11 +193,11 @@ class MenuOption:
     def actualise_dimention(self):
         for bouton in self.bouton["all"]:
             if bouton.data[1] == "save":
-                bouton.set_pos((screen.get_width() - 150, 0))
+                bouton.set_pos((screen.get_width() - 160, 0))
             elif bouton.data[1] == "reset":
-                bouton.set_pos((screen.get_width() - 150, 60))
+                bouton.set_pos((screen.get_width() - 160, 60))
             elif bouton.data[1] == "quitter":
-                bouton.set_pos((screen.get_width() - 150, 120))
+                bouton.set_pos((screen.get_width() - 160, 120))
 
     def actualise_bouton(self):
         """actualise les boutons"""
