@@ -98,7 +98,7 @@ class MenuOption:
             (
                 "graphisme",
                 ["textures/charançon.png", "textures/charançon2.png"],
-                (270, 160),
+                (270, 165),
                 (150, 80),
                 self.bouton_langue[self.menu_langue][0],
                 (0, 0, 0),
@@ -108,7 +108,7 @@ class MenuOption:
             (
                 "graphisme",
                 ["textures/charançon.png", "textures/charançon2.png"],
-                (440, 160),
+                (440, 165),
                 (150, 80),
                 self.bouton_langue[self.menu_langue][1],
                 (0, 0, 0),
@@ -248,7 +248,7 @@ class MenuOption:
         if self.souris.get_pression(1) == "vien_presser":
             for bouton in self.bouton[self.onglet_actuel]:
                 bouton: Bouton
-                if bouton. point_dans_objet(self.souris.pos):
+                if bouton.point_dans_objet(self.souris.pos):
                     if bouton.data[1] == "démarrage_fullscreen":
                         self.graphisme["fullscreen"] = not self.graphisme["fullscreen"]
                         # print("cat2")
@@ -264,7 +264,7 @@ class MenuOption:
 
             for bouton in self.bouton["all"]:
                 bouton: Bouton
-                if bouton.data[0] == "push" and bouton.actif:
+                if bouton.point_dans_objet(self.souris.pos):
                     if bouton.data[1] == "save":
                         save.save_json(self.lien_graphisme, self.graphisme)
                         save.save_json(self.lien_controle, self.controle)
@@ -318,3 +318,4 @@ class MenuOption:
             menu.afficher()
             pygame.display.flip()
             clock.tick(60)
+        return temp
