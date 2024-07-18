@@ -122,7 +122,9 @@ class Souris:
             del self.dict_clique[clee]
 
     def get_pression(self, clee: int):
-        """get la pression d'une touche"""
+        """get la pression d'une touche
+        retrun : Literal["vien_presser", "presser", "vien_lacher", "lacher"]
+        """
         if clee in self.dict_clique:
             return self.dict_clique[clee]
         else:

@@ -77,7 +77,7 @@ class StartMenu:
             // 2
         )
         for i, bouton in enumerate(self.bouton):
-            bouton.set_coordonnee(
+            bouton.set_pos(
                 (
                     screen.get_width() // 2 - self.taille_bouton[0] // 2,
                     debut + (self.taille_bouton[1] + ecart) * i,
@@ -192,6 +192,8 @@ class StartMenu:
             temp = start_menu.play(clavier, souris)
             if "jouer" == temp or start_menu.button_langue[langue][0] == temp:
                 return "jouer"
+            if start_menu.button_langue[langue][1] == temp:
+                return "option"
             if "quitter" == temp or start_menu.button_langue[langue][2] == temp:
                 return "quitter"
             clock.tick(90)

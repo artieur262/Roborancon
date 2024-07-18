@@ -57,14 +57,13 @@ class BoutonText(Bouton):
         text: str,
         couleur_text: tuple | int,
         police: pygame.font.Font,
-        mode: str = None,
+        mode: str = "centrage",
         data=None,
     ):
         super().__init__(coordonnee, texture, taille, data)
         self.text = text
         self.image_original = [image.texture for image in self.texture]
-        for image in self.texture:
-            place_texte_in_texture(image.texture, text, police, couleur_text, mode)
+        self.set_text(text, police, couleur_text, mode)
 
     def get_text(self):
         """retourne le texte du bouton"""

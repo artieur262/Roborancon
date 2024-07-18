@@ -96,8 +96,6 @@ class Image:
         if self.if_in_zone(position, (0, 0), surface.get_size()):
             emplacement = (position[0] - self.ancre[0], position[1] - self.ancre[1])
             surface.blit(self.texture, emplacement)
-
-
 class ObjetGraphique:
     """objet graphique qui a le but d'etre affiché
 
@@ -126,14 +124,14 @@ class ObjetGraphique:
         self.__taille = taille
         self.animation = animation
 
-    def get_coordonnee(self) -> tuple[int, int] | int:
+    def get_pos(self) -> tuple[int, int] | int:
         """renvoi les coordonées de l'objet
         Args:
             axe (int, optional): {0= axe x, 1= axe y}. Defaults to None."""
 
         return self.coordonnee
 
-    def set_coordonnee(self, valu):
+    def set_pos(self, valu):
         """defini les coordonées de l'objet"""
         self.coordonnee = valu
 
@@ -185,8 +183,8 @@ class ObjetGraphique:
 
         Returns: (bool)
         """
-        coin_1_self = self.get_coordonnee()[axe]
-        coin_2_self = self.get_coordonnee()[axe] + self.get_taille()[axe]
+        coin_1_self = self.get_pos()[axe]
+        coin_2_self = self.get_pos()[axe] + self.get_taille()[axe]
 
         coin_1_obj = obj_pos
         coin_2_obj = obj_pos + obj_size
