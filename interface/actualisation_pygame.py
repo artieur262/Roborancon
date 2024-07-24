@@ -17,7 +17,7 @@ def actualise_event(clavier: Clavier, souris: Souris) -> set:
     """actualise les événement et retourne les événement autre que les touches et les cliques"""
     event_autre = set()
     souris.actualise_all_clique()
-    clavier.actualise_all_touche()
+    clavier.update_all_key()
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -42,7 +42,7 @@ def actualise_event(clavier: Clavier, souris: Souris) -> set:
         # if event.type not in (pygame.MOUSEMOTION, pygame.FINGERMOTION):
         #     print(event)
 
-    souris.actualise_position()
+    souris.update_pos()
     return event_autre
 
 

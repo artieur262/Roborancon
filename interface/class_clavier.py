@@ -65,7 +65,7 @@ class Clavier:
     def __init__(self) -> None:
         self.dict_touches = {}
 
-    def actualise_all_touche(self):
+    def update_all_key(self):
         """actualise toute les touches"""
         clee_a_supprimer = []
         for clee, touche in self.dict_touches.items():
@@ -107,7 +107,7 @@ class Souris:
     }
 
     def __init__(self):
-        self.actualise_position()
+        self.update_pos()
         self.dict_clique = {}
 
     def actualise_all_clique(self):
@@ -138,7 +138,7 @@ class Souris:
         """get la position de la souris"""
         return self.pos
 
-    def actualise_position(self):
+    def update_pos(self):
         """actualise la position de la souris"""
         self.pos = pygame.mouse.get_pos()
 
