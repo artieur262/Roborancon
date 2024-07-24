@@ -1,8 +1,10 @@
 [
  {
-  "avancer": 0
+  "avancer": 0,
+  "gauche": 0
  },
  {
-  "avancer": "None"
+  "avancer": "None",
+  "gauche": "None"
  }
 ]

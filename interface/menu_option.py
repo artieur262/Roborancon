@@ -19,7 +19,6 @@ from autre import save
 
 
 class MenuOption:
-
     onglet_langue = {
         "fr": ["graphisme", "controle", "langue"],
         "en": ["graphics", "control", "language"],
@@ -28,6 +27,7 @@ class MenuOption:
         "fr": ["démarrage", "activer", "sauvegarder", "par default", "quitter"],
         "en": ["start", "active", "save", "defaut", "quit"],
     }
+    touche_langue = {"fr": {"avancer": "avancer", "gauche": "gauche"}}
     zonetexte_langue = {"fr": ["plein écran"], "en": ["fullscreen"]}
     lien_graphisme = "option/graphisme.json"
     lien_defaut_graphime = "option/graphisme_defaut.json"
@@ -77,7 +77,9 @@ class MenuOption:
                 )
         self.onglet[0].actif = True
         self.onglet[0].animation = 2
-        self.bouton: dict[str, Bouton] = {i: [] for i in self.onglet_nom + ["all"]}
+        self.bouton: dict[str, list[Bouton]] = {
+            i: [] for i in self.onglet_nom + ["all"]
+        }
         # (onglet, texture, position,taille,texte,couleur_texte,font,data)
         for i in (
             (
@@ -143,6 +145,21 @@ class MenuOption:
 
             self.bouton[i[0]].append(
                 BoutonText(i[2], i[1], i[3], i[4], i[5], i[6], data=i[7])
+            )
+        for i in zip(self.controle[0].values(), self.controle[1].values()):
+            self.bouton["controle"].append(
+                BoutonText(
+                    (0, 0),
+                    [
+                        assembleur.cadre((100, 100), (175, 175, 175), i, 5)
+                        for i in ((150, 150, 150), (125, 125, 125))
+                    ],
+                    (100, 100),
+                    i[1],
+                    (0, 0, 0),
+                    pygame.font.Font(None, 26),
+                    data=("push", "touche", i[0]),
+                )
             )
 
         self.zone_texte: dict[str, ObjetGraphique] = {
