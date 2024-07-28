@@ -234,21 +234,26 @@ class MenuOption:
                     bouton.set_pos((screen.get_width() - 160, 60))
                 case "quitter":
                     bouton.set_pos((screen.get_width() - 160, 120))
+        match self.onglet_actuel:
+            case "controle":
+                for i, bouton in enumerate(self.bouton["controle"]):
+                    bouton.set_pos((50 + i * 110, 200))
 
     def actualise_bouton(self):
         """actualise les boutons"""
         for bouton in self.bouton[self.onglet_actuel]:
             bouton: Bouton
-            if bouton.data[1] == "démarrage_fullscreen":
-                if self.graphisme["fullscreen"]:
-                    bouton.animation = 1
-                else:
-                    bouton.animation = 0
-            elif bouton.data[1] == "active_fullscreen":
-                if get_fullscreen():
-                    bouton.animation = 1
-                else:
-                    bouton.animation = 0
+            match bouton.data[1]:
+                case "démarrage_fullscreen":
+                    if self.graphisme["fullscreen"]:
+                        bouton.animation = 1
+                    else:
+                        bouton.animation = 0
+                case "active_fullscreen":
+                    if get_fullscreen():
+                        bouton.animation = 1
+                    else:
+                        bouton.animation = 0
 
     def hover(self):
         """actualise les boutons"""
@@ -279,33 +284,38 @@ class MenuOption:
             for bouton in self.bouton[self.onglet_actuel]:
                 bouton: Bouton
                 if bouton.point_dans_objet(self.souris.pos):
-                    if bouton.data[1] == "démarrage_fullscreen":
-                        self.graphisme["fullscreen"] = not self.graphisme["fullscreen"]
-                        # print("cat2")
-                    elif bouton.data[1] == "active_fullscreen":
-                        change_fullscreen()
-                        # print("cat1")
+                    match bouton.data[1]:
+                        case "démarrage_fullscreen":
+                            self.graphisme["fullscreen"] = not self.graphisme[
+                                "fullscreen"
+                            ]
+                            # print("cat2")
+                        case "active_fullscreen":
+                            change_fullscreen()
+                            # print("cat1")
             for onglet in self.onglet:
                 if onglet.point_dans_objet(self.souris.pos):
                     self.desactive_onglet()
                     onglet.actif = True
                     onglet.animation = 2
                     self.onglet_actuel = onglet.data
+                    self.actualise_dimention()
 
             for bouton in self.bouton["all"]:
                 bouton: Bouton
                 if bouton.point_dans_objet(self.souris.pos):
-                    if bouton.data[1] == "save":
-                        save.save_json(self.lien_graphisme, self.graphisme)
-                        save.save_json(self.lien_controle, self.controle)
-                        save.save_json(self.lien_langue, self.langue_option)
-                        return "save"
-                    elif bouton.data[1] == "reset":
-                        self.graphisme = save.load_json(self.lien_defaut_graphime)
-                        self.controle = save.load_json(self.lien_controle_defaut)
-                        self.langue_option = save.load_json(self.lien_langue_defaut)
-                    elif bouton.data[1] == "quitter":
-                        return "quitter"
+                    match bouton.data[1]:
+                        case "save":
+                            save.save_json(self.lien_graphisme, self.graphisme)
+                            save.save_json(self.lien_controle, self.controle)
+                            save.save_json(self.lien_langue, self.langue_option)
+                            return "save"
+                        case "reset":
+                            self.graphisme = save.load_json(self.lien_defaut_graphime)
+                            self.controle = save.load_json(self.lien_controle_defaut)
+                            self.langue_option = save.load_json(self.lien_langue_defaut)
+                        case "quitter":
+                            return "quitter"
 
     def afficher(self):
         """affiche le menu de démarrage"""
