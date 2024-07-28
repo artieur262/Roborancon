@@ -19,6 +19,8 @@ from autre import save
 
 
 class MenuOption:
+    """menu de démarrage"""
+
     onglet_langue = {
         "fr": ["graphisme", "controle", "langue"],
         "en": ["graphics", "control", "language"],
@@ -58,8 +60,8 @@ class MenuOption:
             Bouton(
                 (0, 0),
                 [
-                    assembleur.cadre(taille_onget, (125, 125, 125), i, 5)
-                    for i in ((150, 150, 150), (200, 200, 200), (100, 100, 100))
+                    assembleur.cadre(taille_onget, (125, 125, 125), couleur, 5)
+                    for couleur in ((150, 150, 150), (200, 200, 200), (100, 100, 100))
                 ],
                 (taille_onget),
                 data,
@@ -78,10 +80,10 @@ class MenuOption:
         self.onglet[0].actif = True
         self.onglet[0].animation = 2
         self.bouton: dict[str, list[Bouton]] = {
-            i: [] for i in self.onglet_nom + ["all"]
+            onglet: [] for onglet in self.onglet_nom + ["all"]
         }
-        # (onglet, texture, position,taille,texte,couleur_texte,font,data)
-        for i in (
+        # (onglet, texture, position,taille,texte,couleur_texte,police,data)
+        for onglet, texture, position, taille, texte, couleur_texte, police, data in (
             (
                 "graphisme",
                 ["textures/charançon.png", "textures/charançon2.png"],
@@ -118,8 +120,8 @@ class MenuOption:
             (
                 "all",
                 [
-                    assembleur.cadre((160, 50), (125, 125, 125), i, 5)
-                    for i in ((100, 100, 100), (150, 150, 150))
+                    assembleur.cadre((160, 50), (125, 125, 125), couleur, 5)
+                    for couleur in ((100, 100, 100), (150, 150, 150))
                 ],
                 [0, 50],
                 (160, 50),
@@ -131,8 +133,8 @@ class MenuOption:
             (
                 "all",
                 [
-                    assembleur.cadre((160, 50), (125, 125, 125), i, 5)
-                    for i in ((100, 100, 100), (150, 150, 150))
+                    assembleur.cadre((160, 50), (125, 125, 125), couleur, 5)
+                    for couleur in ((100, 100, 100), (150, 150, 150))
                 ],
                 [0, 100],
                 (160, 50),
@@ -143,30 +145,33 @@ class MenuOption:
             ),
         ):
 
-            self.bouton[i[0]].append(
-                BoutonText(i[2], i[1], i[3], i[4], i[5], i[6], data=i[7])
+            self.bouton[onglet].append(
+                BoutonText(
+                    position, texture, taille, texte, couleur_texte, police, data=data
+                )
             )
-        for i in zip(self.controle[0].values(), self.controle[1].values()):
+        for valeur_touche, nom_touche in zip(
+            self.controle[0].values(), self.controle[1].values()
+        ):
             self.bouton["controle"].append(
                 BoutonText(
                     (0, 0),
                     [
-                        assembleur.cadre((100, 100), (175, 175, 175), i, 5)
-                        for i in ((150, 150, 150), (125, 125, 125))
+                        assembleur.cadre((100, 100), (175, 175, 175), couleur, 5)
+                        for couleur in ((150, 150, 150), (125, 125, 125))
                     ],
                     (100, 100),
-                    i[1],
+                    nom_touche,
                     (0, 0, 0),
                     pygame.font.Font(None, 26),
-                    data=("push", "touche", i[0]),
+                    data=("push", "touche", valeur_touche),
                 )
             )
 
         self.zone_texte: dict[str, ObjetGraphique] = {
-            i: [] for i in self.onglet_nom + ["all"]
+            onglet: [] for onglet in self.onglet_nom + ["all"]
         }
-        # (onglet, texture, position,taille,texte,couleur_texte,font)
-        for i in (
+        zone_texte = (
             (
                 "graphisme",
                 [gener_texture((215, 110), (0, 0, 0, 0))],
@@ -176,17 +181,28 @@ class MenuOption:
                 (0, 0, 0),
                 pygame.font.Font(None, 50),
             ),
-        ):
-            self.zone_texte[i[0]].append(ObjetGraphique(i[2], i[1], i[3]))
-            self.zone_texte[i[0]][-1].texture[0].texture = place_texte_in_texture(
-                self.zone_texte[i[0]][-1].texture[0].texture,
-                i[4],
-                i[6],
-                i[5],
+        )
+        # (onglet, texture, position,taille,texte,couleur_texte,font)
+        for (
+            onglet,
+            texture,
+            position,
+            taille,
+            texte,
+            couleur_texte,
+            police,
+        ) in zone_texte:
+            self.zone_texte[onglet].append(ObjetGraphique(position, texture, taille))
+            self.zone_texte[onglet][-1].texture[0].texture = place_texte_in_texture(
+                self.zone_texte[onglet][-1].texture[0].texture,
+                texte,
+                police,
+                couleur_texte,
             )
-        self.fond = {i: [] for i in self.onglet_nom + ["all"]}
+
+        self.fond = {onglet: [] for onglet in self.onglet_nom + ["all"]}
         # (onglet, texture, position,taille)
-        for i in (
+        for onglet, texture, position, taille in (
             (
                 "graphisme",
                 [assembleur.bouton1([10, 1])],
@@ -194,9 +210,10 @@ class MenuOption:
                 (560, 110),
             ),
         ):
-            self.fond[i[0]].append(ObjetGraphique(i[2], i[1], i[3]))
+            self.fond[onglet].append(ObjetGraphique(position, texture, taille))
 
     def desactive_onglet(self):
+        """désactive les onglets"""
         for onglet in self.onglet:
             onglet.actif = False
             onglet.animation = 0
@@ -208,13 +225,15 @@ class MenuOption:
         return self.click()
 
     def actualise_dimention(self):
+        """actualise les dimention des objets"""
         for bouton in self.bouton["all"]:
-            if bouton.data[1] == "save":
-                bouton.set_pos((screen.get_width() - 160, 0))
-            elif bouton.data[1] == "reset":
-                bouton.set_pos((screen.get_width() - 160, 60))
-            elif bouton.data[1] == "quitter":
-                bouton.set_pos((screen.get_width() - 160, 120))
+            match bouton.data[1]:
+                case "save":
+                    bouton.set_pos((screen.get_width() - 160, 0))
+                case "reset":
+                    bouton.set_pos((screen.get_width() - 160, 60))
+                case "quitter":
+                    bouton.set_pos((screen.get_width() - 160, 120))
 
     def actualise_bouton(self):
         """actualise les boutons"""
