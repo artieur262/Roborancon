@@ -17,6 +17,265 @@ from interface.actualisation_pygame import (
 from textures import assembleur
 from autre import save
 
+# pylint: disable=no-member
+
+
+class MenuChangeTouche:
+    """menu de changement de touche"""
+
+    def __init__(
+        self,
+        clavier: Clavier,
+        souris: Souris,
+        touche: tuple[str, int],
+        langue: str,
+        etat_defaut: str = "en attente",
+    ):
+        self.clavier = clavier
+        self.souris = souris
+        self.__touche = touche
+        self.langue = langue
+        self.etat = etat_defaut
+        self.fond = ObjetGraphique(
+            (0, 0),
+            [assembleur.cadre((450, 450), (150, 150, 150), (200, 200, 200), 10)],
+            (450, 450),
+        )
+        self.zone_texte = ObjetGraphique(
+            (0, 0), [gener_texture((430, 150), (0, 0, 0, 0))], (430, 150)
+        )
+        self.zone_texte.texture[0].texture = place_texte_in_texture(
+            self.zone_texte.texture[0].texture,
+            "Veuillez choisir votre touche",
+            pygame.font.Font(None, 40),
+            (0, 0, 0),
+        )
+        self.bouton: list[BoutonText] = [
+            BoutonText(
+                (0, 0),
+                [
+                    assembleur.cadre((300, 75), (175, 175, 175), couleur, 5)
+                    for couleur in ((150, 150, 150), (200, 200, 200), (50, 225, 50))
+                ],
+                (300, 75),
+                self.__touche[0],
+                (0, 0, 0),
+                pygame.font.Font(None, 26),
+                data=("push_active", "touche"),
+            )
+        ]
+        # (position,taille,nom_bouton)
+        for (
+            position,
+            taille,
+            nom_bouton,
+        ) in (
+            ((0, 0), (100, 100), "retour"),
+            ((0, 0), (100, 100), "quitter"),
+            ((0, 0), (100, 100), "par default"),
+        ):
+
+            self.bouton.append(
+                BoutonText(
+                    position,
+                    [
+                        assembleur.cadre((100, 100), (175, 175, 175), couleur, 5)
+                        for couleur in ((150, 150, 150), (125, 125, 125))
+                    ],
+                    taille,
+                    nom_bouton,
+                    (0, 0, 0),
+                    pygame.font.Font(None, 26),
+                    data=("push", nom_bouton),
+                )
+            )
+
+    def actualise_dimention(self):
+        """actualise la position des boutons"""
+        taille_fond = self.fond.get_size()
+        self.fond.set_pos(
+            (
+                screen.get_width() // 2 - taille_fond[0] // 2,
+                screen.get_height() // 2 - taille_fond[1] // 2,
+            )
+        )
+        taille_texte = self.zone_texte.get_size()
+        self.zone_texte.set_pos(
+            (
+                screen.get_width() // 2 - taille_texte[0] // 2,
+                screen.get_height() // 2 - taille_texte[1] // 2 - 120,
+            )
+        )
+        for bouton in self.bouton:
+            match bouton.data[1]:
+                case "touche":
+                    bouton.set_pos(
+                        (screen.get_width() // 2 - 150, screen.get_height() // 2 - 20)
+                    )
+                case "retour":
+                    bouton.set_pos(
+                        (screen.get_width() // 2 - 200, screen.get_height() // 2 + 80)
+                    )
+                case "par default":
+                    bouton.set_pos(
+                        (screen.get_width() // 2 - 50, screen.get_height() // 2 + 80)
+                    )
+                case "quitter":
+                    bouton.set_pos(
+                        (screen.get_width() // 2 + 100, screen.get_height() // 2 + 80)
+                    )
+
+    def afficher(self):
+        """affiche le menu de changement de touche"""
+        self.fond.afficher()
+        self.zone_texte.afficher()
+        for bouton in self.bouton:
+            bouton.afficher()
+
+    def hover(self):
+        """actualise les boutons"""
+        for bouton in self.bouton:
+            bouton: BoutonText
+            match bouton.data[0]:
+                case "push":
+                    if bouton.point_dans_objet(self.souris.pos):
+                        bouton.animation = 1
+                    else:
+                        bouton.animation = 0
+                case "push_active":
+                    if bouton.animation != 2 and bouton.point_dans_objet(
+                        self.souris.pos
+                    ):
+                        bouton.animation = 1
+                    elif bouton.animation != 2:
+                        bouton.animation = 0
+
+    def click(self):
+        """actualise les boutons"""
+        if self.souris.get_pression(1) == "vien_presser":
+            for bouton in self.bouton:
+                bouton: BoutonText
+                if bouton.point_dans_objet(self.souris.pos):
+                    match bouton.data[1]:
+                        case "touche":
+                            self.etat = "en attente"
+                            return "touche"
+                        case "retour":
+                            self.etat = "en attente"
+                            return "retour"
+                        case "quitter":
+                            return "quitter"
+                        case "par default":
+                            self.etat = "en attente"
+                            return "par default"
+
+    def actualise_event(self):
+        """actualise les événement et retourne les événement autre que les touches et les cliques"""
+        event_autre = set()
+        self.souris.actualise_all_clique()
+        self.clavier.update_all_key()
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                event_autre.add("quitter")
+
+            elif event.type in (
+                pygame.VIDEORESIZE,
+                pygame.WINDOWSIZECHANGED,
+            ):
+                event_autre.add("redimentione")
+
+            elif event.type == pygame.KEYDOWN:
+                self.clavier.set_pression(event.key, "vien_presser")
+                if self.etat == "en attente":
+                    if event.key in Clavier.key_names[self.langue]:
+                        nom_touche = Clavier.key_names[self.langue][event.key]
+                    elif len(pygame.key.name(event.key)) != 0:
+                        nom_touche = pygame.key.name(event.key)
+                    elif len(str(event.unicode)) != 0:
+                        nom_touche = event.unicode
+                    else:
+                        nom_touche = str(event.key)
+                    self.set_touche((nom_touche, event.key))
+                    self.etat = "attente"
+                    self.bouton[0].animation = 0
+
+            elif event.type == pygame.KEYUP:
+                self.clavier.set_pression(event.key, "vien_lacher")
+
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                self.souris.set_pression(event.button, "vien_presser")
+
+            elif event.type == pygame.MOUSEBUTTONUP:
+                self.souris.set_pression(event.button, "vien_lacher")
+            # if event.type not in (pygame.MOUSEMOTION, pygame.FINGERMOTION):
+            #     print(event)
+
+        self.souris.update_pos()
+        return event_autre
+
+    def set_touche(self, touche: tuple[str, int]):
+        """change la touche"""
+        self.__touche = touche
+        self.bouton[0].set_text(self.__touche[0], pygame.font.Font(None, 26), (0, 0, 0))
+
+    def get_touche(self):
+        """retourne la touche"""
+        return self.__touche
+
+    def actualise_bouton(self):
+        """actualise les boutons"""
+        if self.etat == "en attente":
+            self.bouton[0].animation = 2
+
+    def actualise(self):
+        """actualise le menu de changement de touche"""
+        self.actualise_bouton()
+        self.hover()
+        return self.click()
+
+    def play(self):
+        """joue le menu de changement de touche"""
+        event = self.actualise_event()
+        temp = self.actualise()
+        if "quitter" in event:
+            return "quitter"
+        if (
+            "redimentione" in event
+            or self.clavier.get_pression(pygame.K_F11) == "vien_presser"
+        ):
+            self.actualise_dimention()
+        if temp == "touche":
+            self.etat = "en attente"
+
+        screen.fill((200, 200, 200))
+        self.afficher()
+        pygame.display.flip()
+        return temp
+
+    @staticmethod
+    def main(clavier, souris, touche, touche_default, langue):
+        """lance le menu de changement de touche"""
+        screen.fill((200, 200, 200))
+        touche_depart = touche
+        menu = MenuChangeTouche(clavier, souris, touche, langue)
+        menu.actualise_dimention()
+        clock = pygame.time.Clock()
+        encour = True
+
+        while encour:
+            temp = menu.play()
+            if temp in ("quitter", "retour"):
+                encour = False
+
+            if temp == "par default":
+                menu.set_touche(touche_default)
+            clock.tick(60)
+        if temp == "quitter":
+            return menu.get_touche()
+        elif temp == "retour":
+            return touche_depart
+
 
 class MenuOption:
     """menu de démarrage"""
@@ -150,9 +409,7 @@ class MenuOption:
                     position, texture, taille, texte, couleur_texte, police, data=data
                 )
             )
-        for valeur_touche, nom_touche in zip(
-            self.controle[0].values(), self.controle[1].values()
-        ):
+        for controle in self.controle[0]:
             self.bouton["controle"].append(
                 BoutonText(
                     (0, 0),
@@ -161,10 +418,15 @@ class MenuOption:
                         for couleur in ((150, 150, 150), (125, 125, 125))
                     ],
                     (100, 100),
-                    nom_touche,
+                    self.controle[1][controle],
                     (0, 0, 0),
                     pygame.font.Font(None, 26),
-                    data=("push", "touche", valeur_touche),
+                    data=(
+                        "push",
+                        "touche",
+                        controle,
+                        (self.controle[1][controle], self.controle[0][controle]),
+                    ),
                 )
             )
 
@@ -293,6 +555,25 @@ class MenuOption:
                         case "active_fullscreen":
                             change_fullscreen()
                             # print("cat1")
+                        case "touche":
+                            print(self.lien_controle_defaut)
+                            par_default = save.load_json(self.lien_controle_defaut)
+
+                            touche = MenuChangeTouche.main(
+                                self.clavier,
+                                self.souris,
+                                bouton.data[3],
+                                (
+                                    par_default[1][bouton.data[2]],
+                                    par_default[0][bouton.data[2]],
+                                ),
+                                self.menu_langue,
+                            )
+                            self.controle[1][bouton.data[2]] = touche[0]
+                            self.controle[0][bouton.data[2]] = touche[1]
+                            bouton.set_text(
+                                touche[0], pygame.font.Font(None, 26), (0, 0, 0)
+                            )
             for onglet in self.onglet:
                 if onglet.point_dans_objet(self.souris.pos):
                     self.desactive_onglet()

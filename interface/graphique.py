@@ -96,6 +96,8 @@ class Image:
         if self.if_in_zone(position, (0, 0), surface.get_size()):
             emplacement = (position[0] - self.ancre[0], position[1] - self.ancre[1])
             surface.blit(self.texture, emplacement)
+
+
 class ObjetGraphique:
     """objet graphique qui a le but d'etre affiché
 
@@ -135,7 +137,7 @@ class ObjetGraphique:
         """defini les coordonées de l'objet"""
         self.coordonnee = valu
 
-    def get_taille(self) -> tuple[int, int] | int:
+    def get_size(self) -> tuple[int, int] | int:
         """renvoi la taille de l'objet"""
         return self.__taille
 
@@ -184,7 +186,7 @@ class ObjetGraphique:
         Returns: (bool)
         """
         coin_1_self = self.get_pos()[axe]
-        coin_2_self = self.get_pos()[axe] + self.get_taille()[axe]
+        coin_2_self = self.get_pos()[axe] + self.get_size()[axe]
 
         coin_1_obj = obj_pos
         coin_2_obj = obj_pos + obj_size
@@ -273,7 +275,6 @@ def gener_texture(taille: tuple[int, int], color: tuple) -> pygame.Surface:
         image = pygame.Surface(taille, pygame.SRCALPHA)
         image.fill(color)
     return image
-
 
 
 def decoupe_texte(

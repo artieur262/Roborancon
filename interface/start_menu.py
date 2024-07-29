@@ -59,7 +59,7 @@ class StartMenu:
             for data in nom_bouton
         ]
         for bouton in self.bouton:
-            bouton.redimentione_all_image(bouton.get_taille())
+            bouton.redimentione_all_image(bouton.get_size())
             for image in bouton.texture:
                 place_texte_in_texture(
                     image.texture, bouton.data, pygame.font.Font(None, 50), (0, 0, 0)
