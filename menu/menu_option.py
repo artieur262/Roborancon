@@ -366,9 +366,9 @@ class MenuChoixLangue:
                         for couleur in ((150, 150, 150), (200, 200, 200), (50, 225, 50))
                     ],
                     (300, 75),
-                    self.langue_langue[self.menu_langue][langue]
+                    self.langue_langue[langue][langue]
                     + "/"
-                    + self.langue_langue[langue][self.menu_langue],
+                    + self.langue_langue[self.menu_langue][langue],
                     (0, 0, 0),
                     pygame.font.Font(None, 26),
                     data=("push_active", "langue", langue, i),
@@ -521,8 +521,8 @@ class MenuOption:
     """menu de démarrage"""
 
     onglet_langue = {
-        "fr": ["graphisme", "controle", "langue"],
-        "en": ["graphics", "control", "language"],
+        "fr": ["graphisme", "controles", "langue"],
+        "en": ["graphics", "controls", "language"],
     }
     bouton_langue = {
         "fr": ["démarrage", "activer", "sauvegarder", "par default", "quitter"],
@@ -561,7 +561,7 @@ class MenuOption:
         taille_onget = (160, 50)
         self.onglet_nom = self.onglet_langue[
             "fr"
-        ]  # ["graphisme", "controle", "langue"]
+        ]  # ["graphisme", "controles", "langue"]
         self.onglet = [
             Bouton(
                 (0, 0),
@@ -712,7 +712,7 @@ class MenuOption:
                 couleur_texte,
             )
         for controle in self.controle[0]:
-            self.bouton["controle"].append(
+            self.bouton["controles"].append(
                 BoutonText(
                     (0, 0),
                     [
@@ -731,15 +731,15 @@ class MenuOption:
                     ),
                 )
             )
-            self.zone_texte["controle"].append(
+            self.zone_texte["controles"].append(
                 ObjetGraphique(
                     (0, 0),
                     [assembleur.bouton1([1, 0])],
                     (110, 60),
                 )
             )
-            self.zone_texte["controle"][-1].texture[0].texture = place_texte_in_texture(
-                self.zone_texte["controle"][-1].texture[0].texture,
+            self.zone_texte["controles"][-1].texture[0].texture = place_texte_in_texture(
+                self.zone_texte["controles"][-1].texture[0].texture,
                 controle,
                 pygame.font.Font(None, 26),
                 (0, 0, 0),
@@ -758,7 +758,7 @@ class MenuOption:
 
     def actualise_info_bouton(self):
         """actualise les textes"""
-        for bouton in self.bouton["controle"]:
+        for bouton in self.bouton["controles"]:
             bouton: BoutonText
             bouton.set_text(
                 self.controle[1][bouton.data[2]],
@@ -805,10 +805,10 @@ class MenuOption:
                 case "quitter":
                     bouton.set_pos((screen.get_width() - 160, 120))
         match self.onglet_actuel:
-            case "controle":
-                for i, bouton in enumerate(self.bouton["controle"]):
+            case "controles":
+                for i, bouton in enumerate(self.bouton["controles"]):
                     bouton.set_pos((160 + i * 250, 150))
-                for i, zone_texte in enumerate(self.zone_texte["controle"]):
+                for i, zone_texte in enumerate(self.zone_texte["controles"]):
                     zone_texte.set_pos((50 + i * 250, 150))
 
     def actualise_bouton(self):
@@ -866,7 +866,7 @@ class MenuOption:
                             change_fullscreen()
                             # print("cat1")
                         case "touche":
-                            # print(self.lien_controle_defaut)
+                            # print(self.lien_controles_defaut)
                             par_default = save.load_json(self.lien_controle_defaut)
 
                             touche = MenuChangeTouche.main(
@@ -940,7 +940,7 @@ class MenuOption:
                                     self.graphisme = save.load_json(
                                         self.lien_defaut_graphime
                                     )
-                                case "controle":
+                                case "controles":
                                     self.controle = save.load_json(
                                         self.lien_controle_defaut
                                     )
