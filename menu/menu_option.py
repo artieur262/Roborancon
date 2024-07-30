@@ -23,6 +23,7 @@ from interface.actualisation_pygame import (
     get_fullscreen,
     change_fullscreen,
 )
+from menu.pop_up import PopUp
 from textures import assembleur
 from autre import save
 
@@ -529,6 +530,13 @@ class MenuOption:
     }
     touche_langue = {"fr": {"avancer": "avancer", "gauche": "gauche"}}
     zonetexte_langue = {"fr": ["plein écran", "menu"], "en": ["fullscreen", "menu"]}
+    langue_popup = {
+        "fr": [
+            "sauvegarde réussie",
+            "l'onglet viens de reprendre ses paramêtre par défault ",
+        ],
+        "en": ["save success", "the tab has just taken its default parameters"],
+    }
     lien_graphisme = "option/graphisme.json"
     lien_defaut_graphime = "option/graphisme_defaut.json"
     lien_controle = "option/control.json"
@@ -772,6 +780,7 @@ class MenuOption:
                         pygame.font.Font(None, 35),
                         (0, 0, 0),
                     )
+        self.actualise_bouton()
 
     def desactive_onglet(self):
         """désactive les onglets"""
@@ -905,6 +914,25 @@ class MenuOption:
                             save.save_json(self.lien_graphisme, self.graphisme)
                             save.save_json(self.lien_controle, self.controle)
                             save.save_json(self.lien_langue, self.langue_option)
+                            texture = assembleur.cadre(
+                                (500, 150), (125, 125, 125), (100, 100, 100), 5
+                            )
+                            texture = place_texte_in_texture(
+                                texture,
+                                self.langue_popup[self.menu_langue][0],
+                                pygame.font.Font(None, 55),
+                                (0, 0, 0),
+                            )
+                            PopUp.main(
+                                self.clavier,
+                                self.souris,
+                                (
+                                    screen.get_width() // 2 - 250,
+                                    screen.get_height() // 2 - 75,
+                                ),
+                                texture,
+                                2.5,
+                            )
                             return "save"
                         case "reset":
                             match self.onglet_actuel:
@@ -921,6 +949,26 @@ class MenuOption:
                                         self.lien_langue_defaut
                                     )
                             self.actualise_info_bouton()
+                            self.afficher()
+                            texture = assembleur.cadre(
+                                (500, 150), (125, 125, 125), (100, 100, 100), 5
+                            )
+                            texture = place_texte_in_texture(
+                                texture,
+                                self.langue_popup[self.menu_langue][1],
+                                pygame.font.Font(None, 55),
+                                (0, 0, 0),
+                            )
+                            PopUp.main(
+                                self.clavier,
+                                self.souris,
+                                (
+                                    screen.get_width() // 2 - 250,
+                                    screen.get_height() // 2 - 75,
+                                ),
+                                texture,
+                                2.5,
+                            )
                         case "quitter":
                             return "quitter"
 
