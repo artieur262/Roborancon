@@ -243,8 +243,14 @@ class MenuChangeTouche:
         """joue le menu de changement de touche"""
         event = self.actualise_event()
         temp = self.actualise()
-        if "quitter" in event:
+        if (
+            "quitter" in event
+            or self.clavier.get_pression(pygame.K_ESCAPE) == "vien_presser"
+        ):
             return "retour"
+        if self.clavier.get_pression(pygame.K_F11) == "vien_presser":
+            change_fullscreen()
+            event.add("redimentione")
         if (
             "redimentione" in event
             or self.clavier.get_pression(pygame.K_F11) == "vien_presser"
@@ -453,8 +459,14 @@ class MenuChoixLangue:
         """joue le menu de changement de langue"""
         event = actualise_event(self.clavier, self.souris)
         temp = self.actualise()
-        if "quitter" in event:
+        if (
+            "quitter" in event
+            or self.clavier.get_pression(pygame.K_ESCAPE) == "vien_presser"
+        ):
             return "retour"
+        if self.clavier.get_pression(pygame.K_F11) == "vien_presser":
+            change_fullscreen()
+            event.add("redimentione")
         if (
             "redimentione" in event
             or self.clavier.get_pression(pygame.K_F11) == "vien_presser"
@@ -727,6 +739,31 @@ class MenuOption:
         ):
             self.fond[onglet].append(ObjetGraphique(position, texture, taille))
 
+    def actualise_info_bouton(self):
+        """actualise les textes"""
+        for bouton in self.bouton["controle"]:
+            bouton: BoutonText
+            bouton.set_text(
+                self.controle[1][bouton.data[2]],
+                pygame.font.Font(None, 26),
+                (0, 0, 0),
+            )
+            bouton.data = (
+                "push",
+                "touche",
+                bouton.data[2],
+                (self.controle[1][bouton.data[2]], self.controle[0][bouton.data[2]]),
+            )
+        for bouton in self.bouton["langue"]:
+            bouton: BoutonText
+            match bouton.data[1]:
+                case "langue_menu":
+                    bouton.set_text(
+                        self.langue_option["menu"],
+                        pygame.font.Font(None, 35),
+                        (0, 0, 0),
+                    )
+
     def desactive_onglet(self):
         """désactive les onglets"""
         for onglet in self.onglet:
@@ -861,9 +898,20 @@ class MenuOption:
                             save.save_json(self.lien_langue, self.langue_option)
                             return "save"
                         case "reset":
-                            self.graphisme = save.load_json(self.lien_defaut_graphime)
-                            self.controle = save.load_json(self.lien_controle_defaut)
-                            self.langue_option = save.load_json(self.lien_langue_defaut)
+                            match self.onglet_actuel:
+                                case "graphisme":
+                                    self.graphisme = save.load_json(
+                                        self.lien_defaut_graphime
+                                    )
+                                case "controle":
+                                    self.controle = save.load_json(
+                                        self.lien_controle_defaut
+                                    )
+                                case "langue":
+                                    self.langue_option = save.load_json(
+                                        self.lien_langue_defaut
+                                    )
+                            self.actualise_info_bouton()
                         case "quitter":
                             return "quitter"
 
