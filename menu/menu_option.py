@@ -1,3 +1,12 @@
+"""menu pour gérer les options du jeu
+
+il y a 3 class:
+    - MenuChangeTouche : menu de changement de touche
+    - MenuChoixLangue : menu de choix de langue
+    - MenuOption : menu des options du jeu
+
+"""
+
 import pygame
 from interface.graphique import (
     screen,

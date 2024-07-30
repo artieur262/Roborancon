@@ -4,16 +4,16 @@ import teste1
 
 # from interface.graphique import gener_texture
 from interface.actualisation_pygame import change_fullscreen
-from interface.start_menu import StartMenu
-from interface.menu_option import MenuOption
 from interface.class_clavier import Clavier, Souris
+from menu.start_menu import StartMenu
+from menu.menu_option import MenuOption
 from autre import save
 
 
 def main():
     """fonction principale"""
     lien_graphisme = "option/graphisme.json"
-    lien_control = "option/control.json"
+    lien_control = "option/control.json"  # pylint: disable=unused-variable
     lien_langue = "option/langue.json"
     graphisme = save.load_json(lien_graphisme)
     langue = save.load_json(lien_langue)
