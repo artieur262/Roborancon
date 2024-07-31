@@ -74,7 +74,7 @@ def bouton1(taille: list[int]):
 
     taille_surface = surface.get_size()
     # place les coins
-    coin1 = pygame.image.load("textures/bouton/coin1.1.png")
+    coin1 = pygame.image.load("textures/bouton/bouton1/coin1.1.png")
 
     surface.blit(coin1, (0, 0))
     surface.blit(
@@ -82,12 +82,12 @@ def bouton1(taille: list[int]):
         (taille_surface[0] - 30, taille_surface[1] - 30),
     )
 
-    coin2 = pygame.image.load("textures/bouton/coin1.2.png")
+    coin2 = pygame.image.load("textures/bouton/bouton1/coin1.2.png")
     surface.blit(coin2, (taille_surface[0] - 30, 0))
     surface.blit(pygame.transform.rotate(coin2, 180), (0, taille_surface[1] - 30))
 
     # place le dessus et le dessous
-    dessus = pygame.image.load("textures/bouton/dessus1.png")
+    dessus = pygame.image.load("textures/bouton/bouton1/dessus1.png")
 
     for i in range(taille[0]):
         surface.blit(dessus, (30 + i * 50, 0))
@@ -95,19 +95,34 @@ def bouton1(taille: list[int]):
             pygame.transform.rotate(dessus, 180), (30 + i * 50, taille_surface[1] - 30)
         )
     # place les cotes
-    cote = pygame.image.load("textures/bouton/cote1.png")
+    cote = pygame.image.load("textures/bouton/bouton1/cote1.png")
     for i in range(taille[1]):
         surface.blit(cote, (0, 30 + i * 50))
         surface.blit(
             pygame.transform.rotate(cote, 180), (taille_surface[0] - 30, 30 + i * 50)
         )
     # place le centre
-    centre = pygame.image.load("textures/bouton/centre1.png")
+    centre = pygame.image.load("textures/bouton/bouton1/centre1.png")
     for i in range(taille[0]):
         for j in range(taille[1]):
             surface.blit(centre, (30 + i * 50, 30 + j * 50))
 
     return surface
+
+
+def bouton2(longueur: int):
+    """crée un bouton avec des motif en fonction de la longueur"""
+    texture = gener_texture((longueur + 100, 50), (0, 0, 0, 0))
+    texture.blit(pygame.image.load("textures/bouton/bouton2/bord2.1.png"), (0, 0))
+    for i in range(longueur // 50 + (0 if longueur % 50 == 0 else 1)):
+        texture.blit(
+            pygame.image.load("textures/bouton/bouton2/milieu2.png"), (50 + i * 50, 0)
+        )
+
+    texture.blit(
+        pygame.image.load("textures/bouton/bouton2/bord2.2.png"),
+        (50 + longueur, 0),
+    )
 
 
 def cadre(
