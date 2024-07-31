@@ -49,12 +49,13 @@ class MenuOption:
         "fr": [
             "sauvegarde réussie",
             "l'onglet viens de reprendre ses paramêtre par défault ",
-            "voulez sauvegarder avant quitter ?",
+            "voulez sauvegarder avant quitter ?",["oui","non"],
         ],
         "en": [
             "save success",
             "the tab has just taken its default parameters",
             "do you want to save before quitting ?",
+            ["yes", "no"],
         ],
     }
     lien_graphisme = "option/graphisme.json"
@@ -536,7 +537,7 @@ class MenuOption:
                     screen.copy(),
                     assembleur.cadre((250, 250), (125, 125, 125), (100, 100, 100), 5),
                     menu.langue_popup[menu.menu_langue][2],
-                    ["oui", "non"],
+                    menu.langue_popup[menu.menu_langue][3],
                 ):
                     save.save_json(menu.lien_graphisme, menu.graphisme)
                     save.save_json(menu.lien_controle, menu.controle)
