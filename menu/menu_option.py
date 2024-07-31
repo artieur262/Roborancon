@@ -53,7 +53,7 @@ class MenuOption:
             ["oui", "non"],
         ],
         "en": [
-            "save success",
+            "Saved successfully",
             "the tab has just taken its default parameters",
             "do you want to save before quitting ?",
             ["yes", "no"],
