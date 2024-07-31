@@ -141,7 +141,7 @@ class ObjetGraphique:
         """renvoi la taille de l'objet"""
         return self.__taille
 
-    def set_taille(self, valu):
+    def set_size(self, valu):
         """defini la taille de l'objet"""
         self.__taille = valu
 
@@ -152,7 +152,7 @@ class ObjetGraphique:
             self.coordonnee[1] + self.__taille[1] / 2,
         )
 
-    def image_actuel(self) -> pygame.Surface:
+    def image_actuel(self) -> Image:
         """donne l'image actuel"""
         return self.texture[self.animation]
 
@@ -330,6 +330,7 @@ def place_texte_in_texture(
     Returns:
         image (pygame.Surface): est image avec son texte
     """
+    # print(type(image))
     dimention_image = image.get_size()
     texte_decoupe = decoupe_texte(texte, dimention_image[0], police)
     if mode == "centrage":
