@@ -109,7 +109,10 @@ class MenuOption:
         for onglet, texture, position, taille, texte, couleur_texte, police, data in (
             (
                 "graphisme",
-                ["textures/charançon.png", "textures/charançon2.png"],
+                [
+                    gener_texture((1, 1), (200, 50, 50)),
+                    gener_texture((1, 1), (50, 200, 50)),
+                ],
                 (270, 165),
                 (150, 80),
                 self.bouton_langue[self.menu_langue][0],
@@ -119,7 +122,10 @@ class MenuOption:
             ),
             (
                 "graphisme",
-                ["textures/charançon.png", "textures/charançon2.png"],
+                [
+                    gener_texture((1, 1), (200, 50, 50)),
+                    gener_texture((1, 1), (50, 200, 50)),
+                ],
                 (440, 165),
                 (150, 80),
                 self.bouton_langue[self.menu_langue][1],
