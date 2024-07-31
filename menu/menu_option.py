@@ -49,7 +49,7 @@ class MenuOption:
         "fr": [
             "sauvegarde réussie",
             "l'onglet viens de reprendre ses paramêtre par défault ",
-            "voulez sauvegarder avant quitter ?",
+            "voulez vous sauvegarder avant de quitter ?",
             ["oui", "non"],
         ],
         "en": [
