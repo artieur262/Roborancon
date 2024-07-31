@@ -110,17 +110,25 @@ def bouton1(taille: list[int]):
     return surface
 
 
-def bouton2(longueur: int):
-    """crée un bouton avec des motif en fonction de la longueur"""
+def bouton2(longueur: int, variante: int = 1):
+    """crée un bouton avec des motif en fonction de la longueur
+    args:
+        longueur (int) : est la longueur du bouton-100
+        variante (int) : est la variante du bouton variant de 1 à 3
+
+    """
     texture = gener_texture((longueur + 100, 50), (0, 0, 0, 0))
-    texture.blit(pygame.image.load("textures/bouton/bouton2/bord2.1.png"), (0, 0))
+    texture.blit(
+        pygame.image.load(f"textures/bouton/bouton2/bord2.1_V{variante}.png"), (0, 0)
+    )
     for i in range(longueur // 50 + (0 if longueur % 50 == 0 else 1)):
         texture.blit(
-            pygame.image.load("textures/bouton/bouton2/milieu2.png"), (50 + i * 50, 0)
+            pygame.image.load(f"textures/bouton/bouton2/milieu2_V{variante}.png"),
+            (50 + i * 50, 0),
         )
 
     texture.blit(
-        pygame.image.load("textures/bouton/bouton2/bord2.2.png"),
+        pygame.image.load(f"textures/bouton/bouton2/bord2.2_V{variante}.png"),
         (50 + longueur, 0),
     )
 
