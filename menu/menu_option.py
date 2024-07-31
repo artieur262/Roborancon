@@ -566,8 +566,7 @@ class MenuOption:
             Bouton(
                 (0, 0),
                 [
-                    assembleur.cadre(taille_onget, (125, 125, 125), couleur, 5)
-                    for couleur in ((150, 150, 150), (200, 200, 200), (100, 100, 100))
+                    assembleur.bouton2(160,i) for i in (1,3,2)
                 ],
                 (taille_onget),
                 data,
@@ -613,8 +612,7 @@ class MenuOption:
             (
                 "all",
                 [
-                    assembleur.cadre((160, 50), (125, 125, 125), i, 5)
-                    for i in ((100, 100, 100), (150, 150, 150))
+                    assembleur.bouton2(160,i) for i in (1,2)
                 ],
                 (0, 0),
                 [160, 50],
@@ -626,8 +624,7 @@ class MenuOption:
             (
                 "all",
                 [
-                    assembleur.cadre((160, 50), (125, 125, 125), couleur, 5)
-                    for couleur in ((100, 100, 100), (150, 150, 150))
+                    assembleur.bouton2(160,i) for i in (1,2)
                 ],
                 [0, 50],
                 (160, 50),
@@ -639,8 +636,7 @@ class MenuOption:
             (
                 "all",
                 [
-                    assembleur.cadre((160, 50), (125, 125, 125), couleur, 5)
-                    for couleur in ((100, 100, 100), (150, 150, 150))
+                    assembleur.bouton2(160,i) for i in (1,2)
                 ],
                 [0, 100],
                 (160, 50),
