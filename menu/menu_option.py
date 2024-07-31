@@ -24,7 +24,7 @@ from interface.actualisation_pygame import (
     change_fullscreen,
 )
 from menu.pop_up import PopUp
-from menu.sous_menu import MenuChangeTouche, MenuChoixLangue
+from menu.sousmenu_option import MenuChangeTouche, MenuChoixLangue
 from menu.menu_choix import MenuChoix
 from textures import assembleur
 from autre import save
