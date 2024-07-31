@@ -49,7 +49,8 @@ class MenuOption:
         "fr": [
             "sauvegarde réussie",
             "l'onglet viens de reprendre ses paramêtre par défault ",
-            "voulez sauvegarder avant quitter ?",["oui","non"],
+            "voulez sauvegarder avant quitter ?",
+            ["oui", "non"],
         ],
         "en": [
             "save success",
@@ -531,7 +532,7 @@ class MenuOption:
                     save.load_json(menu.lien_graphisme) != menu.graphisme
                     or save.load_json(menu.lien_controle) != menu.controle
                     or save.load_json(menu.lien_langue) != menu.langue_option
-                ) and "oui" == MenuChoix.main(
+                ) and menu.langue_popup[menu.menu_langue][3][0] == MenuChoix.main(
                     clavier,
                     souris,
                     screen.copy(),
