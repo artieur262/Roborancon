@@ -67,16 +67,16 @@ class MenuChangeTouche:
         ]
         # (position,taille,nom_bouton,indice_langue)
         for position, taille, nom_bouton, indice_langue in (
-            ((0, 0), (100, 100), "retour", 0),
-            ((0, 0), (100, 100), "par default", 1),
-            ((0, 0), (100, 100), "sauvegarder", 2),
+            ((0, 0), (120, 60), "retour", 0),
+            ((0, 0), (120, 60), "par default", 1),
+            ((0, 0), (120, 60), "sauvegarder", 2),
         ):
 
             self.bouton.append(
                 BoutonText(
                     position,
                     [
-                        assembleur.cadre((100, 100), (175, 175, 175), couleur, 5)
+                        assembleur.cadre(taille, (175, 175, 175), couleur, 5)
                         for couleur in ((150, 150, 150), (125, 125, 125))
                     ],
                     taille,
@@ -111,15 +111,15 @@ class MenuChangeTouche:
                     )
                 case "retour":
                     bouton.set_pos(
-                        (screen.get_width() // 2 - 200, screen.get_height() // 2 + 80)
+                        (screen.get_width() // 2 - 205, screen.get_height() // 2 + 80)
                     )
                 case "par default":
                     bouton.set_pos(
-                        (screen.get_width() // 2 - 50, screen.get_height() // 2 + 80)
+                        (screen.get_width() // 2 - 60, screen.get_height() // 2 + 80)
                     )
                 case "sauvegarder":
                     bouton.set_pos(
-                        (screen.get_width() // 2 + 100, screen.get_height() // 2 + 80)
+                        (screen.get_width() // 2 + 85, screen.get_height() // 2 + 80)
                     )
 
     def afficher(self):
