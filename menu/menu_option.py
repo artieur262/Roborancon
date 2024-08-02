@@ -44,7 +44,18 @@ class MenuOption:
         "en": ["start", "active", "save", "defaut", "quit"],
     }
     touche_langue = {"fr": {"avancer": "avancer", "gauche": "gauche"}}
-    zonetexte_langue = {"fr": ["plein écran", "menu"], "en": ["fullscreen", "menu"]}
+    zonetexte_langue = {
+        "fr": [
+            "plein écran",
+            "menu",
+            "/!\\ Pour que le changement de langue soit appliqué,\nil faut redémarrer le jeu.",
+        ],
+        "en": [
+            "fullscreen",
+            "menu",
+            "/!\\ For the language change to be applied,\nyou must restart the game.",
+        ],
+    }
     langue_popup = {
         "fr": [
             "sauvegarde réussie",
@@ -137,9 +148,9 @@ class MenuOption:
             ),
             (
                 "all",
-                [assembleur.bouton2(160, i) for i in (1, 2)],
+                [assembleur.bouton2(170, i) for i in (1, 2)],
                 (0, 0),
-                [160, 50],
+                [170, 50],
                 self.bouton_langue[self.menu_langue][2],
                 (0, 0, 0),
                 pygame.font.Font(None, 35),
@@ -147,9 +158,9 @@ class MenuOption:
             ),
             (
                 "all",
-                [assembleur.bouton2(160, i) for i in (1, 2)],
+                [assembleur.bouton2(170, i) for i in (1, 2)],
                 [0, 50],
-                (160, 50),
+                (170, 50),
                 self.bouton_langue[self.menu_langue][3],
                 (0, 0, 0),
                 pygame.font.Font(None, 35),
@@ -157,9 +168,9 @@ class MenuOption:
             ),
             (
                 "all",
-                [assembleur.bouton2(160, i) for i in (1, 2)],
+                [assembleur.bouton2(170, i) for i in (1, 2)],
                 [0, 100],
-                (160, 50),
+                (170, 50),
                 self.bouton_langue[self.menu_langue][4],
                 (0, 0, 0),
                 pygame.font.Font(None, 35),
@@ -171,7 +182,7 @@ class MenuOption:
                     assembleur.cadre((60, 60), (125, 125, 125), couleur, 4)
                     for couleur in ((150, 150, 150), (100, 100, 100))
                 ],
-                (235, 100),
+                (235, 200),
                 (60, 60),
                 self.langue_option["menu"],
                 (0, 0, 0),
@@ -198,15 +209,27 @@ class MenuOption:
                 self.zonetexte_langue[self.menu_langue][0],
                 (0, 0, 0),
                 pygame.font.Font(None, 50),
+                "centrage",
             ),
             (
                 "langue",
                 [assembleur.bouton1([2, 0])],
-                (75, 100),
+                (75, 200),
                 (560, 110),
                 self.zonetexte_langue[self.menu_langue][1],
                 (0, 0, 0),
                 pygame.font.Font(None, 40),
+                "centrage",
+            ),
+            (
+                "langue",
+                [gener_texture((800, 75), (0, 0, 0, 0))],
+                (75, 100),
+                (800, 75),
+                self.zonetexte_langue[self.menu_langue][2],
+                (200, 10, 10),
+                pygame.font.Font(None, 40),
+                "gauche_centre",
             ),
         )
 
@@ -219,6 +242,7 @@ class MenuOption:
             texte,
             couleur_texte,
             police,
+            mode_palcement,
         ) in zone_texte:
             self.zone_texte[onglet].append(ObjetGraphique(position, texture, taille))
             self.zone_texte[onglet][-1].texture[0].texture = place_texte_in_texture(
@@ -226,7 +250,9 @@ class MenuOption:
                 texte,
                 police,
                 couleur_texte,
+                mode_palcement,
             )
+
         for controle in self.controle[0]:
             self.bouton["controles"].append(
                 BoutonText(
@@ -317,11 +343,11 @@ class MenuOption:
         for bouton in self.bouton["all"]:
             match bouton.data[1]:
                 case "save":
-                    bouton.set_pos((screen.get_width() - 160, 0))
+                    bouton.set_pos((screen.get_width() - bouton.get_size()[0], 0))
                 case "reset":
-                    bouton.set_pos((screen.get_width() - 160, 60))
+                    bouton.set_pos((screen.get_width() - bouton.get_size()[0], 60))
                 case "quitter":
-                    bouton.set_pos((screen.get_width() - 160, 120))
+                    bouton.set_pos((screen.get_width() - bouton.get_size()[0], 120))
         match self.onglet_actuel:
             case "controles":
                 for i, bouton in enumerate(self.bouton["controles"]):
