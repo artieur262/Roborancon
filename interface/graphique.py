@@ -326,41 +326,57 @@ def place_texte_in_texture(
         police (pygame.font.Font): est la police du texte
         color (tuple[int]): est la couleur du texte
         mode (str, optional): est le mode de placement du texte. Defaults to "centrage".
-                              ("centrage", "haut_gauche")
+                              ("centrage", "haut_gauche", "gauche_centre", "centrage_haut")
     Returns:
         image (pygame.Surface): est image avec son texte
     """
     # print(type(image))
     dimention_image = image.get_size()
     texte_decoupe = decoupe_texte(texte, dimention_image[0], police)
-    if mode == "centrage":
-        for i, ligne in enumerate(texte_decoupe):
-            dimention_ligne = police.size(ligne)
-            image.blit(
-                police.render(ligne, 2, color),
-                (
-                    (dimention_image[0] - dimention_ligne[0]) // 2,
-                    (dimention_image[1] - dimention_ligne[1] * len(texte_decoupe)) // 2
-                    + i * dimention_ligne[1],
-                ),
-            )
-    elif mode == "haut_gauche":
-        for i, ligne in enumerate(texte_decoupe):
-            dimention_ligne = police.size(ligne)
-            image.blit(
-                police.render(ligne, 2, color),
-                (0, i * dimention_ligne[1]),
-            )
-    elif mode == "centrage_haut":
-        for i, ligne in enumerate(texte_decoupe):
-            dimention_ligne = police.size(ligne)
-            image.blit(
-                police.render(ligne, 2, color),
-                (
-                    (dimention_image[0] - dimention_ligne[0]) // 2,
-                    i * dimention_ligne[1],
-                ),
-            )
+    match mode:
+        case "centrage":
+            for i, ligne in enumerate(texte_decoupe):
+                dimention_ligne = police.size(ligne)
+                image.blit(
+                    police.render(ligne, 2, color),
+                    (
+                        (dimention_image[0] - dimention_ligne[0]) // 2,
+                        (dimention_image[1] - dimention_ligne[1] * len(texte_decoupe))
+                        // 2
+                        + i * dimention_ligne[1],
+                    ),
+                )
+        case "haut_gauche":
+            for i, ligne in enumerate(texte_decoupe):
+                dimention_ligne = police.size(ligne)
+                image.blit(
+                    police.render(ligne, 2, color),
+                    (0, i * dimention_ligne[1]),
+                )
+        case "centrage_haut":
+            for i, ligne in enumerate(texte_decoupe):
+                dimention_ligne = police.size(ligne)
+                image.blit(
+                    police.render(ligne, 2, color),
+                    (
+                        (dimention_image[0] - dimention_ligne[0]) // 2,
+                        i * dimention_ligne[1],
+                    ),
+                )
+        case "gauche_centre":
+            for i, ligne in enumerate(texte_decoupe):
+                dimention_ligne = police.size(ligne)
+                image.blit(
+                    police.render(ligne, 2, color),
+                    (
+                        0,
+                        (dimention_image[1] - dimention_ligne[1] * len(texte_decoupe))
+                        // 2
+                        + i * dimention_ligne[1],
+                    ),
+                )
+        case _:
+            print("mode inconnu :", mode)
     return image
 
 
