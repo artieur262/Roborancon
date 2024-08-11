@@ -39,7 +39,6 @@ class Image:
         self.ancre: tuple[int, int] = ancre
         self.texture: pygame.surface = texture
 
-
     def get_texture(self) -> pygame.surface:
         """retourne la texture de l'objet"""
         return self.texture
@@ -93,33 +92,12 @@ class Image:
             surface.blit(self.texture, emplacement)
 
 
-class ObjetGraphique:
-    """objet graphique qui a le but d'etre affiché
+class Zone:
+    """class pour gérer les zones"""
 
-    Args:
-        coordonnee (list): est les coordonées de l'objet
-        texture (list[str, Image, pygame.Surface]): est la texture de l'objet
-        taille (list): est la taille de l'objet
-        animation (int, optional): est l'animation de l'objet. Defaults to 0.
-    """
-
-    def __init__(
-        self,
-        coordonnee: list,
-        texture: list[str, Image, pygame.Surface],
-        taille,
-        animation=0,
-    ):
-        self.texture: list[Image] = []
-        for i in texture:
-            if isinstance(i, str):
-                i = Image(i)
-            if isinstance(i, pygame.Surface):
-                i = Image(i)
-            self.texture.append(i)
+    def __init__(self, coordonnee: list, taille: list):
         self.coordonnee = coordonnee
         self.__taille = taille
-        self.animation = animation
 
     def get_pos(self) -> tuple[int, int] | int:
         """renvoi les coordonées de l'objet
@@ -128,17 +106,9 @@ class ObjetGraphique:
 
         return self.coordonnee
 
-    def set_pos(self, valu):
-        """defini les coordonées de l'objet"""
-        self.coordonnee = valu
-
     def get_size(self) -> tuple[int, int] | int:
         """renvoi la taille de l'objet"""
         return self.__taille
-
-    def set_size(self, valu):
-        """defini la taille de l'objet"""
-        self.__taille = valu
 
     def get_center(self) -> tuple[float, float]:
         """renvoi le centre de l'objet"""
@@ -147,21 +117,19 @@ class ObjetGraphique:
             self.coordonnee[1] + self.__taille[1] / 2,
         )
 
-    def image_actuel(self) -> Image:
-        """donne l'image actuel"""
-        return self.texture[self.animation]
+    def set_pos(self, valu):
+        """defini les coordonées de l'objet"""
+        self.coordonnee = valu
 
-    def redimentione_all_image(self, taille: tuple[int]):
-        """redimentionne toute les images"""
-        for image in self.texture:
-            image.redimentione(taille)
+    def set_size(self, valu):
+        """defini la taille de l'objet"""
+        self.__taille = valu
 
     def point_dans_objet(self, point: tuple[int, int]) -> bool:
         """pour savoir si un point est dans l'objet
 
         entre :
-            x (int) : est les coordonees du point sur l'axe x
-            y (int) : est les coordonees du point sur l'axe y
+            point (tuple[int, int]) : est le point à tester
 
         retun (bool) : si le point est dans l'objet
 
@@ -224,6 +192,43 @@ class ObjetGraphique:
             coin_1_zone[1] <= coin_1_self[1] < coin_2_zone[1]
             or coin_1_self[1] <= coin_1_zone[1] < coin_2_self[1]
         )
+
+
+class ObjetGraphique(Zone):
+    """objet graphique qui a le but d'etre affiché
+
+    Args:
+        coordonnee (list): est les coordonées de l'objet
+        texture (list[str, Image, pygame.Surface]): est la texture de l'objet
+        taille (list): est la taille de l'objet
+        animation (int, optional): est l'animation de l'objet. Defaults to 0.
+    """
+
+    def __init__(
+        self,
+        coordonnee: list,
+        texture: list[str, Image, pygame.Surface],
+        taille,
+        animation=0,
+    ):
+        super().__init__(coordonnee, taille)
+        self.texture: list[Image] = []
+        for i in texture:
+            if isinstance(i, str):
+                i = Image(i)
+            if isinstance(i, pygame.Surface):
+                i = Image(i)
+            self.texture.append(i)
+        self.animation = animation
+
+    def image_actuel(self) -> Image:
+        """donne l'image actuel"""
+        return self.texture[self.animation]
+
+    def redimentione_all_image(self, taille: tuple[int]):
+        """redimentionne toute les images"""
+        for image in self.texture:
+            image.redimentione(taille)
 
     def afficher(
         self,
