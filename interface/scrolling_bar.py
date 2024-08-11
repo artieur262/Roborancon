@@ -120,6 +120,10 @@ class ScrollBar(ObjetGraphique):
                 )
                 self.corrige_scroll()
 
+    def get_marge(self):
+        """retourne la marge de la barre de défilement"""
+        return self.__marge
+
     def set_scroll(self, pos: int):
         """change la position de la barre de défilement"""
         self.position_scroll = pos
@@ -141,6 +145,10 @@ class ScrollBar(ObjetGraphique):
                 self.__taille[0] - self.__taille_scroll - 2 * self.__marge
             )
 
+    def get_pos_scroll(self):
+        """retourne la position de la barre de défilement"""
+        return self.position_scroll
+
     def set_taille_scroll(self, taille_scroll: int):
         """change la taille de la barre de défilement"""
         self.__taille_scroll = taille_scroll
@@ -152,3 +160,4 @@ class ScrollBar(ObjetGraphique):
             self.__scroll.redimentione(
                 (taille_scroll, self.__taille[1] - 2 * self.__marge)
             )
+        self.corrige_scroll()
