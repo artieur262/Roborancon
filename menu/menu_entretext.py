@@ -165,9 +165,10 @@ class MenuEntreText:
         if souris.get_pression(1) == "vien_presser":
             for bouton in self.bouton:
                 if bouton.point_dans_objet(souris.get_pos()):
+                    print(bouton.data)
                     match bouton.data:
                         case "valider":
-                            return self.obj_texte.texture[0].texture
+                            return self.texte
                         case "vider":
                             self.change_text("")
                         case "anuler":
@@ -207,7 +208,7 @@ class MenuEntreText:
 
             elif event.type == pygame.KEYDOWN:
                 clavier.set_pression(event.key, "vien_presser")
-                if event.key == pygame.K_BACKSPACE and len(self.obj_texte) > 0:
+                if event.key == pygame.K_BACKSPACE and len(self.texte) > 0:
                     self.change_text(self.texte[:-1])
                 elif (
                     self.mode_liste == "whitelist"
