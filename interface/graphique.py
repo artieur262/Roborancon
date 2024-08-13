@@ -221,6 +221,10 @@ class ObjetGraphique(Zone):
             self.texture.append(i)
         self.animation = animation
 
+    def set_animation(self, animation: int):
+        """change l'animation de l'objet"""
+        self.animation = animation
+
     def image_actuel(self) -> Image:
         """donne l'image actuel"""
         return self.texture[self.animation]
