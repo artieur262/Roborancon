@@ -137,10 +137,14 @@ class ScrollBar(ObjetGraphique):
     def get_pourcentage(self):
         """retourne la position de la barre de défilement en pourcentage"""
         if self.__sens == "vertical":
+            if (self.__taille[1] - self.__taille_scroll - 2 * self.__marge) == 0:
+                return 0
             return (self.position_scroll - self.__marge) / (
                 self.__taille[1] - self.__taille_scroll - 2 * self.__marge
             )
         elif self.__sens == "horizontal":
+            if (self.__taille[0] - self.__taille_scroll - 2 * self.__marge) == 0:
+                return 0
             return (self.position_scroll - self.__marge) / (
                 self.__taille[0] - self.__taille_scroll - 2 * self.__marge
             )
