@@ -28,7 +28,6 @@ class ScrollBar(ObjetGraphique):
         marge: int = 3,
     ):
         super().__init__(coordonnee, [texture], taille)
-        self.__taille = taille
         self.redimentione_all_image(taille)
 
         self.__taille_scroll = taille_scroll
@@ -88,10 +87,10 @@ class ScrollBar(ObjetGraphique):
                 self.position_scroll = self.__marge
             elif (
                 self.position_scroll
-                > self.__taille[1] - self.__taille_scroll - self.__marge
+                > self.get_size()[1] - self.__taille_scroll - self.__marge
             ):
                 self.position_scroll = (
-                    self.__taille[1] - self.__taille_scroll - self.__marge
+                    self.get_size()[1] - self.__taille_scroll - self.__marge
                 )
 
         elif self.__sens == "horizontal":
@@ -99,10 +98,10 @@ class ScrollBar(ObjetGraphique):
                 self.position_scroll = self.__marge
             elif (
                 self.position_scroll
-                > self.__taille[0] - self.__taille_scroll - self.__marge
+                > self.get_size()[0] - self.__taille_scroll - self.__marge
             ):
                 self.position_scroll = (
-                    self.__taille[0] - self.__taille_scroll - self.__marge
+                    self.get_size()[0] - self.__taille_scroll - self.__marge
                 )
 
     def souris_scroll(self, pos_souris: tuple[int, int]):
@@ -137,16 +136,16 @@ class ScrollBar(ObjetGraphique):
     def get_pourcentage(self):
         """retourne la position de la barre de défilement en pourcentage"""
         if self.__sens == "vertical":
-            if (self.__taille[1] - self.__taille_scroll - 2 * self.__marge) == 0:
+            if (self.get_size()[1] - self.__taille_scroll - 2 * self.__marge) == 0:
                 return 0
             return (self.position_scroll - self.__marge) / (
-                self.__taille[1] - self.__taille_scroll - 2 * self.__marge
+                self.get_size()[1] - self.__taille_scroll - 2 * self.__marge
             )
         elif self.__sens == "horizontal":
-            if (self.__taille[0] - self.__taille_scroll - 2 * self.__marge) == 0:
+            if (self.get_size()[0] - self.__taille_scroll - 2 * self.__marge) == 0:
                 return 0
             return (self.position_scroll - self.__marge) / (
-                self.__taille[0] - self.__taille_scroll - 2 * self.__marge
+                self.get_size()[0] - self.__taille_scroll - 2 * self.__marge
             )
 
     def get_pos_scroll(self):
@@ -158,10 +157,10 @@ class ScrollBar(ObjetGraphique):
         self.__taille_scroll = taille_scroll
         if self.__sens == "vertical":
             self.__scroll.redimentione(
-                (self.__taille[0] - 2 * self.__marge, taille_scroll)
+                (self.get_size()[0] - 2 * self.__marge, taille_scroll)
             )
         elif self.__sens == "horizontal":
             self.__scroll.redimentione(
-                (taille_scroll, self.__taille[1] - 2 * self.__marge)
+                (taille_scroll, self.get_size()[1] - 2 * self.__marge)
             )
         self.corrige_scroll()
