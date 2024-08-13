@@ -84,7 +84,7 @@ class MenuEntreText:
         # bouton
         police_bouton = pygame.font.Font(None, 25)
         self.bouton: list[BoutonText] = []
-        for bouton in self.langue_bouton[langue]:
+        for i,bouton in enumerate(self.langue_bouton[langue]):
             self.bouton.append(
                 BoutonText(
                     (0, 0),
@@ -93,7 +93,7 @@ class MenuEntreText:
                     bouton,
                     (0, 0, 0),
                     police_bouton,
-                    data=bouton,
+                    data=self.langue_bouton["fr"][i],
                 )
             )
 
@@ -165,7 +165,6 @@ class MenuEntreText:
         if souris.get_pression(1) == "vien_presser":
             for bouton in self.bouton:
                 if bouton.point_dans_objet(souris.get_pos()):
-                    print(bouton.data)
                     match bouton.data:
                         case "valider":
                             return self.texte
