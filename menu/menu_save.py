@@ -1,4 +1,6 @@
 import os
+import time
+
 import pygame
 
 from interface.graphique import (
@@ -17,6 +19,8 @@ from menu.pop_up import PopUp
 from textures import assembleur
 from autre import save
 
+# pylint: disable=no-member
+
 
 class Save:
     """Classe pour les utilisateurs"""
@@ -24,14 +28,14 @@ class Save:
     def __init__(
         self,
         name: str,
-        type: str,
+        type_: str,
         date_creation: str,
         temps: int,
         coordonnee: list[int, int],
     ):
         self.name = name
         self.date = date_creation
-        self.type = type
+        self.type = type_
         self.temps = temps
         self.actualise_graphique(coordonnee)
 
@@ -537,10 +541,16 @@ class MenuSave:
         souris: Souris, clavier: Clavier, lien_save: str, mode: str, langue: str
     ) -> str:
         """Fonction principale"""
+
         menu = MenuSave(lien_save, mode, langue)
         while True:
             event = actualise_event(clavier, souris)
             action, valeur = menu.actualise(souris, clavier)
+            if clavier.get_pression(pygame.K_ESCAPE) == "vien_presser":
+                return "retour"
+            if clavier.get_pression(pygame.K_F11) == "vien_presser":
+                change_fullscreen()
+                event.add("redimentione")
             if "quitter" in event:
                 return "retour", None
             if "redimentione" in event:
@@ -600,3 +610,16 @@ def convertir_temps(seconde: int) -> str:
     if not sorti:
         sorti = "0s"
     return sorti[:-1]
+
+
+def convertir_date(date: time.struct_time) -> str:
+    """Convertit la date en str"""
+    return (
+        f"{date.tm_mday}/{date.tm_mon}/{date.tm_year}"
+        + f" {date.tm_hour}:{date.tm_min}"
+    )
+
+
+def ajoute_save(lien_save: str, info: dict[str, any]):
+    """Ajoute une sauvegarde"""
+    save.save_json(lien_save + "/" + info["name"] + "/info.json", info)
