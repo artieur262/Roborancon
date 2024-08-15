@@ -65,6 +65,21 @@ class Clavier:
     def __init__(self) -> None:
         self.dict_touches = {}
 
+    def reset(self):
+        """reset la pression de toute les touches
+        pour les mettre a lacher
+        """
+        self.dict_touches = {}
+
+    def lacher_tout(self):
+        """met toute les touches a lacher"""
+        for clee, value in self.dict_touches.items():
+            if value == "presser":
+                self.dict_touches[clee] = "vien_lacher"
+            if value == "vien_presser":
+                self.dict_touches[clee] = "vien_lacher"
+        
+
     def update_all_key(self):
         """actualise toute les touches"""
         clee_a_supprimer = []
@@ -109,7 +124,18 @@ class Souris:
     def __init__(self):
         self.update_pos()
         self.dict_clique = {}
-
+    def reset(self):
+        """reset la pression de toute les touches
+        pour les mettre a lacher
+        """
+        self.dict_clique = {}
+    def lacher_tout(self):
+        """met toute les touches a lacher"""
+        for clee, value in self.dict_clique.items():
+            if value == "presser":
+                self.dict_clique[clee] = "vien_lacher"
+            if value == "vien_presser":
+                self.dict_clique[clee] = "vien_lacher"
     def actualise_all_clique(self):
         """actualise toute les touches"""
         clee_a_supprimer = []

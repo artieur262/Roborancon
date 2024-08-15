@@ -20,8 +20,8 @@ class MenuChangeTouche:
         "en": ["back", "default", "save"],
     }
     langue_texte = {
-        "fr": "Veuillez choisir votre touche",
-        "en": "Please choose your key",
+        "fr": "Veuillez choisir votre touche\n pour ",
+        "en": "Please choose your key\n for ",
     }
 
     def __init__(
@@ -29,6 +29,7 @@ class MenuChangeTouche:
         clavier: Clavier,
         souris: Souris,
         touche: tuple[str, int],
+        nom_touche: str,
         langue: str,
         etat_defaut: str = "en attente",
     ):
@@ -47,7 +48,7 @@ class MenuChangeTouche:
         )
         self.zone_texte.texture[0].texture = place_texte_in_texture(
             self.zone_texte.texture[0].texture,
-            self.langue_texte[self.langue],
+            self.langue_texte[self.langue] + nom_touche,
             pygame.font.Font(None, 40),
             (0, 0, 0),
         )
@@ -257,11 +258,18 @@ class MenuChangeTouche:
         return temp
 
     @staticmethod
-    def main(clavier, souris, touche, touche_default, langue):
+    def main(
+        clavier,
+        souris,
+        touche: tuple[int, int],
+        nom_touche: str,
+        touche_default: tuple[int, int],
+        langue: str,
+    ):
         """lance le menu de changement de touche"""
         screen.fill((200, 200, 200))
         touche_depart = touche
-        menu = MenuChangeTouche(clavier, souris, touche, langue)
+        menu = MenuChangeTouche(clavier, souris, touche, nom_touche, langue)
         menu.actualise_dimention()
         clock = pygame.time.Clock()
         encour = True

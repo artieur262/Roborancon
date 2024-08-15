@@ -298,7 +298,7 @@ class MenuOption:
             self.zone_texte["controles"][-1].texture[0].texture = (
                 place_texte_in_texture(
                     self.zone_texte["controles"][-1].texture[0].texture,
-                    controle,
+                    self.touche_langue[self.menu_langue][controle],
                     pygame.font.Font(None, 26),
                     (0, 0, 0),
                 )
@@ -437,9 +437,10 @@ class MenuOption:
                             par_default = save.load_json(self.lien_controle_defaut)
 
                             touche = MenuChangeTouche.main(
-                                self.clavier,
-                                self.souris,
+                                Clavier(),
+                                Souris(),
                                 bouton.data[3],
+                                self.touche_langue[self.menu_langue][bouton.data[2]],
                                 (
                                     par_default[1][bouton.data[2]],
                                     par_default[0][bouton.data[2]],
@@ -451,11 +452,13 @@ class MenuOption:
                             bouton.set_text(
                                 touche[0], pygame.font.Font(None, 26), (0, 0, 0)
                             )
+                            self.clavier.lacher_tout()
+                            self.souris.lacher_tout()
                             self.actualise_dimention()
                         case "langue_menu":
                             langue = MenuChoixLangue.main(
-                                self.clavier,
-                                self.souris,
+                                Clavier(),
+                                Souris(),
                                 ["fr", "en"],
                                 self.langue_option["menu"],
                                 self.menu_langue,
@@ -466,7 +469,10 @@ class MenuOption:
                                 pygame.font.Font(None, 35),
                                 (0, 0, 0),
                             )
+                            self.clavier.lacher_tout()
+                            self.souris.lacher_tout()
                             self.actualise_dimention()
+
             for onglet in self.onglet:
                 if onglet.point_dans_objet(self.souris.pos):
                     self.desactive_onglet()
@@ -493,8 +499,8 @@ class MenuOption:
                                 (0, 0, 0),
                             )
                             PopUp.main(
-                                self.clavier,
-                                self.souris,
+                                Clavier(),
+                                Souris(),
                                 (
                                     screen.get_width() // 2 - 250,
                                     screen.get_height() // 2 - 75,
@@ -502,6 +508,8 @@ class MenuOption:
                                 texture,
                                 2.5,
                             )
+                            self.clavier.lacher_tout()
+                            self.souris.lacher_tout()
                             self.actualise_dimention()
                             return "save"
                         case "reset":
@@ -530,8 +538,8 @@ class MenuOption:
                                 (0, 0, 0),
                             )
                             PopUp.main(
-                                self.clavier,
-                                self.souris,
+                                Clavier(),
+                                Souris(),
                                 (
                                     screen.get_width() // 2 - 250,
                                     screen.get_height() // 2 - 75,
@@ -539,6 +547,8 @@ class MenuOption:
                                 texture,
                                 2.5,
                             )
+                            self.clavier.lacher_tout()
+                            self.souris.lacher_tout()
                             self.actualise_dimention()
                         case "quitter":
                             return "quitter"
@@ -602,6 +612,9 @@ class MenuOption:
                     save.save_json(menu.lien_langue, menu.langue_option)
                 encour = False
                 temp = "quitter"
+                clavier.lacher_tout()
+                souris.lacher_tout()
+
             if "redimentione" in event:
                 menu.actualise_dimention()
             screen.fill((200, 200, 200))
