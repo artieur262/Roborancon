@@ -35,6 +35,7 @@ from autre import save
 class MenuOption:
     """menu de démarrage"""
 
+    # ordre_touche = ["avancer", "reculer", "gauche", "droite"]
     onglet_langue = {
         "fr": ["graphisme", "controles", "langue"],
         "en": ["graphics", "controls", "language"],
@@ -43,7 +44,20 @@ class MenuOption:
         "fr": ["démarrage", "activer", "sauvegarder", "par default", "quitter"],
         "en": ["start", "active", "save", "defaut", "quit"],
     }
-    touche_langue = {"fr": {"avancer": "avancer", "gauche": "gauche"}}
+    touche_langue = {
+        "fr": {
+            "avancer": "avancer",
+            "reculer": "reculer",
+            "gauche": "gauche",
+            "droite": "droite",
+        },
+        "en": {
+            "avancer": "forward",
+            "reculer": "backward",
+            "gauche": "left",
+            "droite": "right",
+        },
+    }
     zonetexte_langue = {
         "fr": [
             "plein écran",
@@ -253,6 +267,7 @@ class MenuOption:
                 mode_palcement,
             )
 
+        # place les boutons et les zones de texte pour changer les controles
         for controle in self.controle[0]:
             self.bouton["controles"].append(
                 BoutonText(
@@ -350,10 +365,18 @@ class MenuOption:
                     bouton.set_pos((screen.get_width() - bouton.get_size()[0], 120))
         match self.onglet_actuel:
             case "controles":
+                max_ligne = (screen.get_width() - 210) // 250
+                if max_ligne < 2:
+                    max_ligne = 2
+
                 for i, bouton in enumerate(self.bouton["controles"]):
-                    bouton.set_pos((160 + i * 250, 150))
+                    bouton.set_pos(
+                        (160 + i % max_ligne * 250, 150 + 70 * (i // max_ligne))
+                    )
                 for i, zone_texte in enumerate(self.zone_texte["controles"]):
-                    zone_texte.set_pos((50 + i * 250, 150))
+                    zone_texte.set_pos(
+                        (50 + i % max_ligne * 250, 150 + 70 * (i // max_ligne))
+                    )
 
     def actualise_bouton(self):
         """actualise les boutons"""
@@ -553,7 +576,15 @@ class MenuOption:
         while encour:
             event = actualise_event(clavier, souris)
             temp = menu.play()
-            if temp == "quitter" or "quitter" in event:
+            if clavier.get_pression(pygame.K_F11) == "vien_presser":
+                change_fullscreen()
+                event.add("redimentione")
+
+            if (
+                temp == "quitter"
+                or "quitter" in event
+                or clavier.get_pression(pygame.K_ESCAPE) == "vien_presser"
+            ):
                 if (
                     save.load_json(menu.lien_graphisme) != menu.graphisme
                     or save.load_json(menu.lien_controle) != menu.controle
@@ -570,6 +601,7 @@ class MenuOption:
                     save.save_json(menu.lien_controle, menu.controle)
                     save.save_json(menu.lien_langue, menu.langue_option)
                 encour = False
+                temp = "quitter"
             if "redimentione" in event:
                 menu.actualise_dimention()
             screen.fill((200, 200, 200))

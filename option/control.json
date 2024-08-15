@@ -1,10 +1,14 @@
 [
  {
-  "avancer": 106,
-  "gauche": 115
+  "avancer": 122,
+  "reculer": 115,
+  "gauche": 113,
+  "droite": 100
  },
  {
-  "avancer": "j",
-  "gauche": "s"
+  "avancer": "z",
+  "reculer": "s",
+  "gauche": "q",
+  "droite": "d"
  }
 ]
