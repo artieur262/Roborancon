@@ -130,31 +130,32 @@ class MenuSave:
 
     """
 
-    langue_bouton = {
-        "fr": ["retour", "sauvegarder", "charger", "ajouter"],
-        "en": ["back", "save", "load", "add"],
-    }
-    langue_menu = {
-        "fr": [
-            "nom déjà utilisé",
-            "entrez le nom de la sauvegarde",
-            "selectionner une sauvegarde",
-            "selectionner une sauvegarde\n ou creer une nouvelle",
-        ],
-        "en": [
-            "name already used",
-            "enter the name of the save",
-            "select a save",
-            "select a save\n or create a new one",
-        ],
-    }
-    langue_en_tete = {
-        "fr": ["nom", "type", "temps", "date"],
-        "en": ["name", "type", "time", "date"],
-    }
-    langue_titre = {
-        "fr": ["veuillez sauvegarder votre partie", "veuillez charger une partie"],
-        "en": ["please save your game", "please load a game"],
+    traduction = {
+        "fr": {
+            "bouton": ["retour", "sauvegarder", "charger", "ajouter"],
+            "menu": [
+                "nom déjà utilisé",
+                "entrez le nom de la sauvegarde",
+                "selectionner une sauvegarde",
+                "selectionner une sauvegarde\n ou creer une nouvelle",
+            ],
+            "en_tete": ["nom", "type", "temps", "date"],
+            "titre": [
+                "veuillez sauvegarder votre partie",
+                "veuillez charger une partie",
+            ],
+        },
+        "en": {
+            "bouton": ["back", "save", "load", "add"],
+            "menu": [
+                "name already used",
+                "enter the name of the save",
+                "select a save",
+                "select a save\n or create a new one",
+            ],
+            "en_tete": ["name", "type", "time", "date"],
+            "titre": ["please save your game", "please load a game"],
+        },
     }
 
     def __init__(self, lien_save: str, mode: str, langue: str):
@@ -165,9 +166,9 @@ class MenuSave:
 
         # titre
         titre_str = (
-            self.langue_titre[langue][0]
+            self.traduction[langue]["titre"][0]
             if mode == "sauvegarde"
-            else self.langue_titre[langue][1]
+            else self.traduction[langue]["titre"][1]
         )
         self.titre = ObjetGraphique(
             (0, 0),
@@ -198,7 +199,7 @@ class MenuSave:
             self.en_tete.texture[0].texture.blit(
                 place_texte_in_texture(
                     gener_texture(taille, (50, 50, 50)),
-                    self.langue_en_tete[langue][indice_texte],
+                    self.traduction[langue]["en_tete"][indice_texte],
                     pygame.font.SysFont("monospace", 20),
                     (255, 255, 255),
                 ),
@@ -243,10 +244,10 @@ class MenuSave:
                         for couleur in ((150, 150, 150), (175, 175, 175))
                     ],
                     taille_bouton,
-                    self.langue_bouton[self.langue][i],
+                    self.traduction[self.langue]["bouton"][i],
                     (0, 0, 0),
                     pygame.font.Font(None, 20),
-                    data=self.langue_bouton["fr"][i],
+                    data=self.traduction["fr"]["bouton"][i],
                 )
             )
         # actualisation
@@ -260,7 +261,7 @@ class MenuSave:
 
     def actualise_dimensions(self):
         """Actualise les dimensions"""
-        taille_save = (self.zone_save.get_size()[0], screen.get_height() - 170)
+        taille_save = (self.zone_save.get_size()[0], max(screen.get_height() - 170, 50))
         self.zone_save.set_size(taille_save)
         self.barscroll.set_size((self.barscroll.get_size()[0], taille_save[1]))
         self.barscroll.redimentione_all_image(
@@ -341,13 +342,13 @@ class MenuSave:
     def actualise_taille_scroll(self):
         """Actualise la taille du scroll"""
         maximum_size = self.barscroll.get_size()[1] - self.barscroll.get_marge() * 2
-        longueur = len(self.save) * 50
-        if longueur < maximum_size:
-            longueur = maximum_size
-        longueur = maximum_size * (maximum_size / longueur)
-        if longueur < 30:
-            longueur = 30
-        self.barscroll.set_taille_scroll(longueur)
+        longueur_save = len(self.save) * 50
+        if longueur_save < maximum_size:
+            longueur_save = maximum_size
+        longueur_save = maximum_size * (maximum_size / longueur_save)
+        if longueur_save < 30:
+            longueur_save = 30
+        self.barscroll.set_taille_scroll(longueur_save)
 
     def actualise_decalle(self):
         """Actualise le decalle"""
@@ -369,7 +370,6 @@ class MenuSave:
                 bouton.set_animation(0)
 
         # save hover
-
         for save_ in self.save:
             if save_.get_animation() != 2:
                 if save_.point_dans_objet(
@@ -420,8 +420,8 @@ class MenuSave:
                                 if save_.get_animation() == 2:
                                     return "lien", save_.name
                             PopUp.main(
-                                clavier,
-                                souris,
+                                Clavier(),
+                                Souris(),
                                 (
                                     screen.get_width() // 2 - 360 // 2,
                                     screen.get_height() // 2 - 70 // 2,
@@ -430,20 +430,23 @@ class MenuSave:
                                     assembleur.cadre(
                                         (360, 70), (100, 100, 100), (130, 130, 130), 5
                                     ),
-                                    self.langue_menu[self.langue][3],
+                                    self.traduction[self.langue]["menu"][3],
                                     pygame.font.Font(None, 30),
                                     (0, 0, 0),
                                 ),
                                 3,
                             )
+                            clavier.lacher_tout()
+                            souris.lacher_tout()
+                            self.actualise_dimensions()
 
                         case "charger":
                             for save_ in self.save:
                                 if save_.get_animation() == 2:
                                     return "lien", save_.name
                             PopUp.main(
-                                clavier,
-                                souris,
+                                Clavier(),
+                                Souris(),
                                 (
                                     screen.get_width() // 2 - 360 // 2,
                                     screen.get_height() // 2 - 0 // 2,
@@ -452,24 +455,27 @@ class MenuSave:
                                     assembleur.cadre(
                                         (360, 70), (100, 100, 100), (130, 130, 130), 5
                                     ),
-                                    self.langue_menu[self.langue][2],
+                                    self.traduction[self.langue]["menu"][2],
                                     pygame.font.Font(None, 30),
                                     (0, 0, 0),
                                 ),
                                 3,
                             )
+                            clavier.lacher_tout()
+                            souris.lacher_tout()
+                            self.actualise_dimensions()
 
                         case "ajouter":
                             temps = MenuEntreText.main(
-                                souris,
-                                clavier,
+                                Souris(),
+                                Clavier(),
                                 screen,
                                 assembleur.cadre(
                                     (410, 187), (100, 100, 100), (130, 130, 130), 5
                                 ),
                                 400,
                                 self.langue,
-                                self.langue_menu[self.langue][1],
+                                self.traduction[self.langue]["menu"][1],
                                 10,
                                 "0123456789"
                                 + "abcdefghijklmnopqrstuvwxyz"
@@ -477,6 +483,9 @@ class MenuSave:
                                 + "._- ",
                                 "whitelist",
                             )
+                            souris.lacher_tout()
+                            clavier.lacher_tout()
+                            self.actualise_dimensions()
 
                             while temps and (
                                 os.path.exists(
@@ -484,30 +493,30 @@ class MenuSave:
                                 )
                             ):
                                 PopUp.main(
-                                    clavier,
-                                    souris,
+                                    Clavier(),
+                                    Souris(),
                                     (
                                         screen.get_width() // 2 - 360 // 2,
                                         screen.get_height() // 2 - 150,
                                     ),
                                     place_texte_in_texture(
                                         assembleur.bouton1((6, 0)),
-                                        self.langue_menu[self.langue][0],
+                                        self.traduction[self.langue]["menu"][0],
                                         pygame.font.Font(None, 50),
                                         (225, 225, 225),
                                     ),
                                     3,
                                 )
                                 temps = MenuEntreText.main(
-                                    souris,
-                                    clavier,
+                                    Souris(),
+                                    Clavier(),
                                     screen,
                                     assembleur.cadre(
                                         (410, 187), (100, 100, 100), (130, 130, 130), 5
                                     ),
                                     400,
                                     self.langue,
-                                    self.langue_menu[self.langue][1],
+                                    self.traduction[self.langue]["menu"][1],
                                     10,
                                     "0123456789"
                                     + "abcdefghijklmnopqrstuvwxyz"
@@ -516,6 +525,9 @@ class MenuSave:
                                     "whitelist",
                                     temps,
                                 )
+                                souris.lacher_tout()
+                                clavier.lacher_tout()
+                                self.actualise_dimensions()
 
                             if temps:
                                 return "lien", temps

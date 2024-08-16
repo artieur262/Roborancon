@@ -15,13 +15,15 @@ from textures import assembleur
 class MenuChangeTouche:
     """menu de changement de touche"""
 
-    langue_bouton = {
-        "fr": ["retour", "par default", "sauvegarder"],
-        "en": ["back", "default", "save"],
-    }
-    langue_texte = {
-        "fr": "Veuillez choisir votre touche\n pour ",
-        "en": "Please choose your key\n for ",
+    traduction = {
+        "fr": {
+            "bouton": ["retour", "par default", "sauvegarder"],
+            "texte": "Veuillez choisir votre touche\n pour ",
+        },
+        "en": {
+            "bouton": ["back", "default", "save"],
+            "texte": "Please choose your key\n for ",
+        },
     }
 
     def __init__(
@@ -48,7 +50,7 @@ class MenuChangeTouche:
         )
         self.zone_texte.texture[0].texture = place_texte_in_texture(
             self.zone_texte.texture[0].texture,
-            self.langue_texte[self.langue] + nom_touche,
+            self.traduction[self.langue]["texte"] + nom_touche,
             pygame.font.Font(None, 40),
             (0, 0, 0),
         )
@@ -81,7 +83,7 @@ class MenuChangeTouche:
                         for couleur in ((150, 150, 150), (125, 125, 125))
                     ],
                     taille,
-                    self.langue_bouton[self.langue][indice_langue],
+                    self.traduction[self.langue]["bouton"][indice_langue],
                     (0, 0, 0),
                     pygame.font.Font(None, 26),
                     data=("push", nom_bouton),
@@ -291,15 +293,19 @@ class MenuChangeTouche:
 class MenuChoixLangue:
     """menu de choix de langue"""
 
-    langue_langue = {
-        "fr": {"fr": "français", "en": "anglais"},
-        "en": {"fr": "french", "en": "english"},
+    traduction = {
+        "fr": {
+            "langue": {"fr": "français", "en": "anglais"},
+            "bouton": ["retour", "sauvegarder"],
+            "texte": "Veuillez choisir votre langue",
+        },
+        "en": {
+            "langue": {"fr": "french", "en": "english"},
+            "bouton": ["back", "save"],
+            "texte": "Please choose your language",
+        },
     }
-    langue_bouton = {"fr": ["retour", "sauvegarder"], "en": ["back", "save"]}
-    langue_texte = {
-        "fr": "Veuillez choisir votre langue",
-        "en": "Please choose your language",
-    }
+    
 
     def __init__(
         self,
@@ -323,7 +329,7 @@ class MenuChoixLangue:
         )
         self.zone_texte.texture[0].texture = place_texte_in_texture(
             self.zone_texte.texture[0].texture,
-            self.langue_texte[self.menu_langue],
+            self.traduction[self.menu_langue]["texte"],
             pygame.font.Font(None, 40),
             (0, 0, 0),
         )
@@ -341,7 +347,7 @@ class MenuChoixLangue:
                         for couleur in ((150, 150, 150), (125, 125, 125))
                     ],
                     taille,
-                    self.langue_bouton[self.menu_langue][indice_langue],
+                    self.traduction[self.menu_langue]["bouton"][indice_langue],
                     (0, 0, 0),
                     pygame.font.Font(None, 26),
                     data=("push", nom_bouton),
@@ -356,9 +362,9 @@ class MenuChoixLangue:
                         for couleur in ((150, 150, 150), (200, 200, 200), (50, 225, 50))
                     ],
                     (300, 75),
-                    self.langue_langue[langue][langue]
+                    self.traduction[langue]["langue"][langue]
                     + "/"
-                    + self.langue_langue[self.menu_langue][langue],
+                    + self.traduction[self.menu_langue]["langue"][langue],
                     (0, 0, 0),
                     pygame.font.Font(None, 26),
                     data=("push_active", "langue", langue, i),

@@ -26,7 +26,7 @@ class MenuEntreText:
         mode_liste: str = "whitelist" ou "blacklist"
     """
 
-    langue_bouton = {
+    traduction_bouton = {
         "fr": ["valider", "vider", "anuler"],
         "en": ["validate", "clear", "cancel"],
     }
@@ -84,7 +84,7 @@ class MenuEntreText:
         # bouton
         police_bouton = pygame.font.Font(None, 25)
         self.bouton: list[BoutonText] = []
-        for i,bouton in enumerate(self.langue_bouton[langue]):
+        for i,bouton in enumerate(self.traduction_bouton[langue]):
             self.bouton.append(
                 BoutonText(
                     (0, 0),
@@ -93,7 +93,7 @@ class MenuEntreText:
                     bouton,
                     (0, 0, 0),
                     police_bouton,
-                    data=self.langue_bouton["fr"][i],
+                    data=self.traduction_bouton["fr"][i],
                 )
             )
 

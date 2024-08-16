@@ -29,7 +29,7 @@ class StartMenu:
         - langue : str : langue du menu
     """
 
-    button_langue = {
+    traduction_bouton = {
         "fr": ["Démarrer", "Options", "Quitter"],
         "en": ["Start", "Options", "Quit"],
     }
@@ -47,7 +47,7 @@ class StartMenu:
         self.fond_original = fond.texture
         self.fond = fond
 
-        nom_bouton = self.button_langue[langue]
+        nom_bouton = self.traduction_bouton[langue]
         self.taille_bouton = taille_bouton
         self.bouton = [
             Bouton(
@@ -190,10 +190,10 @@ class StartMenu:
         while encours:
 
             temp = start_menu.play(clavier, souris)
-            if "jouer" == temp or start_menu.button_langue[langue][0] == temp:
+            if "jouer" == temp or start_menu.traduction_bouton[langue][0] == temp:
                 return "jouer"
-            if start_menu.button_langue[langue][1] == temp:
+            if start_menu.traduction_bouton[langue][1] == temp:
                 return "option"
-            if "quitter" == temp or start_menu.button_langue[langue][2] == temp:
+            if "quitter" == temp or start_menu.traduction_bouton[langue][2] == temp:
                 return "quitter"
             clock.tick(90)
