@@ -1,3 +1,9 @@
+"""Module qui gère les choix dans un menu
+
+class:
+    - MenuChoix
+"""
+
 import pygame
 
 from interface.actualisation_pygame import actualise_event, change_fullscreen
@@ -39,7 +45,8 @@ class MenuChoix:
             len(
                 decoupe_texte(
                     texte,
-                    (taille_bouton + ecart_entre_bouton) * len(boutons)-ecart_entre_bouton,
+                    (taille_bouton + ecart_entre_bouton) * len(boutons)
+                    - ecart_entre_bouton,
                     police_texte,
                 )
             )
