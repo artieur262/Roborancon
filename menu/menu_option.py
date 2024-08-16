@@ -36,54 +36,51 @@ class MenuOption:
     """menu de démarrage"""
 
     # ordre_touche = ["avancer", "reculer", "gauche", "droite"]
-    onglet_langue = {
-        "fr": ["graphisme", "controles", "langue"],
-        "en": ["graphics", "controls", "language"],
-    }
-    bouton_langue = {
-        "fr": ["démarrage", "activer", "sauvegarder", "par default", "quitter"],
-        "en": ["start", "active", "save", "defaut", "quit"],
-    }
-    touche_langue = {
+    traduction = {
         "fr": {
-            "avancer": "avancer",
-            "reculer": "reculer",
-            "gauche": "gauche",
-            "droite": "droite",
+            "onglet": ["graphisme", "controles", "langue"],
+            "bouton": ["démarrage", "activer", "sauvegarder", "par default", "quitter"],
+            "touche": {
+                "avancer": "avancer",
+                "reculer": "reculer",
+                "gauche": "gauche",
+                "droite": "droite",
+            },
+            "zonetexte": [
+                "plein écran",
+                "menu",
+                "/!\\ Pour que le changement de langue soit appliqué,\nil faut redémarrer le jeu.",
+            ],
+            "popup": [
+                "sauvegarde réussie",
+                "l'onglet viens de reprendre ses paramêtre par défault ",
+                "voulez vous sauvegarder avant de quitter ?",
+                ["oui", "non"],
+            ],
         },
         "en": {
-            "avancer": "forward",
-            "reculer": "backward",
-            "gauche": "left",
-            "droite": "right",
+            "onglet": ["graphics", "controls", "language"],
+            "bouton": ["start", "active", "save", "defaut", "quit"],
+            "touche": {
+                "avancer": "forward",
+                "reculer": "backward",
+                "gauche": "left",
+                "droite": "right",
+            },
+            "zonetexte": [
+                "fullscreen",
+                "menu",
+                "/!\\ For the language change to be applied,\nyou must restart the game.",
+            ],
+            "popup": [
+                "Saved successfully",
+                "the tab has just taken its default parameters",
+                "do you want to save before quitting ?",
+                ["yes", "no"],
+            ],
         },
     }
-    zonetexte_langue = {
-        "fr": [
-            "plein écran",
-            "menu",
-            "/!\\ Pour que le changement de langue soit appliqué,\nil faut redémarrer le jeu.",
-        ],
-        "en": [
-            "fullscreen",
-            "menu",
-            "/!\\ For the language change to be applied,\nyou must restart the game.",
-        ],
-    }
-    langue_popup = {
-        "fr": [
-            "sauvegarde réussie",
-            "l'onglet viens de reprendre ses paramêtre par défault ",
-            "voulez vous sauvegarder avant de quitter ?",
-            ["oui", "non"],
-        ],
-        "en": [
-            "Saved successfully",
-            "the tab has just taken its default parameters",
-            "do you want to save before quitting ?",
-            ["yes", "no"],
-        ],
-    }
+
     lien_graphisme = "option/graphisme.json"
     lien_defaut_graphime = "option/graphisme_defaut.json"
     lien_controle = "option/control.json"
@@ -106,8 +103,8 @@ class MenuOption:
 
         self.onglet_actuel = "graphisme"
         taille_onget = (160, 50)
-        self.onglet_nom = self.onglet_langue[
-            "fr"
+        self.onglet_nom = self.traduction["fr"][
+            "onglet"
         ]  # ["graphisme", "controles", "langue"]
         self.onglet = [
             Bouton(
@@ -123,7 +120,7 @@ class MenuOption:
             for texture in onglet.texture:
                 texture.texture = place_texte_in_texture(
                     texture.texture,
-                    self.onglet_langue[self.menu_langue][i],
+                    self.traduction[self.menu_langue]["onglet"][i],
                     pygame.font.Font(None, 40),
                     (0, 0, 0),
                 )
@@ -142,7 +139,7 @@ class MenuOption:
                 ],
                 (270, 165),
                 (150, 80),
-                self.bouton_langue[self.menu_langue][0],
+                self.traduction[self.menu_langue]["bouton"][0],
                 (0, 0, 0),
                 pygame.font.Font(None, 35),
                 ("active", "démarrage_fullscreen"),
@@ -155,7 +152,7 @@ class MenuOption:
                 ],
                 (440, 165),
                 (150, 80),
-                self.bouton_langue[self.menu_langue][1],
+                self.traduction[self.menu_langue]["bouton"][1],
                 (0, 0, 0),
                 pygame.font.Font(None, 35),
                 ("active", "active_fullscreen"),
@@ -165,7 +162,7 @@ class MenuOption:
                 [assembleur.bouton2(170, i) for i in (1, 2)],
                 (0, 0),
                 [170, 50],
-                self.bouton_langue[self.menu_langue][2],
+                self.traduction[self.menu_langue]["bouton"][2],
                 (0, 0, 0),
                 pygame.font.Font(None, 35),
                 ("push", "save"),
@@ -175,7 +172,7 @@ class MenuOption:
                 [assembleur.bouton2(170, i) for i in (1, 2)],
                 [0, 50],
                 (170, 50),
-                self.bouton_langue[self.menu_langue][3],
+                self.traduction[self.menu_langue]["bouton"][3],
                 (0, 0, 0),
                 pygame.font.Font(None, 35),
                 ("push", "reset"),
@@ -185,7 +182,7 @@ class MenuOption:
                 [assembleur.bouton2(170, i) for i in (1, 2)],
                 [0, 100],
                 (170, 50),
-                self.bouton_langue[self.menu_langue][4],
+                self.traduction[self.menu_langue]["bouton"][4],
                 (0, 0, 0),
                 pygame.font.Font(None, 35),
                 ("push", "quitter"),
@@ -220,7 +217,7 @@ class MenuOption:
                 [gener_texture((215, 110), (0, 0, 0, 0))],
                 (50, 150),
                 (1, 1),
-                self.zonetexte_langue[self.menu_langue][0],
+                self.traduction[self.menu_langue]["zonetexte"][0],
                 (0, 0, 0),
                 pygame.font.Font(None, 50),
                 "centrage",
@@ -230,7 +227,7 @@ class MenuOption:
                 [assembleur.bouton1([2, 0])],
                 (75, 200),
                 (560, 110),
-                self.zonetexte_langue[self.menu_langue][1],
+                self.traduction[self.menu_langue]["zonetexte"][1],
                 (0, 0, 0),
                 pygame.font.Font(None, 40),
                 "centrage",
@@ -240,7 +237,7 @@ class MenuOption:
                 [gener_texture((800, 75), (0, 0, 0, 0))],
                 (75, 100),
                 (800, 75),
-                self.zonetexte_langue[self.menu_langue][2],
+                self.traduction[self.menu_langue]["zonetexte"][2],
                 (200, 10, 10),
                 pygame.font.Font(None, 40),
                 "gauche_centre",
@@ -298,7 +295,7 @@ class MenuOption:
             self.zone_texte["controles"][-1].texture[0].texture = (
                 place_texte_in_texture(
                     self.zone_texte["controles"][-1].texture[0].texture,
-                    self.touche_langue[self.menu_langue][controle],
+                    self.traduction[self.menu_langue]["touche"][controle],
                     pygame.font.Font(None, 26),
                     (0, 0, 0),
                 )
@@ -440,7 +437,9 @@ class MenuOption:
                                 Clavier(),
                                 Souris(),
                                 bouton.data[3],
-                                self.touche_langue[self.menu_langue][bouton.data[2]],
+                                self.traduction[self.menu_langue]["touche"][
+                                    bouton.data[2]
+                                ],
                                 (
                                     par_default[1][bouton.data[2]],
                                     par_default[0][bouton.data[2]],
@@ -494,7 +493,7 @@ class MenuOption:
                             )
                             texture = place_texte_in_texture(
                                 texture,
-                                self.langue_popup[self.menu_langue][0],
+                                self.traduction[self.menu_langue]["popup"][0],
                                 pygame.font.Font(None, 55),
                                 (0, 0, 0),
                             )
@@ -533,7 +532,7 @@ class MenuOption:
                             )
                             texture = place_texte_in_texture(
                                 texture,
-                                self.langue_popup[self.menu_langue][1],
+                                self.traduction[self.menu_langue]["popup"][1],
                                 pygame.font.Font(None, 55),
                                 (0, 0, 0),
                             )
@@ -599,13 +598,15 @@ class MenuOption:
                     save.load_json(menu.lien_graphisme) != menu.graphisme
                     or save.load_json(menu.lien_controle) != menu.controle
                     or save.load_json(menu.lien_langue) != menu.langue_option
-                ) and menu.langue_popup[menu.menu_langue][3][0] == MenuChoix.main(
+                ) and menu.traduction[menu.menu_langue]["popup"][3][
+                    0
+                ] == MenuChoix.main(
                     clavier,
                     souris,
                     screen.copy(),
                     assembleur.cadre((250, 250), (125, 125, 125), (100, 100, 100), 5),
-                    menu.langue_popup[menu.menu_langue][2],
-                    menu.langue_popup[menu.menu_langue][3],
+                    menu.traduction[menu.menu_langue]["popup"][2],
+                    menu.traduction[menu.menu_langue]["popup"][3],
                 ):
                     save.save_json(menu.lien_graphisme, menu.graphisme)
                     save.save_json(menu.lien_controle, menu.controle)
