@@ -121,7 +121,7 @@ class Zone:
         """defini les coordonées de l'objet"""
         self.coordonnee = valu
 
-    def set_size(self, valu : tuple[int,int]):
+    def set_size(self, valu: tuple[int, int]):
         """defini la taille de l'objet"""
         self.__taille = valu
 
@@ -208,8 +208,8 @@ class ObjetGraphique(Zone):
         self,
         coordonnee: list,
         texture: list[str, Image, pygame.Surface],
-        taille,
-        animation=0,
+        taille: tuple[int, int],
+        animation: int = 0,
     ):
         super().__init__(coordonnee, taille)
         self.texture: list[Image] = []
