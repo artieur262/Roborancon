@@ -8,7 +8,7 @@ from interface.graphique import (
     ObjetGraphique,
     Zone,
     place_texte_in_texture,
-    gener_texture,
+    genere_texture,
 )
 from interface.actualisation_pygame import actualise_event, change_fullscreen
 from interface.bouton import BoutonText
@@ -54,7 +54,7 @@ class Save:
         self.graphique = ObjetGraphique(
             coordonnee,
             [
-                gener_texture((850, 50), couleur)
+                genere_texture((850, 50), couleur)
                 for couleur in (
                     (175, 175, 175),
                     (125, 125, 125),
@@ -72,7 +72,7 @@ class Save:
             for image in self.graphique.texture:
                 image.texture.blit(
                     place_texte_in_texture(
-                        gener_texture(taille, (75, 75, 75)),
+                        genere_texture(taille, (75, 75, 75)),
                         texte,
                         pygame.font.SysFont("monospace", 20),
                         (255, 255, 255),
@@ -174,7 +174,7 @@ class MenuSave:
             (0, 0),
             [
                 place_texte_in_texture(
-                    gener_texture((800, 50), (0, 0, 0, 0)),
+                    genere_texture((800, 50), (0, 0, 0, 0)),
                     titre_str,
                     pygame.font.Font(None, 36),
                     (255, 255, 255),
@@ -186,7 +186,7 @@ class MenuSave:
         # en tête
         self.en_tete = ObjetGraphique(
             (0, 0),
-            [gener_texture((870, 50), (135, 135, 135))],
+            [genere_texture((870, 50), (135, 135, 135))],
             (870, 50),
         )
         for indice_texte, pos, taille in (
@@ -198,7 +198,7 @@ class MenuSave:
 
             self.en_tete.texture[0].texture.blit(
                 place_texte_in_texture(
-                    gener_texture(taille, (50, 50, 50)),
+                    genere_texture(taille, (50, 50, 50)),
                     self.traduction[langue]["en_tete"][indice_texte],
                     pygame.font.SysFont("monospace", 20),
                     (255, 255, 255),
@@ -210,15 +210,15 @@ class MenuSave:
         self.barscroll = ScrollBar(
             [0, 0],
             (20, 450),
-            gener_texture((20, 450), (125, 125, 125)),
-            gener_texture((14, 100), (100, 100, 100)),
+            genere_texture((20, 450), (125, 125, 125)),
+            genere_texture((14, 100), (100, 100, 100)),
             100,
             "vertical",
         )
 
         # sauvegarde
         self.actualise_save()
-        self.surfaces_save = gener_texture((850, 450), (50, 50, 50))
+        self.surfaces_save = genere_texture((850, 450), (50, 50, 50))
         self.zone_save = Zone((0, 0), (850, 450))
 
         # génération bouton

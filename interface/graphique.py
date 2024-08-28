@@ -91,6 +91,12 @@ class Image:
             emplacement = (position[0] - self.ancre[0], position[1] - self.ancre[1])
             surface.blit(self.texture, emplacement)
 
+    def ajoute_image(self, image: "Image", position: tuple[int, int]):
+        """ajoute une image sur l'image"""
+        image.afficher(
+            (position[0] + self.ancre[0], position[1] + self.ancre[1]), self.texture
+        )
+
 
 class Zone:
     """class pour gérer les zones"""
@@ -260,7 +266,7 @@ class ObjetGraphique(Zone):
         return False
 
 
-def gener_texture(taille: tuple[int, int], color: tuple) -> pygame.Surface:
+def genere_texture(taille: tuple[int, int], color: tuple) -> pygame.Surface:
     """génere une texture rectangulaire
 
     Args:

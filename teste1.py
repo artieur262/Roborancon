@@ -1,6 +1,6 @@
 import pygame
 
-from interface.graphique import screen, place_texte_in_texture, gener_texture
+from interface.graphique import screen, place_texte_in_texture, genere_texture
 from interface.actualisation_pygame import actualise_event, change_fullscreen
 from interface.class_clavier import Clavier, Souris
 from interface.scrolling_bar import ScrollBar
@@ -14,21 +14,21 @@ def main():
     scrollbar1 = ScrollBar(
         (100, 100),
         (20, 200),
-        gener_texture((1, 1), (125, 125, 125)),
-        gener_texture((1, 1), (175, 175, 175)),
+        genere_texture((1, 1), (125, 125, 125)),
+        genere_texture((1, 1), (175, 175, 175)),
         50,
         "vertical",
     )
     scrollbar2 = ScrollBar(
         (200, 100),
         (200, 20),
-        gener_texture((1, 1), (125, 125, 125)),
-        gener_texture((1, 1), (175, 175, 175)),
+        genere_texture((1, 1), (125, 125, 125)),
+        genere_texture((1, 1), (175, 175, 175)),
         50,
         "horizontal",
     )
-    indicateur1 = gener_texture((300, 50), (230, 230, 230))
-    indicateur2 = gener_texture((300, 50), (230, 230, 230))
+    indicateur1 = genere_texture((300, 50), (230, 230, 230))
+    indicateur2 = genere_texture((300, 50), (230, 230, 230))
 
     while True:
         event_autre = actualise_event(clavier, souris)

@@ -11,7 +11,7 @@ from interface.graphique import (
     screen,
     place_texte_in_texture,
     vider_affichage,
-    gener_texture,
+    genere_texture,
 )
 from interface.bouton import Bouton
 
@@ -166,21 +166,21 @@ class StartMenu:
         """fonction principale"""
         taille_bouton = (200, 50)
         texture_bouton = [
-            gener_texture(taille_bouton, (175, 175, 175)) for _ in range(2)
+            genere_texture(taille_bouton, (175, 175, 175)) for _ in range(2)
         ]
         texture_bouton[0].blit(
-            gener_texture(
+            genere_texture(
                 (taille_bouton[0] - 10, taille_bouton[1] - 10), (150, 150, 150)
             ),
             (5, 5),
         )
         texture_bouton[1].blit(
-            gener_texture(
+            genere_texture(
                 (taille_bouton[0] - 10, taille_bouton[1] - 10), (100, 100, 100)
             ),
             (5, 5),
         )
-        fond = gener_texture((150, 150), (200, 200, 200))
+        fond = genere_texture((150, 150), (200, 200, 200))
         fond = "textures/charançon2.png"
         start_menu = StartMenu(fond, texture_bouton, taille_bouton, langue)
         encours = True

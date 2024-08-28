@@ -11,7 +11,7 @@ from interface.graphique import (
     ObjetGraphique,
     Image,
     screen,
-    gener_texture,
+    genere_texture,
     place_texte_in_texture,
     decoupe_texte,
 )
@@ -53,7 +53,7 @@ class MenuChoix:
             * 50,
         )
         self.__zone_texte = ObjetGraphique(
-            (0, 0), [gener_texture(taille_zone_texte, (0, 0, 0, 0))], taille_zone_texte
+            (0, 0), [genere_texture(taille_zone_texte, (0, 0, 0, 0))], taille_zone_texte
         )
         self.__zone_texte.texture[0].texture = place_texte_in_texture(
             self.__zone_texte.texture[0].texture, texte, police_texte, (0, 0, 0)

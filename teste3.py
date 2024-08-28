@@ -1,5 +1,5 @@
 import pygame
-from interface.graphique import screen, gener_texture
+from interface.graphique import screen, genere_texture
 from menu.menu_entretext import MenuEntreText
 from interface.class_clavier import Clavier, Souris
 from textures import assembleur

@@ -4,7 +4,7 @@ from interface.actualisation_pygame import actualise_event
 from interface.graphique import screen
 from interface.bouton import BoutonText
 from interface.class_clavier import Clavier, Souris
-from interface.graphique import ObjetGraphique, gener_texture, place_texte_in_texture
+from interface.graphique import ObjetGraphique, genere_texture, place_texte_in_texture
 from interface.actualisation_pygame import change_fullscreen
 
 from textures import assembleur
@@ -46,7 +46,7 @@ class MenuChangeTouche:
             (450, 450),
         )
         self.zone_texte = ObjetGraphique(
-            (0, 0), [gener_texture((430, 150), (0, 0, 0, 0))], (430, 150)
+            (0, 0), [genere_texture((430, 150), (0, 0, 0, 0))], (430, 150)
         )
         self.zone_texte.texture[0].texture = place_texte_in_texture(
             self.zone_texte.texture[0].texture,
@@ -305,7 +305,6 @@ class MenuChoixLangue:
             "texte": "Please choose your language",
         },
     }
-    
 
     def __init__(
         self,
@@ -325,7 +324,7 @@ class MenuChoixLangue:
             (450, 450),
         )
         self.zone_texte = ObjetGraphique(
-            (0, 0), [gener_texture((430, 150), (0, 0, 0, 0))], (430, 150)
+            (0, 0), [genere_texture((430, 150), (0, 0, 0, 0))], (430, 150)
         )
         self.zone_texte.texture[0].texture = place_texte_in_texture(
             self.zone_texte.texture[0].texture,

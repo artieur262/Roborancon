@@ -4,7 +4,7 @@ from interface.actualisation_pygame import change_fullscreen
 from interface.graphique import (
     ObjetGraphique,
     Image,
-    gener_texture,
+    genere_texture,
     place_texte_in_texture,
     decoupe_texte,
 )
@@ -58,7 +58,7 @@ class MenuEntreText:
             * police_titre.get_linesize(),
         )
         self.titre = ObjetGraphique(
-            (0, 0), [gener_texture(taille_titre, (0, 0, 0, 0))], taille_titre
+            (0, 0), [genere_texture(taille_titre, (0, 0, 0, 0))], taille_titre
         )
         self.titre.texture[0].texture = place_texte_in_texture(
             self.titre.texture[0].texture, titre, police_titre, (255, 255, 255)
@@ -84,7 +84,7 @@ class MenuEntreText:
         # bouton
         police_bouton = pygame.font.Font(None, 25)
         self.bouton: list[BoutonText] = []
-        for i,bouton in enumerate(self.traduction_bouton[langue]):
+        for i, bouton in enumerate(self.traduction_bouton[langue]):
             self.bouton.append(
                 BoutonText(
                     (0, 0),

@@ -10,7 +10,7 @@ il y a 3 class:
 import pygame
 from interface.graphique import (
     screen,
-    gener_texture,
+    genere_texture,
     place_texte_in_texture,
     ObjetGraphique,
 )
@@ -134,8 +134,8 @@ class MenuOption:
             (
                 "graphisme",
                 [
-                    gener_texture((1, 1), (200, 50, 50)),
-                    gener_texture((1, 1), (50, 200, 50)),
+                    genere_texture((1, 1), (200, 50, 50)),
+                    genere_texture((1, 1), (50, 200, 50)),
                 ],
                 (270, 165),
                 (150, 80),
@@ -147,8 +147,8 @@ class MenuOption:
             (
                 "graphisme",
                 [
-                    gener_texture((1, 1), (200, 50, 50)),
-                    gener_texture((1, 1), (50, 200, 50)),
+                    genere_texture((1, 1), (200, 50, 50)),
+                    genere_texture((1, 1), (50, 200, 50)),
                 ],
                 (440, 165),
                 (150, 80),
@@ -214,7 +214,7 @@ class MenuOption:
         zone_texte = (
             (
                 "graphisme",
-                [gener_texture((215, 110), (0, 0, 0, 0))],
+                [genere_texture((215, 110), (0, 0, 0, 0))],
                 (50, 150),
                 (1, 1),
                 self.traduction[self.menu_langue]["zonetexte"][0],
@@ -234,7 +234,7 @@ class MenuOption:
             ),
             (
                 "langue",
-                [gener_texture((800, 75), (0, 0, 0, 0))],
+                [genere_texture((800, 75), (0, 0, 0, 0))],
                 (75, 100),
                 (800, 75),
                 self.traduction[self.menu_langue]["zonetexte"][2],
