@@ -1,4 +1,4 @@
-from interface.graphique import Image, ObjetGraphique
+from interface.graphique import Image, ObjetGraphique, charge_png_dans_dossier
 
 
 class Item:
@@ -52,14 +52,20 @@ class Item:
 
 
 class Membre(Item):
-    """Classe de base pour les membres"""
+    """Classe de base pour les membres
+
+    args:
+        stats (dict): stats du membre
+        texture (str): lien du dossier contenant les textures
+
+    """
 
     def __init__(
         self,
         nom: str,
         description: str,
         icone: str,
-        texture: list[str],
+        texture: str,
         quantite: int,
         max_quantite: int,
         stats: dict,
@@ -67,8 +73,14 @@ class Membre(Item):
         super().__init__(nom, description, icone, quantite, max_quantite)
         self.stats = stats
         self.texture_lien = texture
-        self.texture = [Image(i) for i in texture]
+        self.charge_texture()
         self.etat = "normal"
+
+    def charge_texture(self):
+        """charge les textures"""
+        self.texture = [
+            Image(texture) for texture in charge_png_dans_dossier(self.texture_lien)
+        ]
 
     def get_etat(self):
         """retourne l'état"""
@@ -88,6 +100,51 @@ class Membre(Item):
             and super().__eq__(value)
             and value.stats == self.stats
         )
+
+
+class MembreSens(Membre):
+    """Classe pour les membres avec sens
+
+    agrs:
+        textures: dict[str, list[str]] dictionnaire des liens des textures
+        sens: str sens du membre
+    """
+
+    def __init__(
+        self,
+        nom: str,
+        description: str,
+        icone: str,
+        texture: dict[str],
+        quantite: int,
+        max_quantite: int,
+        stats: dict,
+        sens: str,
+    ):
+        self.sens = sens
+        super().__init__(
+            nom,
+            description,
+            icone,
+            texture,
+            quantite,
+            max_quantite,
+            stats,
+        )
+
+    def charge_texture(self):
+        """charge les textures"""
+        self.texture = [
+            Image(texture)
+            for texture in charge_png_dans_dossier(self.texture_lien[self.sens])
+        ]
+
+    def get_sens(self):
+        """retourne le sens"""
+        return self.sens
+
+    def __eq__(self, value: object) -> bool:
+        return isinstance(value, MembreSens) and super().__eq__(value)
 
 
 class Corps(Membre):

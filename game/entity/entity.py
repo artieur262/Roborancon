@@ -1,20 +1,34 @@
+import os
 import copy
 import pygame
-from interface.graphique import ObjetGraphique
+from interface.graphique import (
+    ObjetGraphique,
+    genere_texture,
+    # charge_png_dans_dossier,
+)
 
 
 class Entity(ObjetGraphique):
+    """Classe de base pour les entités
+
+    args:
+        coordonnee (tuple[int, int]): coordonnée de l'entité
+        texture (str): chemin vers le dossier contenant les images
+        taille (tuple[int, int]): taille de l'entité
+        stats (dict[str, int]): stats de l'entité
+
+    """
+
     def __init__(
         self,
         coordonnee: tuple[int, int],
-        texture: pygame.Surface | str,
         taille: tuple[int, int],
         stats: dict[str, int],
     ) -> None:
         if "vie_max" not in stats:
             print("vie_max n'est pas dans stats\ndefinition de vie_max à 100")
             stats["vie_max"] = 100
-        super().__init__(coordonnee, texture, taille)
+        super().__init__(coordonnee, [genere_texture((1, 1), (0, 0, 0))], taille)
         self.action = "rien"
         self.__stats_de_base = stats
         self.calcul_stats()

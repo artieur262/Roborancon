@@ -18,6 +18,7 @@ et 1 variable:
 
 # pylint: disable=no-member
 
+import os
 import pygame
 
 
@@ -112,6 +113,14 @@ class Zone:
 
         return self.coordonnee
 
+    def set_pos(self, valu):
+        """defini les coordonées de l'objet"""
+        self.coordonnee = valu
+
+    def add_pos(self, valu: tuple[int, int]):
+        """ajoute des coordonées à l'objet"""
+        self.coordonnee = [self.coordonnee[i] + valu[i] for i in range(2)]
+
     def get_size(self) -> tuple[int, int] | int:
         """renvoi la taille de l'objet"""
         return self.__taille
@@ -122,10 +131,6 @@ class Zone:
             self.coordonnee[0] + self.__taille[0] / 2,
             self.coordonnee[1] + self.__taille[1] / 2,
         )
-
-    def set_pos(self, valu):
-        """defini les coordonées de l'objet"""
-        self.coordonnee = valu
 
     def set_size(self, valu: tuple[int, int]):
         """defini la taille de l'objet"""
@@ -257,6 +262,7 @@ class ObjetGraphique(Zone):
             surface = screen
         if decalage is None:
             decalage = (0, 0)
+        # print(self.animation)
         if self.objet_dans_zone(decalage, surface.get_size()):
             self.texture[self.animation].afficher(
                 (self.coordonnee[0] - decalage[0], self.coordonnee[1] - decalage[1]),
@@ -285,6 +291,18 @@ def genere_texture(taille: tuple[int, int], color: tuple) -> pygame.Surface:
         image = pygame.Surface(taille, pygame.SRCALPHA)
         image.fill(color)
     return image
+
+
+def charge_png_dans_dossier(chemin: str) -> list[pygame.Surface]:
+    """Charge les images dans un dossier"""
+    dossier = os.listdir(chemin)
+    images = []
+    for ficher in dossier:
+        if len(ficher) > 4 and ficher[-4:] == ".png":
+            images.append(
+                pygame.image.load(os.path.join(chemin, ficher)).convert_alpha()
+            )
+    return images
 
 
 def decoupe_texte(

@@ -30,6 +30,7 @@ def arc_ciel(taille: list[int], decalage: int = 0):
     """génere une texture arc en ciel
     créer à cause de lgwythyr
     je n'avais pas le choix
+    (viens d'un autre projet)
 
     agrs:
         taille (list[int]) : est la taille de l'image

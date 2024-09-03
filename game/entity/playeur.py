@@ -10,13 +10,24 @@ class Playeur(Entity):
     def __init__(
         self,
         coordonnee: tuple[int, int],
-        texture: pygame.Surface | str,
         taille: tuple[int, int],
         stats: dict[str, int],
     ) -> None:
-        super().__init__(coordonnee, texture, taille, stats)
         self.membre_equipe: dict[str, Membre | None] = {"corps": None}
+        super().__init__(coordonnee, taille, stats)
         self.inventaire = Inventaire(10)
+
+    def actualise_animation(self):
+        if self.action == "rien":
+            if self.animation in (6, 3):
+                self.set_animation(0)
+            elif 1 <= self.animation < 6:
+                self.set_animation(self.animation + 1)
+        elif self.action == "marche":
+            if self.animation < 1 or self.animation > 5:
+                self.set_animation(1)
+            else:
+                self.set_animation(self.animation + 1)
 
     def equipe_membre(self, indice_iventaire, emplacement: str):
         """Équipe un item"""
@@ -35,15 +46,19 @@ class Playeur(Entity):
         super().calcul_stats()
         for membre in self.membre_equipe.values():
             if membre is not None:
-                for clee, value in membre.stats.items():
-                    if clee in self.stats:
-                        self.stats[clee] += value
+                if membre.etat == "normal":
+                    for clee, value in membre.stats.items():
+                        if clee in self.stats:
+                            if isinstance(value, (int, float)):
+                                self.stats[clee] += value
+                            else:
+                                print(f"la valeur de {clee} n'est pas un nombre")
 
     def actualise_texture(self):
         """Actualise la texture du playeur"""
-        nombre_texture = 1
+        nombre_texture = 7
         corps = self.membre_equipe["corps"]
-        taille = (100, 100)
+        taille = (64, 64)
         if not isinstance(corps, Corps):
             for i in range(nombre_texture):
                 self.texture.append(Image(genere_texture(taille, (0, 0, 0, 0))))
