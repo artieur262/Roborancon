@@ -476,7 +476,7 @@ class MenuSave:
                                 400,
                                 self.langue,
                                 self.traduction[self.langue]["menu"][1],
-                                10,
+                                20,
                                 "0123456789"
                                 + "abcdefghijklmnopqrstuvwxyz"
                                 + "ABCDEFGHIJKLMNOPQRSTUVWXYZ"

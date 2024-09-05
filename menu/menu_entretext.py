@@ -210,12 +210,14 @@ class MenuEntreText:
                 if event.key == pygame.K_BACKSPACE and len(self.texte) > 0:
                     self.change_text(self.texte[:-1])
                 elif (
-                    self.mode_liste == "whitelist"
+                    len(self.texte) < self.max_len_text
+                    and self.mode_liste == "whitelist"
                     and event.unicode in self.liste_caractere
                 ):
                     self.change_text(self.texte + event.unicode)
                 elif (
-                    self.mode_liste == "blacklist"
+                    len(self.texte) < self.max_len_text
+                    and self.mode_liste == "blacklist"
                 ) and event.unicode not in self.liste_caractere:
                     self.change_text(self.texte + event.unicode)
             elif event.type == pygame.KEYUP:

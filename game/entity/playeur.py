@@ -53,6 +53,8 @@ class Playeur(Entity):
                                 self.stats[clee] += value
                             else:
                                 print(f"la valeur de {clee} n'est pas un nombre")
+                        else:
+                            print(f"la clée {clee} n'est pas dans les stats")
 
     def actualise_texture(self):
         """Actualise la texture du playeur"""
