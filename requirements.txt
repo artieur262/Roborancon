@@ -1,0 +1,4 @@
+# Tested with Python 3.10.0 to 3.12.1
+
+# Pygame 2.5.2 give flashing screen on Windows when fullscreen
+pygame==2.5.1
