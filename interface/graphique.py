@@ -84,19 +84,21 @@ class Image:
             or coin_1_self[1] <= coin_1_zone[1] < coin_2_self[1]
         )
 
-    def afficher(self, position, surface: pygame.Surface = None):
+    def afficher(self, rotation:int=None,position:int|None=None, surface: pygame.Surface = None):
         """affiche l'image sur la fenêtre"""
         if surface is None:
             surface = screen
         if self.if_in_zone(position, (0, 0), surface.get_size()):
             emplacement = (position[0] - self.ancre[0], position[1] - self.ancre[1])
-            surface.blit(self.texture, emplacement)
+            if rotation is None:
+                surface.blit(self.texture, emplacement)
+            else: 
+                surface.blit(pygame.transform.rotate(self.texture,rotation), emplacement)
 
-    def ajoute_image(self, image: "Image", position: tuple[int, int]):
+    def ajoute_image(self, image: "Image", position: tuple[int, int],rotation:int=None):
         """ajoute une image sur l'image"""
         image.afficher(
-            (position[0] + self.ancre[0], position[1] + self.ancre[1]), self.texture
-        )
+            (position[0] + self.ancre[0], position[1] + self.ancre[1]),rotation, self.texture)
 
 
 class Zone:
@@ -231,6 +233,7 @@ class ObjetGraphique(Zone):
                 i = Image(i)
             self.texture.append(i)
         self.animation = animation
+        self.rotation=0
 
     def set_animation(self, animation: int):
         """change l'animation de l'objet"""
@@ -266,6 +269,7 @@ class ObjetGraphique(Zone):
         if self.objet_dans_zone(decalage, surface.get_size()):
             self.texture[self.animation].afficher(
                 (self.coordonnee[0] - decalage[0], self.coordonnee[1] - decalage[1]),
+                self.rotation,
                 surface,
             )
             return True
