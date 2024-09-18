@@ -1,0 +1,136 @@
+{
+ "type": "playeur",
+ "coordonnee": [
+  100,
+  100
+ ],
+ "taille": [
+  100,
+  100
+ ],
+ "stats": {
+  "vie": 100,
+  "force": 10,
+  "vitesse_min": 7,
+  "vie_max": 100
+ },
+ "vie": 100,
+ "effect": {},
+ "inventaire": {
+  "type": "inventaire",
+  "max_quantite": 10,
+  "items": []
+ },
+ "membre_equipe": {
+  "corps": {
+   "type": "corps",
+   "nom": "corps",
+   "description": "j'aime les chatons",
+   "icone": "textures/entity/playeur/corps/corps0.png",
+   "quantite": 1,
+   "max_quantite": 1,
+   "stats": {},
+   "texture": "textures/entity/playeur/corps",
+   "membre_emplacement": {
+    "tete": [
+     0,
+     0
+    ],
+    "corps": [
+     0,
+     0
+    ],
+    "bras_droit": [
+     0,
+     0
+    ],
+    "bras_gauche": [
+     0,
+     0
+    ],
+    "jambe_droit": [
+     0,
+     0
+    ],
+    "jambe_gauche": [
+     0,
+     0
+    ]
+   },
+   "ordre_affichage": [
+    "corps",
+    "tete",
+    "bras_droit",
+    "bras_gauche",
+    "jambe_droit",
+    "jambe_gauche"
+   ]
+  },
+  "tete": {
+   "type": "membre",
+   "nom": "tete",
+   "description": "j'aime les chatons",
+   "icone": "textures/entity/playeur/tete/tete0.png",
+   "quantite": 1,
+   "max_quantite": 1,
+   "stats": {},
+   "texture": "textures/entity/playeur/tete/"
+  },
+  "bras_droit": {
+   "type": "membre_sens",
+   "nom": "bras",
+   "description": "j'aime les chatons",
+   "icone": "textures/entity/playeur/bras d/bras0 d.png",
+   "quantite": 1,
+   "max_quantite": 1,
+   "stats": {},
+   "texture": {
+    "droit": "textures/entity/playeur/bras d",
+    "gauche": "textures/entity/playeur/bras g"
+   },
+   "sens": "droit"
+  },
+  "jambe_droit": {
+   "type": "membre_sens",
+   "nom": "jambe",
+   "description": "j'aime les chatons",
+   "icone": "textures/entity/playeur/jambe d/jambe0 d.png",
+   "quantite": 1,
+   "max_quantite": 1,
+   "stats": {},
+   "texture": {
+    "droit": "textures/entity/playeur/jambe d",
+    "gauche": "textures/entity/playeur/jambe g"
+   },
+   "sens": "droit"
+  },
+  "bras_gauche": {
+   "type": "membre_sens",
+   "nom": "bras",
+   "description": "j'aime les chatons",
+   "icone": "textures/entity/playeur/bras g/bras0 g.png",
+   "quantite": 1,
+   "max_quantite": 1,
+   "stats": {},
+   "texture": {
+    "droit": "textures/entity/playeur/bras d",
+    "gauche": "textures/entity/playeur/bras g"
+   },
+   "sens": "gauche"
+  },
+  "jambe_gauche": {
+   "type": "membre_sens",
+   "nom": "jambe",
+   "description": "j'aime les chatons",
+   "icone": "textures/entity/playeur/jambe g/jambe0 g.png",
+   "quantite": 1,
+   "max_quantite": 1,
+   "stats": {},
+   "texture": {
+    "droit": "textures/entity/playeur/jambe d",
+    "gauche": "textures/entity/playeur/jambe g"
+   },
+   "sens": "gauche"
+  }
+ }
+}
