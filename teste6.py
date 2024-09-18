@@ -6,7 +6,7 @@ from game.inventaire.item import Item, Membre, MembreSens, Corps
 from autre import save
 
 # pylint: disable=no-member
-def main1():
+def main():
     corps = Corps(
         "corps",
         "j'aime les chatons",
@@ -90,7 +90,7 @@ def main1():
     playeur = Playeur(
         (0, 0),
         (100, 100),
-        {"vie": 100, "force": 10, "vitesse": 10},
+        {"vie": 100, "force": 10, "vitesse_min": 7},
     )
 
     playeur.membre_equipe["corps"] = corps
@@ -101,78 +101,7 @@ def main1():
     playeur.membre_equipe["jambe_gauche"] = jambe_g
     playeur.calcul_stats()
     playeur.actualise_texture()
+    save.save_json("teste/playeur.json", playeur.convert_to_dict())
+    
 
-    playeur.action = "marche"
-    clok = pygame.time.Clock()
-    tick = 0
-    vitesse = 2
-    while True:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                exit()
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_SPACE:
-                    playeur.action = "marche" if playeur.action == "rien" else "rien"
-                if event.key == pygame.K_r:
-                    playeur.set_pos((10, 10))
-                if event.key == pygame.K_UP:
-                    vitesse += 1
-                if event.key == pygame.K_DOWN:
-                    vitesse -= 1
-
-        screen.fill((0, 0, 0))
-        if tick % 7 == 0:
-            playeur.actualise_animation()
-            if playeur.action == "marche":
-
-                playeur.add_pos((0, vitesse))
-        playeur.afficher((-100, -100))
-        pygame.display.flip()
-        clok.tick(60)
-        tick += 1
-
-def main2():
-    playeur=Playeur.genere_self(save.load_json("teste/playeur.json"))
-
-    playeur.action = "marche_bas"
-    clok = pygame.time.Clock()
-    tick = 0
-    vitesse = 2
-    action="marche"
-    sens="bas"
-    while True:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                exit()
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_SPACE:
-                    action = "marche" if action == "rien" else "rien"
-                    if action == "rien":
-                        playeur.arrete()
-                if event.key == pygame.K_r:
-                    playeur.set_pos((10, 10))
-                if event.key == pygame.K_UP:
-                    vitesse += 1
-                if event.key == pygame.K_DOWN:
-                    vitesse -= 1
-                if event.key == pygame.K_s:
-                    if sens == "bas":
-                        sens = "haut"
-                    else:
-                        sens = "bas"
-
-        screen.fill((0, 0, 0))
-        # if tick % 7 == 0:
-        #     playeur.actualise_animation(tick)
-        #     if playeur.action == "marche_bas":
-        #         playeur.add_pos((0, vitesse))
-        #     if playeur.action == "marche_haut":
-        #         playeur.add_pos((0, -vitesse))
-        playeur.actualise_animation(tick)
-        if action == "marche":
-            playeur.marche(sens,tick)
-        playeur.afficher((-100, -100))
-        pygame.display.flip()
-        clok.tick(60)
-        tick += 1
-main2()
+main()
