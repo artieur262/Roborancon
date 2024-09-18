@@ -1,4 +1,4 @@
-from game.inventaire.item import Item
+from game.inventaire.item import Item,genere_item
 
 
 class Inventaire:
@@ -63,3 +63,17 @@ class Inventaire:
             return False
         self.max_quantite = taille
         return True
+    
+    def convert_to_dict(self):
+        return {
+            "type": "inventaire",
+            "max_quantite": self.max_quantite,
+            "items": [item.convert_to_dict() for item in self.items],
+        }
+
+    @staticmethod
+    def genere_self(data: dict):
+        inventaire = Inventaire(data["max_quantite"])
+        inventaire.items = [genere_item(item) for item in data["items"]]
+        return inventaire
+    

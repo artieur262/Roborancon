@@ -1,7 +1,7 @@
 import pygame
 
 from game.entity.entity import Entity
-from game.inventaire.item import Item, Membre, Corps
+from game.inventaire.item import Item, Membre, Corps,genere_item
 from game.inventaire.inventaire import Inventaire
 from interface.graphique import Image, genere_texture
 
@@ -17,17 +17,23 @@ class Playeur(Entity):
         super().__init__(coordonnee, taille, stats)
         self.inventaire = Inventaire(10)
 
-    def actualise_animation(self):
+    def actualise_animation(self,tick:int):
         if self.action == "rien":
             if self.animation in (6, 3):
                 self.set_animation(0)
             elif 1 <= self.animation < 6:
                 self.set_animation(self.animation + 1)
-        elif self.action == "marche":
-            if self.animation < 1 or self.animation > 5:
-                self.set_animation(1)
-            else:
-                self.set_animation(self.animation + 1)
+        elif self.action[:6] == "marche" and tick % self.stats["vitesse_min"] == 0:
+            if self.action == "marche_bas":
+                if self.animation < 1 or self.animation >= 6:
+                    self.set_animation(1)
+                else:
+                    self.set_animation(self.animation + 1)
+            elif self.action == "marche_haut":
+                if self.animation <=1  or self.animation > 6:
+                    self.set_animation(6)
+                else:
+                    self.set_animation(self.animation -1)
 
     def equipe_membre(self, indice_iventaire, emplacement: str):
         """Équipe un item"""
@@ -74,3 +80,47 @@ class Playeur(Entity):
                 position = corps.membre_emplacement[clee]
                 image.ajoute_image(membre.get_texture(i), position)
             self.texture.append(image)
+    def arrete(self):
+        """Arrête le playeur"""
+        self.action = "rien"
+    
+    def marche(self, direction: str,tick:int):
+        """Fait marcher le playeur"""
+        taille_pas = 3
+
+        if tick % self.stats["vitesse_min"] == 0:   
+            if direction == "bas":
+                self.action = "marche_bas"
+                self.add_pos((0,taille_pas))
+
+            elif direction == "haut":
+                self.action = "marche_haut"
+                self.add_pos((0,-taille_pas))               
+    
+    def convert_to_dict(self):
+        sorti = super().convert_to_dict()
+        sorti["type"] = "playeur"
+        sorti["inventaire"] = self.inventaire.convert_to_dict()
+        sorti["membre_equipe"] = {
+            clee: value.convert_to_dict() if value is not None else None
+            for clee, value in self.membre_equipe.items()
+        }
+        return sorti
+
+    @staticmethod
+    def genere_self(data: dict):
+        playeur = Playeur(
+            data["coordonnee"],
+            data["taille"],
+            data["stats"],
+        )
+        playeur.inventaire = Inventaire.genere_self(data["inventaire"])
+        playeur.membre_equipe = {
+            clee: genere_item(value) if value is not None else None
+            for clee, value in data["membre_equipe"].items()
+        }
+        playeur.calcul_stats()
+        playeur.actualise_texture()
+        return playeur
+
+    

@@ -49,7 +49,25 @@ class Item:
         if isinstance(value, Item):
             return value.nom == self.nom
         return False
+    def convert_to_dict(self):
+        return {
+            "type": "item",
+            "nom": self.nom,
+            "description": self.description,
+            "icone": self.icone_lien,
+            "quantite": self.quantite,
+            "max_quantite": self.max_quantite,
+        }
 
+    @staticmethod
+    def genere_self(data: dict):
+        return Item(
+            data["nom"],
+            data["description"],
+            data["icone"],
+            data["quantite"],
+            data["max_quantite"],
+        )
 
 class Membre(Item):
     """Classe de base pour les membres
@@ -100,8 +118,25 @@ class Membre(Item):
             and super().__eq__(value)
             and value.stats == self.stats
         )
-
-
+    def convert_to_dict(self):
+        sorti= {
+            **super().convert_to_dict(),
+            "stats": self.stats,
+            "texture": self.texture_lien,
+        }
+        sorti["type"] = "membre"
+        return sorti
+    @staticmethod
+    def genere_self(data: dict):
+        return Membre(
+            data["nom"],
+            data["description"],
+            data["icone"],
+            data["texture"],
+            data["quantite"],
+            data["max_quantite"],
+            data["stats"],
+        )
 class MembreSens(Membre):
     """Classe pour les membres avec sens
 
@@ -146,7 +181,25 @@ class MembreSens(Membre):
     def __eq__(self, value: object) -> bool:
         return isinstance(value, MembreSens) and super().__eq__(value)
 
+    def convert_to_dict(self):
+        sorti= super().convert_to_dict()
+        sorti["sens"] = self.sens
+        sorti["type"] = "membre_sens"
+        return sorti
 
+
+    @staticmethod
+    def genere_self(data: dict):
+        return MembreSens(
+            data["nom"],
+            data["description"],
+            data["icone"],
+            data["texture"],
+            data["quantite"],
+            data["max_quantite"],
+            data["stats"],
+            data["sens"],
+        )
 class Corps(Membre):
     """Classe pour les corps
 
@@ -191,3 +244,41 @@ class Corps(Membre):
             and value.membre_emplacement == self.membre_emplacement
             and value.ordre_affichage == self.ordre_affichage
         )
+    
+
+    def convert_to_dict(self):
+        sorti= {
+            **super().convert_to_dict(),
+            "membre_emplacement": self.membre_emplacement,
+            "ordre_affichage": self.ordre_affichage,
+        }
+        sorti["type"] = "corps"
+        return sorti
+
+
+    @staticmethod
+    def genere_self(data: dict):
+        return Corps(
+            data["nom"],
+            data["description"],
+            data["icone"],
+            data["texture"],
+            data["quantite"],
+            data["max_quantite"],
+            data["stats"],
+            data["membre_emplacement"],
+            data["ordre_affichage"],
+        )
+    
+def genere_item(data: dict):
+    if data["type"] == "item":
+        return Item.genere_self(data)
+    if data["type"] == "membre":
+        return Membre.genere_self(data)
+    if data["type"] == "membre_sens":
+        return MembreSens.genere_self(data)
+    if data["type"] == "corps":
+        return Corps.genere_self(data)
+    else:
+        print(data)
+        raise ValueError("type inconnu")
