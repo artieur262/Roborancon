@@ -14,7 +14,10 @@ from interface.class_clavier import Clavier, Souris
 
 
 def actualise_event(clavier: Clavier, souris: Souris) -> set:
-    """actualise les événement et retourne les événement autre que les touches et les cliques"""
+    """actualise les événement et retourne les événement autre que les touches et les cliques
+    
+    return set["quitter","redimentione"]
+    """
     event_autre = set()
     souris.actualise_all_clique()
     clavier.update_all_key()

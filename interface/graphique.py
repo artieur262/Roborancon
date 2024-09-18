@@ -204,6 +204,13 @@ class Zone:
             or coin_1_self[1] <= coin_1_zone[1] < coin_2_self[1]
         )
 
+    def calcul_distace(self,zone:"Zone")->float:
+        """calcule la distance entre 2 zones"""
+        return ((self.get_center()[0]-zone.get_center()[0])**2 +
+                (self.get_center()[1]-zone.get_center()[1])**2
+               )**0.5
+        
+    
 
 class ObjetGraphique(Zone):
     """objet graphique qui a le but d'etre affiché
@@ -218,7 +225,7 @@ class ObjetGraphique(Zone):
     def __init__(
         self,
         coordonnee: list,
-        texture: list[str, Image, pygame.Surface],
+        texture: list[str, Image, pygame.Surface|tuple[str,tuple[int,int]]],
         taille: tuple[int, int],
         animation: int = 0,
     ):
@@ -227,8 +234,12 @@ class ObjetGraphique(Zone):
         for i in texture:
             if isinstance(i, str):
                 i = Image(i)
-            if isinstance(i, pygame.Surface):
+            elif isinstance(i, tuple):
+                i = Image(i[0], i[1])
+            elif isinstance(i, pygame.Surface):
                 i = Image(i)
+            
+
             self.texture.append(i)
         self.animation = animation
 

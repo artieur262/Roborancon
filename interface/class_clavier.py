@@ -92,7 +92,10 @@ class Clavier:
             del self.dict_touches[clee]
 
     def get_pression(self, clee: int):
-        """get la pression d'une touche"""
+        """get la pression d'une touche
+        
+        retrun : Literal["vien_presser", "presser", "vien_lacher", "lacher"]
+        """
         if clee in self.dict_touches:
             return self.dict_touches[clee]
         else:
