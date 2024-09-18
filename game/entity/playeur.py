@@ -23,13 +23,13 @@ class Playeur(Entity):
                 self.set_animation(0)
             elif 1 <= self.animation < 6:
                 self.set_animation(self.animation + 1)
-        elif self.action[:6] == "marche" and tick % self.stats["vitesse_min"] == 0:
-            if self.action == "marche_bas":
+        elif self.action == "marche" and tick % self.stats["vitesse_min"] == 0:
+            if self.sens == "bas":
                 if self.animation < 1 or self.animation >= 6:
                     self.set_animation(1)
                 else:
                     self.set_animation(self.animation + 1)
-            elif self.action == "marche_haut":
+            elif self.sens == "haut":
                 if self.animation <=1  or self.animation > 6:
                     self.set_animation(6)
                 else:
@@ -90,11 +90,13 @@ class Playeur(Entity):
 
         if tick % self.stats["vitesse_min"] == 0:   
             if direction == "bas":
-                self.action = "marche_bas"
+                self.sens = "bas"
+                self.action = "marche"
                 self.add_pos((0,taille_pas))
 
             elif direction == "haut":
-                self.action = "marche_haut"
+                self.sens = "haut"
+                self.action = "marche"
                 self.add_pos((0,-taille_pas))               
     
     def convert_to_dict(self):

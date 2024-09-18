@@ -34,6 +34,8 @@ class Entity(ObjetGraphique):
         self.calcul_stats()
         self.vie = self.stats["vie_max"]
         self.effect = {}
+        self.sens = "bas"
+        
 
     def calcul_stats(self):
         """Calcul les stats du joueur"""
@@ -73,3 +75,40 @@ class Entity(ObjetGraphique):
             self.vie = 0
         if self.vie > self.stats["vie_max"]:
             self.vie = self.stats["vie_max"]
+
+    def convert_to_dict(self):
+        """converti en dict"""
+        return {
+            "type": "entity",
+            "coordonnee": self.get_size(),
+            "taille": self.get_size(),
+            "stats": self.stats,
+            "vie": self.vie,
+            "effect": self.effect,
+        }
+    
+class EntityAI(Entity):
+    """Classe de base pour les entités
+
+    args:
+        coordonnee (tuple[int, int]): coordonnée de l'entité
+        texture (str): chemin vers le dossier contenant les images
+        taille (tuple[int, int]): taille de l'entité
+        stats (dict[str, int]): stats de l'entité
+
+    """
+
+    def __init__(
+        self,
+        coordonnee: tuple[int, int],
+        taille: tuple[int, int],
+        stats: dict[str, int],
+    ) -> None:
+        super().__init__(coordonnee, taille, stats)
+        self.pensee = "rien"
+
+    def pense(self):
+        """Pense"""
+        pass
+
+    
