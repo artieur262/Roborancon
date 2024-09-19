@@ -1,14 +1,16 @@
 [
     {
-        "avancer": 122,
-        "reculer": 115,
-        "gauche": 113,
-        "droite": 100
+     "courir":0,
+     "haut": 122,
+     "bas": 115,
+     "gauche": 113,
+     "droite": 100
     },
     {
-        "avancer": "z",
-        "reculer": "s",
-        "gauche": "q",
-        "droite": "d"
+     "courir":"None",
+     "haut": "z",
+     "bas": "s",
+     "gauche": "q",
+     "droite": "d"
     }
 ]

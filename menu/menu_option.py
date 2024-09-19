@@ -41,8 +41,9 @@ class MenuOption:
             "onglet": ["graphisme", "controles", "langue"],
             "bouton": ["démarrage", "activer", "sauvegarder", "par default", "quitter"],
             "touche": {
-                "avancer": "avancer",
-                "reculer": "reculer",
+                "courir":"courir",
+                "haut": "haut",
+                "bas": "bas",
                 "gauche": "gauche",
                 "droite": "droite",
             },
@@ -62,8 +63,9 @@ class MenuOption:
             "onglet": ["graphics", "controls", "language"],
             "bouton": ["start", "active", "save", "defaut", "quit"],
             "touche": {
-                "avancer": "forward",
-                "reculer": "backward",
+                "courir":"run",
+                "haut": "up",
+                "bas": "down",
                 "gauche": "left",
                 "droite": "right",
             },
