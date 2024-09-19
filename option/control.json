@@ -1,16 +1,18 @@
 [
-    {
-     "courir":0,
-     "haut": 122,
-     "bas": 115,
-     "gauche": 113,
-     "droite": 100
-    },
-    {
-     "courir":"None",
-     "haut": "z",
-     "bas": "s",
-     "gauche": "q",
-     "droite": "d"
-    }
+ {
+  "interagir": 102,
+  "courir": 1073742049,
+  "haut": 122,
+  "bas": 115,
+  "gauche": 113,
+  "droite": 100
+ },
+ {
+  "interagir": "f",
+  "courir": "shift gauche",
+  "haut": "z",
+  "bas": "s",
+  "gauche": "q",
+  "droite": "d"
+ }
 ]

@@ -41,6 +41,7 @@ class MenuOption:
             "onglet": ["graphisme", "controles", "langue"],
             "bouton": ["démarrage", "activer", "sauvegarder", "par default", "quitter"],
             "touche": {
+                "interagir": "interagir",
                 "courir":"courir",
                 "haut": "haut",
                 "bas": "bas",
@@ -63,6 +64,7 @@ class MenuOption:
             "onglet": ["graphics", "controls", "language"],
             "bouton": ["start", "active", "save", "defaut", "quit"],
             "touche": {
+                "interagir": "interact",
                 "courir":"run",
                 "haut": "up",
                 "bas": "down",
