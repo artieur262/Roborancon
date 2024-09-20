@@ -1,6 +1,6 @@
 # import pygame
 
-import teste1
+
 
 # from interface.graphique import gener_texture
 from interface.actualisation_pygame import change_fullscreen
@@ -8,7 +8,8 @@ from interface.class_clavier import Clavier, Souris
 from menu.start_menu import StartMenu
 from menu.menu_option import MenuOption
 from autre import save
-
+import teste1
+import teste5
 
 def main():
     """fonction principale"""
@@ -37,7 +38,7 @@ def main():
             if temp == "jouer":
                 action = "jeu"
         if action == "jeu":
-            teste1.main()
+            teste5.main()
             action = "menu_start"
         if action == "menu_option":
             temp = MenuOption.main(clavier, souris, langue["menu"])
