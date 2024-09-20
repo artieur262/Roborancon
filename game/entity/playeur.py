@@ -3,7 +3,7 @@ import pygame
 from game.entity.entity import Entity
 from game.inventaire.item import Item, Membre, Corps,genere_item
 from game.inventaire.inventaire import Inventaire
-from interface.graphique import Image, genere_texture
+from interface.graphique import Zone, Image, genere_texture
 
 
 class Playeur(Entity):
@@ -91,7 +91,7 @@ class Playeur(Entity):
         """Arrête le playeur"""
         self.action = "rien"
     
-    def marche(self, direction: str,tick:int):
+    def marche(self, direction: str, list_obstacle:list[Zone], tick:int):
         """Fait marcher le playeur"""
         taille_pas = self.stats["vitesse_min"]
 
@@ -99,25 +99,56 @@ class Playeur(Entity):
             if direction == "bas":
                 self.sens = "bas"
                 self.action = "marche"
-                self.add_pos((0,taille_pas))
+                self.deplacement(direction,taille_pas,list_obstacle)
 
             elif direction == "haut":
                 self.sens = "haut"
                 self.action = "marche"
-                self.add_pos((0,-taille_pas))               
-    def courir(self, direction: str,tick:int):
+                self.deplacement(direction,taille_pas,list_obstacle)        
+    def courir(self, direction: str,list_obstacle:list[Zone],tick:int):
         """Fait courir le playeur"""
         taille_pas = self.stats["vitesse_max"]
         if tick % 4 == 0:
             if direction == "bas":
                 self.sens = "bas"
                 self.action = "courir"
-                self.add_pos((0, taille_pas))
+                self.deplacement(direction,taille_pas,list_obstacle)   
 
             elif direction == "haut":
                 self.sens = "haut"
                 self.action = "courir"
-                self.add_pos((0, -taille_pas))
+                self.deplacement(direction,taille_pas,list_obstacle)   
+    
+    def deplacement(self, direction: str,distance:int,obstacle:list[Zone]):
+        """Déplace le playeur"""
+        match direction:
+            case "bas":
+                deplacement=(0, distance)
+            case "haut":
+                deplacement=(0, -distance)
+            case "gauche":
+                deplacement=(-distance, 0)
+            case "droite":
+                deplacement=(distance, 0)
+        
+        self.add_pos(deplacement)
+        colision = False
+        for zone in obstacle:
+            if self.collision(zone.get_pos(), zone.get_size()):
+                match direction:
+                    case "bas":
+                        self.set_pos((self.get_pos()[0], zone.get_pos()[1] - self.get_size()[1]))
+                    case "haut":
+                        self.set_pos((self.get_pos()[0], zone.get_pos()[1] + zone.get_size()[1]))
+                    case "gauche":
+                        self.set_pos((zone.get_pos()[0] + zone.get_size()[0], self.get_pos()[1]))
+                    case "droite":
+                        self.set_pos((zone.get_pos()[0] - self.get_size()[0], self.get_pos()[1]))
+        
+        return not colision
+
+                
+
     def convert_to_dict(self):
         sorti = super().convert_to_dict()
         sorti["type"] = "playeur"

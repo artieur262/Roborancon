@@ -37,16 +37,16 @@ class Game:
     def deplacement_playeur(self):
         if self.clavier.get_pression(self.controls["courir"])in ("presser","vien_presser"):
             if self.clavier.get_pression(self.controls["haut"])in ("presser","vien_presser"):
-                self.playeur.courir("haut",self.tick)
+                self.playeur.courir("haut",self.mur,self.tick)
             elif self.clavier.get_pression(self.controls["bas"])in ("presser","vien_presser"):
-                self.playeur.courir("bas",self.tick)
+                self.playeur.courir("bas",self.mur,self.tick)
             else:
                 self.playeur.arrete()
         else:
             if self.clavier.get_pression(self.controls["haut"])in ("presser","vien_presser"):
-                self.playeur.marche("haut",self.tick)
+                self.playeur.marche("haut",self.mur,self.tick)
             elif self.clavier.get_pression(self.controls["bas"])in ("presser","vien_presser"):
-                self.playeur.marche("bas",self.tick)
+                self.playeur.marche("bas",self.mur,self.tick)
             else:
                 self.playeur.arrete()
     def interaction(self):

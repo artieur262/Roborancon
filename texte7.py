@@ -14,10 +14,13 @@ def main():
         ,"textures/porte/porte 1 pos2.png"])
     # list_porte=[Porte((100*i1,100*i2),(100,100),["textures/porte/porte 1 pos1.png"
     #     ,"textures/porte/porte 1 pos2.png"])for i1 in range(10) for i2 in range(10)]
+    # list_mur=[Mur((100*i1,100*i2),(100,100),"textures/mur/mur1.png")for i1 in range(10) for i2 in range(10)]  
+    mur=Mur((100,300),(100,100),"textures/mur/mur1.png")
     playeur =Playeur.genere_self(save.load_json("teste/playeur.json"))
     control = save.load_json("option/control.json")[0]
     game=Game(control, playeur, [])
     game.porte.append(porte)
+    game.mur.append(mur)
     encour=True
     clook=pygame.time.Clock()
     while encour:
