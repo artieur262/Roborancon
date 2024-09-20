@@ -25,7 +25,7 @@ def main():
                                      "- droite et gauche pour changer la vitesse_max\n\n",
                                      pygame.font.Font(None, 36),(0,0,0),"haut_droit")
     list_text = [genere_texture((250,25),(0,0,0,0)) for _ in range(6)]
-    playeur.set_pos((100, 10))
+    playeur.set_pos((200, 110))
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -38,7 +38,7 @@ def main():
                 if event.key == pygame.K_h:
                     aide = not aide
                 if event.key == pygame.K_r:
-                    playeur.set_pos((100, 10))
+                    playeur.set_pos((200, 110))
                 if event.key == pygame.K_UP:
                     playeur.stats["vitesse_min"] += 1
                 if event.key == pygame.K_DOWN:
@@ -71,8 +71,11 @@ def main():
         if action == "courir":
             playeur.action = "courir"
             playeur.courir(sens,tick)
-        
-        playeur.afficher((-100, -100))
+        if playeur.get_pos()[1] > screen.get_height():
+            playeur.set_pos((200, -playeur.get_size()[1]))
+        if playeur.get_pos()[1] < -playeur.get_size()[1]:
+            playeur.set_pos((200, screen.get_height()))
+        playeur.afficher()
         list_text[0]=place_texte_in_texture(list_text[0],"action : "+action,pygame.font.Font(None, 36),(0,0,0),"haut_gauche")
         list_text[1]=place_texte_in_texture(list_text[1],"sens : "+sens,pygame.font.Font(None, 36),(0,0,0),"haut_gauche")
         list_text[2]=place_texte_in_texture(list_text[2],"vitesse_min : "+str(playeur.stats["vitesse_min"]),pygame.font.Font(None, 36),(0,0,0),"haut_gauche")
