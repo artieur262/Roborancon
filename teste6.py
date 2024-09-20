@@ -88,8 +88,8 @@ def main():
         "gauche",
     )
     playeur = Playeur(
-        (0, 0),
-        (100, 100),
+        [100, 100],
+        (64, 64),
         {"vie": 100, "force": 10, "vitesse_min": 3, "vitesse_max": 6},
     )
 
@@ -101,6 +101,8 @@ def main():
     playeur.membre_equipe["jambe_gauche"] = jambe_g
     playeur.calcul_stats()
     playeur.actualise_texture()
+    # print(playeur.coordonnee)
+    # print(playeur.convert_to_dict()["coordonnee"])
     save.save_json("teste/playeur.json", playeur.convert_to_dict())
     
 
