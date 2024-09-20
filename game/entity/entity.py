@@ -80,7 +80,7 @@ class Entity(ObjetGraphique):
         """converti en dict"""
         return {
             "type": "entity",
-            "coordonnee": self.get_size(),
+            "coordonnee": self.get_pos(),
             "taille": self.get_size(),
             "stats": self.stats,
             "vie": self.vie,
