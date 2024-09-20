@@ -13,17 +13,24 @@ class Playeur(Entity):
         taille: tuple[int, int],
         stats: dict[str, int],
     ) -> None:
+        if "vitesse_min" not in stats:
+            print("vitesse_min n'est pas dans les stats")
+            stats["vitesse_min"] = 7
+        if "vitesse_max" not in stats:
+            print("vitesse_max n'est pas dans les stats")
+            stats["vitesse_max"] = 5
         self.membre_equipe: dict[str, Membre | None] = {"corps": None}
         super().__init__(coordonnee, taille, stats)
         self.inventaire = Inventaire(10)
 
     def actualise_animation(self,tick:int):
-        if self.action == "rien":
+        if self.action == "rien" and tick%5== 0:
             if self.animation in (6, 3):
                 self.set_animation(0)
             elif 1 <= self.animation < 6:
                 self.set_animation(self.animation + 1)
-        elif self.action == "marche" and tick % self.stats["vitesse_min"] == 0:
+        elif ((self.action == "marche" and tick % 7 == 0) or
+               (self.action == "courir" and tick % 4 == 0)):
             if self.sens == "bas":
                 if self.animation < 1 or self.animation >= 6:
                     self.set_animation(1)
@@ -34,7 +41,7 @@ class Playeur(Entity):
                     self.set_animation(6)
                 else:
                     self.set_animation(self.animation -1)
-
+       
     def equipe_membre(self, indice_iventaire, emplacement: str):
         """Équipe un item"""
         item = self.inventaire.get_item(indice_iventaire)
@@ -86,9 +93,9 @@ class Playeur(Entity):
     
     def marche(self, direction: str,tick:int):
         """Fait marcher le playeur"""
-        taille_pas = 3
+        taille_pas = self.stats["vitesse_min"]
 
-        if tick % self.stats["vitesse_min"] == 0:   
+        if tick % 7 == 0:   
             if direction == "bas":
                 self.sens = "bas"
                 self.action = "marche"
@@ -98,7 +105,19 @@ class Playeur(Entity):
                 self.sens = "haut"
                 self.action = "marche"
                 self.add_pos((0,-taille_pas))               
-    
+    def courir(self, direction: str,tick:int):
+        """Fait courir le playeur"""
+        taille_pas = self.stats["vitesse_max"]
+        if tick % 4 == 0:
+            if direction == "bas":
+                self.sens = "bas"
+                self.action = "courir"
+                self.add_pos((0, taille_pas))
+
+            elif direction == "haut":
+                self.sens = "haut"
+                self.action = "courir"
+                self.add_pos((0, -taille_pas))
     def convert_to_dict(self):
         sorti = super().convert_to_dict()
         sorti["type"] = "playeur"

@@ -90,7 +90,7 @@ def main():
     playeur = Playeur(
         (0, 0),
         (100, 100),
-        {"vie": 100, "force": 10, "vitesse_min": 7},
+        {"vie": 100, "force": 10, "vitesse_min": 3, "vitesse_max": 6},
     )
 
     playeur.membre_equipe["corps"] = corps

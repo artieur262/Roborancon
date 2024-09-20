@@ -11,7 +11,8 @@
  "stats": {
   "vie": 100,
   "force": 10,
-  "vitesse_min": 7,
+  "vitesse_min": 3,
+  "vitesse_max": 6,
   "vie_max": 100
  },
  "vie": 100,
