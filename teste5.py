@@ -137,9 +137,10 @@ def main2():
     playeur.action = "marche_bas"
     clok = pygame.time.Clock()
     tick = 0
-    action="marche"
+    action="rien"
     sens="bas"
     list_text = [genere_texture((250,25),(0,0,0,0)) for _ in range(4)]
+    playeur.set_pos((100, 10))
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -150,7 +151,7 @@ def main2():
                     if action == "rien":
                         playeur.arrete()
                 if event.key == pygame.K_r:
-                    playeur.set_pos((10, 10))
+                    playeur.set_pos((100, 10))
                 if event.key == pygame.K_UP:
                     playeur.stats["vitesse_min"] += 1
                 if event.key == pygame.K_DOWN:
