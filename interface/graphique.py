@@ -365,7 +365,7 @@ def place_texte_in_texture(
         police (pygame.font.Font): est la police du texte
         color (tuple[int]): est la couleur du texte
         mode (str, optional): est le mode de placement du texte. Defaults to "centrage".
-                              ("centrage", "haut_gauche", "gauche_centre", "centrage_haut")
+                ("centrage", "haut_gauche", "gauche_centre", "haut_droit", "centrage_haut")
     Returns:
         image (pygame.Surface): est image avec son texte
     """
@@ -391,6 +391,16 @@ def place_texte_in_texture(
                 image.blit(
                     police.render(ligne, 2, color),
                     (0, i * dimention_ligne[1]),
+                )
+        case "haut_droit":
+            for i, ligne in enumerate(texte_decoupe):
+                dimention_ligne = police.size(ligne)
+                image.blit(
+                    police.render(ligne, 2, color),
+                    (
+                        dimention_image[0] - dimention_ligne[0],
+                        i * dimention_ligne[1],
+                    ),
                 )
         case "centrage_haut":
             for i, ligne in enumerate(texte_decoupe):

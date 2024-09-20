@@ -15,7 +15,16 @@ def main():
     tick = 0
     action="rien"
     sens="bas"
-    list_text = [genere_texture((250,25),(0,0,0,0)) for _ in range(4)]
+    aide=False
+    aide_text=genere_texture((400,250),(0,0,0,0))
+    aide_text=place_texte_in_texture(aide_text,"- z et s pour monter et descendre\n\n"+
+                                     "- espace pour marcher\n\n"+
+                                     "- shift pour courir\n\n"+
+                                     "- r pour reset la position\n\n"+
+                                     "- haute et bas pour changer la vitesse_min\n\n"+
+                                     "- droite et gauche pour changer la vitesse_max\n\n",
+                                     pygame.font.Font(None, 36),(0,0,0),"haut_droit")
+    list_text = [genere_texture((250,25),(0,0,0,0)) for _ in range(6)]
     playeur.set_pos((100, 10))
     while True:
         for event in pygame.event.get():
@@ -26,6 +35,8 @@ def main():
                     action = "marche" if action == "rien" else "rien"
                     if action == "rien":
                         playeur.arrete()
+                if event.key == pygame.K_h:
+                    aide = not aide
                 if event.key == pygame.K_r:
                     playeur.set_pos((100, 10))
                 if event.key == pygame.K_UP:
@@ -66,8 +77,12 @@ def main():
         list_text[1]=place_texte_in_texture(list_text[1],"sens : "+sens,pygame.font.Font(None, 36),(0,0,0),"haut_gauche")
         list_text[2]=place_texte_in_texture(list_text[2],"vitesse_min : "+str(playeur.stats["vitesse_min"]),pygame.font.Font(None, 36),(0,0,0),"haut_gauche")
         list_text[3]=place_texte_in_texture(list_text[3],"vitesse_max : "+str(playeur.stats["vitesse_max"]),pygame.font.Font(None, 36),(0,0,0),"haut_gauche")
+        list_text[4]=place_texte_in_texture(list_text[4],"tick : "+str(tick),pygame.font.Font(None, 36),(0,0,0),"haut_gauche")
+        list_text[5]=place_texte_in_texture(list_text[5],"h pour de l'aide",pygame.font.Font(None, 36),(0,0,0),"haut_gauche")                                  
         for i,text in enumerate(list_text):
             screen.blit(text,(0,25*i))
+        if aide:
+            screen.blit(aide_text,(screen.get_width()-410,0))
         pygame.display.flip()
         clok.tick(60)
         tick += 1
