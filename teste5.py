@@ -89,4 +89,5 @@ def main():
         pygame.display.flip()
         clok.tick(60)
         tick += 1
-main()
+if __name__ == "__main__":
+    main()
