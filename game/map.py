@@ -12,7 +12,7 @@ class Porte(ObjetGraphique):
         self.lien_texture = texture
         self.etat = "ferme"
 
-    def ouvre(self):
+    def ouvrir(self):
         self.etat = "ouvert"
         self.animation = 1
     
@@ -20,4 +20,9 @@ class Porte(ObjetGraphique):
         self.etat = "ferme"
         self.animation = 0
     
+    def ouvrir_fermer(self):
+        if self.etat == "ferme":
+            self.ouvrir()
+        else:
+            self.ferme()
     

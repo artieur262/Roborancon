@@ -17,7 +17,7 @@ def main():
     playeur =Playeur.genere_self(save.load_json("teste/playeur.json"))
     control = save.load_json("option/control.json")[0]
     game=Game(control, playeur, [])
-    # game.porte=list_porte
+    game.porte.append(porte)
     encour=True
     clook=pygame.time.Clock()
     while encour:

@@ -28,6 +28,7 @@ class Game:
     def actualise(self):
         self.tick+=1
         self.deplacement()
+        self.interaction()
     def deplacement(self):
         if self.mode =="libre":
             self.deplacement_playeur()
@@ -57,10 +58,11 @@ class Game:
             elif self.playeur.sens=="haut":
                 pos_p=self.playeur.get_pos()
                 zone_dection=Zone((pos_p[0],pos_p[1]+100),(50,100)) 
+           
             for porte in self.porte:
-                if porte.zone.intersect(zone_dection):
-                    porte.ouvrir()
-                    break
+                if porte.collision(zone_dection.get_pos(),zone_dection.get_size()):
+                    porte.ouvrir_fermer()
+                    
             # zone_dection
     def afficher(self):
         screen.fill((0, 0, 0))
