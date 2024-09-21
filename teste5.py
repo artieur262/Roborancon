@@ -67,10 +67,10 @@ def main():
         playeur.actualise_animation(tick)
         if action == "marche":
             playeur.action = "marche"
-            playeur.marche(sens,tick)
+            playeur.marche(sens,[],tick)
         if action == "courir":
             playeur.action = "courir"
-            playeur.courir(sens,tick)
+            playeur.courir(sens,[],tick)
         if playeur.get_pos()[1] > screen.get_height():
             playeur.set_pos((200, -playeur.get_size()[1]))
         if playeur.get_pos()[1] < -playeur.get_size()[1]:
