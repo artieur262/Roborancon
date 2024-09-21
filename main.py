@@ -8,7 +8,6 @@ from interface.class_clavier import Clavier, Souris
 from menu.start_menu import StartMenu
 from menu.menu_option import MenuOption
 from autre import save
-import teste1
 import teste5
 
 def main():
