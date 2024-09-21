@@ -97,7 +97,7 @@ class Membre(Item):
     def charge_texture(self):
         """charge les textures"""
         self.texture = [
-            Image(texture) for texture in charge_png_dans_dossier(self.texture_lien)
+            image for image in charge_png_dans_dossier(self.texture_lien)
         ]
 
     def get_etat(self):
@@ -170,7 +170,7 @@ class MembreSens(Membre):
     def charge_texture(self):
         """charge les textures"""
         self.texture = [
-            Image(texture)
+            texture
             for texture in charge_png_dans_dossier(self.texture_lien[self.sens])
         ]
 

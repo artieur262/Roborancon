@@ -3,7 +3,7 @@ import pygame
 from game.entity.entity import Entity
 from game.inventaire.item import Item, Membre, Corps,genere_item
 from game.inventaire.inventaire import Inventaire
-from interface.graphique import Zone, Image, genere_texture
+from interface.graphique import Zone, Image, genere_texture,charge_png_dans_dossier
 
 
 class Playeur(Entity):
@@ -175,4 +175,7 @@ class Playeur(Entity):
         playeur.actualise_texture()
         return playeur
 
-    
+
+class PlayeurTest(Playeur):
+    def actualise_texture(self):
+        self.texture = charge_png_dans_dossier("playeur")
