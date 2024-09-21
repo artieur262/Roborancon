@@ -20,7 +20,7 @@ et 1 variable:
 
 import os
 import pygame
-
+from autre import save
 
 class Image:
     """class pour gérer les images
@@ -313,6 +313,10 @@ def charge_png_dans_dossier(chemin: str) -> list[pygame.Surface]:
             images.append(
                 pygame.image.load(os.path.join(chemin, ficher)).convert_alpha()
             )
+    if save.chercher_ficher(chemin + "ancre.json"):
+        ancre= save.load_json(chemin +"/"+"ancre.json")
+        for i in range(len(images)):
+            images[i] = Image(images[i],ancre[i])
     return images
 
 

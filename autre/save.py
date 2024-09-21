@@ -32,6 +32,22 @@ def save_json(lien: str, contenu):
         json.dump(contenu, file, indent=1)
         # file.close()
 
+def chercher_ficher(chemin: str,nom:str):
+    """cherche un ficher dans un dossier
+
+    Args:
+        chemin (str): est le chemin du dossier
+        nom (str): est le nom du ficher
+
+    Returns:
+        bool: si le ficher est trouvé il renvoie True sinon False
+    """
+    dossier = os.listdir(chemin)
+    if nom in dossier:
+        return True
+    return False
+
+
 
 def force_input_y_or_n(texte: str):
     """cette foction va forcé l'utilisateur à entré y ou n pour sortir
