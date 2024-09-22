@@ -89,7 +89,7 @@ def main():
     )
     playeur = Playeur(
         [100, 100],
-        (64, 64),
+        (26, 26),
         {"vie": 100, "force": 10, "vitesse_min": 3, "vitesse_max": 6},
     )
 

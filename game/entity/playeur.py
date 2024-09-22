@@ -86,7 +86,9 @@ class Playeur(Entity):
                 membre = self.membre_equipe[clee]
                 position = corps.membre_emplacement[clee]
                 image.ajoute_image(membre.get_texture(i), position)
+            image.ancre=(19,35)
             self.texture.append(image)
+        
     def arrete(self):
         """Arrête le playeur"""
         self.action = "rien"
@@ -104,7 +106,15 @@ class Playeur(Entity):
             elif direction == "haut":
                 self.sens = "haut"
                 self.action = "marche"
-                self.deplacement(direction,taille_pas,list_obstacle)        
+                self.deplacement(direction,taille_pas,list_obstacle)  
+            elif direction == "gauche":
+                self.sens = "gauche"
+                self.action = "marche"
+                self.deplacement(direction,taille_pas,list_obstacle)
+            elif direction == "droite":
+                self.sens = "droite"
+                self.action = "marche"
+                self.deplacement(direction,taille_pas,list_obstacle)      
     def courir(self, direction: str,list_obstacle:list[Zone],tick:int):
         """Fait courir le playeur"""
         taille_pas = self.stats["vitesse_max"]
@@ -117,7 +127,17 @@ class Playeur(Entity):
             elif direction == "haut":
                 self.sens = "haut"
                 self.action = "courir"
-                self.deplacement(direction,taille_pas,list_obstacle)   
+                self.deplacement(direction,taille_pas,list_obstacle)
+            elif direction == "gauche":
+                self.sens = "gauche"
+                self.action = "courir"
+                self.deplacement(direction,taille_pas,list_obstacle)
+            elif direction == "droite":
+                self.sens = "droite"
+                self.action = "courir"
+                self.deplacement(direction,taille_pas,list_obstacle)
+            else:
+                print("direction non reconnue : ", direction)   
     
     def deplacement(self, direction: str,distance:int,obstacle:list[Zone]):
         """Déplace le playeur"""
@@ -178,4 +198,56 @@ class Playeur(Entity):
 
 class PlayeurTest(Playeur):
     def actualise_texture(self):
-        self.texture = charge_png_dans_dossier("playeur")
+        self.texture = charge_png_dans_dossier("textures/teste/test_playeur")
+    
+    def actualise_animation(self,tick:int):
+        if self.action == "rien" and tick%5== 0:
+            match self.sens:
+                case "bas": 
+                    self.set_animation(0)
+        
+                case "haut":
+                    self.set_animation(3)
+                case "droite":
+                    self.set_animation(6)
+                case "gauche":
+                    self.set_animation(9)
+
+        elif (self.action == "marche" and tick % 7 == 0):
+            match self.sens:
+                case "bas":
+                    self.set_animation(1)
+                case "haut":
+                    self.set_animation(4)
+                case "droite":
+                    self.set_animation(7)
+                case "gauche":
+                    self.set_animation(10)
+
+        elif (self.action == "courir" and tick % 4 == 0):
+            match self.sens:
+                case "bas":   
+                    self.set_animation(2)
+                case "haut":
+                    self.set_animation(5)
+                case "droite":
+                    self.set_animation(8)
+                case "gauche":
+                    self.set_animation(11)    
+
+
+    @staticmethod
+    def genere_self(data: dict):
+        playeur = PlayeurTest(
+            data["coordonnee"],
+            data["taille"],
+            data["stats"],
+        )
+        playeur.inventaire = Inventaire.genere_self(data["inventaire"])
+        playeur.membre_equipe = {
+            clee: genere_item(value) if value is not None else None
+            for clee, value in data["membre_equipe"].items()
+        }
+        playeur.calcul_stats()
+        playeur.actualise_texture()
+        return playeur

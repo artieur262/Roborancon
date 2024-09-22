@@ -35,18 +35,27 @@ class Game:
             self.playeur.actualise_animation(self.tick)
 
     def deplacement_playeur(self):
+        obstacle = self.mur+[porte for porte in self.porte if porte.etat=="ferme"]
         if self.clavier.get_pression(self.controls["courir"])in ("presser","vien_presser"):
             if self.clavier.get_pression(self.controls["haut"])in ("presser","vien_presser"):
-                self.playeur.courir("haut",self.mur,self.tick)
+                self.playeur.courir("haut",obstacle,self.tick)
             elif self.clavier.get_pression(self.controls["bas"])in ("presser","vien_presser"):
-                self.playeur.courir("bas",self.mur,self.tick)
+                self.playeur.courir("bas",obstacle,self.tick)
+            elif self.clavier.get_pression(self.controls["gauche"])in ("presser","vien_presser"):
+                self.playeur.courir("gauche",obstacle,self.tick)
+            elif self.clavier.get_pression(self.controls["droite"])in ("presser","vien_presser"):
+                self.playeur.courir("droite",obstacle,self.tick)
             else:
                 self.playeur.arrete()
         else:
             if self.clavier.get_pression(self.controls["haut"])in ("presser","vien_presser"):
-                self.playeur.marche("haut",self.mur,self.tick)
+                self.playeur.marche("haut",obstacle,self.tick)
             elif self.clavier.get_pression(self.controls["bas"])in ("presser","vien_presser"):
-                self.playeur.marche("bas",self.mur,self.tick)
+                self.playeur.marche("bas",obstacle,self.tick)
+            elif self.clavier.get_pression(self.controls["gauche"])in ("presser","vien_presser"):
+                self.playeur.marche("gauche",obstacle,self.tick)
+            elif self.clavier.get_pression(self.controls["droite"])in ("presser","vien_presser"):
+                self.playeur.marche("droite",obstacle,self.tick)
             else:
                 self.playeur.arrete()
     def interaction(self):
@@ -57,7 +66,7 @@ class Game:
                 zone_dection=Zone([pos_p[0],pos_p[1]+size_p[1]],(50,100))
             elif self.playeur.sens=="haut":
                 pos_p=self.playeur.get_pos()
-                zone_dection=Zone((pos_p[0],pos_p[1]+100),(50,100)) 
+                zone_dection=Zone((pos_p[0],pos_p[1]-100),(50,100)) 
            
             for porte in self.porte:
                 if porte.collision(zone_dection.get_pos(),zone_dection.get_size()):
