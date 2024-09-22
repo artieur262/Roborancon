@@ -63,11 +63,17 @@ class Game:
             if self.playeur.sens=="bas":
                 pos_p=self.playeur.get_pos()
                 size_p=self.playeur.get_size()
-                zone_dection=Zone([pos_p[0],pos_p[1]+size_p[1]],(50,100))
+                zone_dection=Zone([pos_p[0]-12,pos_p[1]+size_p[1]],(50,100))
             elif self.playeur.sens=="haut":
                 pos_p=self.playeur.get_pos()
-                zone_dection=Zone((pos_p[0],pos_p[1]-100),(50,100)) 
-           
+                zone_dection=Zone((pos_p[0]-12,pos_p[1]-100),(50,100)) 
+            elif self.playeur.sens=="gauche":
+                pos_p=self.playeur.get_pos()
+                zone_dection=Zone((pos_p[0]-100,pos_p[1]-12),(100,50))
+            elif self.playeur.sens=="droite":
+                pos_p=self.playeur.get_pos()
+                size_p=self.playeur.get_size()
+                zone_dection=Zone([pos_p[0]+size_p[0],pos_p[1]-12],(100,50))
             for porte in self.porte:
                 if porte.collision(zone_dection.get_pos(),zone_dection.get_size()):
                     porte.ouvrir_fermer()
