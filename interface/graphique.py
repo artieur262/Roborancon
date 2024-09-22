@@ -308,12 +308,13 @@ def charge_png_dans_dossier(chemin: str) -> list[Image]:
     """Charge les images dans un dossier"""
     dossier = os.listdir(chemin)
     images:list[Image] = []
+   
     for ficher in dossier:
         if len(ficher) > 4 and ficher[-4:] == ".png":
             images.append(
                 Image(pygame.image.load(os.path.join(chemin, ficher)).convert_alpha())
             )
-    if save.chercher_ficher(chemin + "ancre.json"):
+    if save.chercher_ficher(chemin , "ancre.json"):
         ancre= save.load_json(chemin +"/"+"ancre.json")
         for i in range(len(images)):
             images[i].ancre=ancre[i]
