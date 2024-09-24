@@ -21,7 +21,7 @@ class Game:
         self.controls = controls
         self.entity = entity
         self.projectille = []
-        self.mur:Mur = []
+        self.mur:list[Mur] = []
         self.porte:list[Porte] = []
         self.mode="libre"
         self.tick=0
@@ -59,37 +59,42 @@ class Game:
             else:
                 self.playeur.arrete()
     def interaction(self):
+        pos_p=self.playeur.get_pos()
+        size_p=self.playeur.get_size()
         if self.clavier.get_pression(self.controls["interagir"]) =="vien_presser":
-            if self.playeur.sens=="bas":
-                pos_p=self.playeur.get_pos()
-                size_p=self.playeur.get_size()
-                zone_dection=Zone([pos_p[0]-12,pos_p[1]+size_p[1]],(50,100))
-            elif self.playeur.sens=="haut":
-                pos_p=self.playeur.get_pos()
-                zone_dection=Zone((pos_p[0]-12,pos_p[1]-100),(50,100)) 
-            elif self.playeur.sens=="gauche":
-                pos_p=self.playeur.get_pos()
-                zone_dection=Zone((pos_p[0]-100,pos_p[1]-12),(100,50))
-            elif self.playeur.sens=="droite":
-                pos_p=self.playeur.get_pos()
-                size_p=self.playeur.get_size()
-                zone_dection=Zone([pos_p[0]+size_p[0],pos_p[1]-12],(100,50))
+            match self.playeur.sens:
+                case "bas":
+                    zone_dection=Zone([pos_p[0]-12,pos_p[1]+size_p[1]],(50,100))
+                case "haut":
+                    zone_dection=Zone((pos_p[0]-12,pos_p[1]-100),(50,100)) 
+                case "gauche":
+                    zone_dection=Zone((pos_p[0]-100,pos_p[1]-12),(100,50))
+                case "droite":
+                    zone_dection=Zone([pos_p[0]+size_p[0],pos_p[1]-12],(100,50))
+                    
             for porte in self.porte:
-                if porte.collision(zone_dection.get_pos(),zone_dection.get_size()):
+                if not porte.collision(pos_p,size_p) and porte.collision(zone_dection.get_pos(),zone_dection.get_size()):
                     porte.ouvrir_fermer()
                     
             # zone_dection
     def afficher(self):
         screen.fill((0, 0, 0))
+        list_affiche=[mur for mur in self.mur if mur.objet_dans_zone((0,0),screen.get_size())]
+        list_affiche+=[entity for entity in self.entity if entity.objet_dans_zone((0,0),screen.get_size())]
+        list_affiche+=[projectille for projectille in self.projectille if projectille.objet_dans_zone((0,0),screen.get_size())]
+        list_affiche+=[porte for porte in self.porte if porte.objet_dans_zone((0,0),screen.get_size())]
+        list_affiche.append(self.playeur)
         self.playeur.afficher()
-        for entity in self.entity:
-            entity.afficher()
-        for projectille in self.projectille:
-            projectille.afficher()
-        for mur in self.mur:
-            mur.afficher()
-        for porte in self.porte:
-            porte.afficher()
+
+        for affiche in tri_decroisant_y(list_affiche):
+            affiche.afficher()
             
         pygame.display.flip()
     
+
+def tri_decroisant_y(list:list[Zone]):
+    for i in range(len(list)):
+        for j in range(i+1,len(list)):
+            if list[i].get_pos()[1]>list[j].get_pos()[1]:
+                list[i],list[j]=list[j],list[i]
+    return list
