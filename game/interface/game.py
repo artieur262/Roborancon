@@ -86,15 +86,28 @@ class Game:
         list_affiche.append(self.playeur)
         self.playeur.afficher()
 
-        for affiche in tri_decroisant_y(list_affiche):
+        for affiche in quick_sort_y(list_affiche):
             affiche.afficher()
             
-        pygame.display.flip()
+        # pygame.display.flip()
     
 
 def tri_decroisant_y(list:list[Zone]):
     for i in range(len(list)):
         for j in range(i+1,len(list)):
-            if list[i].get_pos()[1]>list[j].get_pos()[1]:
+            if list[i].get_pos()[1]+list[i].get_size()[1]>list[j].get_pos()[1]+list[j].get_size()[1]:
                 list[i],list[j]=list[j],list[i]
     return list
+
+def quick_sort_y(list:list[Zone]):
+    if len(list)<=1:
+        return list
+    pivot=list[0]
+    list_inf=[]
+    list_sup=[]
+    for i in range(1,len(list)):
+        if list[i].get_pos()[1]+list[i].get_size()[1]<pivot.get_pos()[1]+pivot.get_size()[1]:
+            list_inf.append(list[i])
+        else:
+            list_sup.append(list[i])
+    return quick_sort_y(list_inf)+[pivot]+quick_sort_y(list_sup)
