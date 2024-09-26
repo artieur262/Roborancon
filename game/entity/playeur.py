@@ -86,7 +86,7 @@ class Playeur(Entity):
                 membre = self.membre_equipe[clee]
                 position = corps.membre_emplacement[clee]
                 image.ajoute_image(membre.get_texture(i), position)
-            image.ancre=(19,35)
+            image.ancre=(21,37)
             self.texture.append(image)
         
     def arrete(self):
