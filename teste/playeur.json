@@ -17,6 +17,7 @@
  },
  "vie": 100,
  "effect": {},
+ "id": 1,
  "inventaire": {
   "type": "inventaire",
   "max_quantite": 10,

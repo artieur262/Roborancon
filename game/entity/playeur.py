@@ -1,5 +1,6 @@
 import pygame
 
+from autre import id_gestion
 from game.entity.entity import Entity
 from game.inventaire.item import Item, Membre, Corps,genere_item
 from game.inventaire.inventaire import Inventaire
@@ -193,6 +194,9 @@ class Playeur(Entity):
         }
         playeur.calcul_stats()
         playeur.actualise_texture()
+        id_gestion.supprime_id(playeur.id)
+        playeur.id=data["id"]
+        id_gestion.ajoute_id(playeur.id)
         return playeur
 
 
@@ -250,4 +254,7 @@ class PlayeurTest(Playeur):
         }
         playeur.calcul_stats()
         playeur.actualise_texture()
+        id_gestion.supprime_id(playeur.id)
+        playeur.id=data["id"]
+        id_gestion.ajoute_id(playeur.id)
         return playeur

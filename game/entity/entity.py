@@ -1,6 +1,7 @@
 import os
 import copy
 import pygame
+from autre import id_gestion
 from interface.graphique import (
     ObjetGraphique,
     genere_texture,
@@ -29,6 +30,7 @@ class Entity(ObjetGraphique):
             print("vie_max n'est pas dans stats\ndefinition de vie_max à 100")
             stats["vie_max"] = 100
         super().__init__(coordonnee, [genere_texture((1, 1), (0, 0, 0))], taille)
+        self.id=id_gestion.genere_id()
         self.action = "rien"
         self.__stats_de_base = stats
         self.calcul_stats()
@@ -85,6 +87,7 @@ class Entity(ObjetGraphique):
             "stats": self.stats,
             "vie": self.vie,
             "effect": self.effect,
+            "id": self.id,
         }
     
 class EntityAI(Entity):

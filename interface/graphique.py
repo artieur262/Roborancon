@@ -21,7 +21,23 @@ et 1 variable:
 import os
 import pygame
 from autre import save
+class LienSpritesheet:
+    """class pour gérer les lien des spritesheet"""
+    def __init__(self, lien: str, taille: tuple[int, int]):
+        self.lien = lien
+        self.taille = taille
 
+    def get_lien(self) -> str:
+        """renvoi le lien de la spritesheet"""
+        return self.lien
+
+    def get_taille(self) -> tuple[int, int]:
+        """renvoi la taille des images"""
+        return self.taille
+
+    def decoupe(self) -> list["Image"]:
+        """decoupe la spritesheet"""
+        return decoupe_spritesheet(pygame.image.load(self.lien), self.taille)
 class Image:
     """class pour gérer les images
     avec des fonctions pour les afficher et les redimentionner
@@ -225,7 +241,7 @@ class ObjetGraphique(Zone):
     def __init__(
         self,
         coordonnee: list,
-        texture: list[str, Image, pygame.Surface|tuple[str,tuple[int,int]]],
+        texture: list[str | Image | LienSpritesheet | pygame.Surface | tuple[str,tuple[int,int]]],
         taille: tuple[int, int],
         animation: int = 0,
     ):
@@ -233,14 +249,16 @@ class ObjetGraphique(Zone):
         self.texture: list[Image] = []
         for i in texture:
             if isinstance(i, str):
-                i = Image(i)
+                self.texture.append(Image(i))
             elif isinstance(i, tuple):
-                i = Image(i[0], i[1])
+                self.texture.append(Image(i[0], i[1]))
             elif isinstance(i, pygame.Surface):
-                i = Image(i)
-            
-
-            self.texture.append(i)
+                self.texture.append(Image(i))
+            elif isinstance(i, Image):
+                self.texture.append(i)
+            elif isinstance(i, LienSpritesheet):
+                self.texture+=i.decoupe()
+        
         self.animation = animation
 
     def set_animation(self, animation: int):
@@ -320,7 +338,24 @@ def charge_png_dans_dossier(chemin: str) -> list[Image]:
             images[i].ancre=ancre[i]
     return images
 
-
+def decoupe_spritesheet(image: pygame.Surface, taille: tuple[int, int]) -> list[Image]:
+    if image.get_size()[0] % taille[0] != 0 or image.get_size()[1] % taille[1] != 0:
+        raise ValueError("la taille de l'image n'est pas un multiple de la taille")
+    images = []
+    vide=pygame.Surface(taille)
+    for y in range(image.get_size()[1] // taille[1]):
+        for x in range(image.get_size()[0] // taille[0]):
+            texture=image.subsurface(
+                        pygame.Rect(x * taille[0], y * taille[1], taille[0], taille[1]))
+            images.append(
+                Image(
+                    texture
+                    )
+                )
+            
+    
+    
+    return images
 def decoupe_texte(
     texte: str, longueur_ligne: int, police: pygame.font.Font
 ) -> list[str]:
