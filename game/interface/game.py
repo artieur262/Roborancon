@@ -2,7 +2,7 @@ import pygame
 
 from game.entity.playeur import Playeur  # [import-error]
 from game.entity.entity import Entity
-from game.map import Mur, Porte
+from game.map.map import Mur, Porte
 from interface.class_clavier import Clavier, Souris
 from interface.graphique import screen,Zone
 
@@ -79,12 +79,12 @@ class Game:
             # zone_dection
     def afficher(self):
         screen.fill((0, 0, 0))
-        list_affiche=[mur for mur in self.mur if mur.objet_dans_zone((0,0),screen.get_size())]
-        list_affiche+=[entity for entity in self.entity if entity.objet_dans_zone((0,0),screen.get_size())]
-        list_affiche+=[projectille for projectille in self.projectille if projectille.objet_dans_zone((0,0),screen.get_size())]
-        list_affiche+=[porte for porte in self.porte if porte.objet_dans_zone((0,0),screen.get_size())]
-        list_affiche.append(self.playeur)
-        self.playeur.afficher()
+        list_affiche=[mur for mur in self.mur if mur.imgage_dans_surface((0,0),screen.get_size())]
+        list_affiche+=[entity for entity in self.entity if entity.imgage_dans_surface((0,0),screen.get_size())]
+        list_affiche+=[projectille for projectille in self.projectille if projectille.imgage_dans_surface((0,0),screen.get_size())]
+        list_affiche+=[porte for porte in self.porte if porte.imgage_dans_surface((0,0),screen.get_size())]
+        if self.playeur.imgage_dans_surface((0,0),screen.get_size()):
+            list_affiche.append(self.playeur)
 
         for affiche in quick_sort_y(list_affiche):
             affiche.afficher()

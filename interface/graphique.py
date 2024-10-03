@@ -20,16 +20,17 @@ et 1 variable:
 
 import os
 import pygame
+import numpy as nup
 from autre import save
 class LienSpritesheet:
     """class pour gérer les lien des spritesheet"""
-    def __init__(self, lien: str, taille: tuple[int, int]):
-        self.lien = lien
+    def __init__(self, image:pygame.Surface, taille: tuple[int, int]):
+        self.image:pygame.Surface = image
         self.taille = taille
 
-    def get_lien(self) -> str:
+    def get_image(self) -> str:
         """renvoi le lien de la spritesheet"""
-        return self.lien
+        return self.image
 
     def get_taille(self) -> tuple[int, int]:
         """renvoi la taille des images"""
@@ -37,7 +38,30 @@ class LienSpritesheet:
 
     def decoupe(self) -> list["Image"]:
         """decoupe la spritesheet"""
-        return decoupe_spritesheet(pygame.image.load(self.lien), self.taille)
+        images = []
+        if self.image.get_size()[0] % self.taille[0] != 0 or self.image.get_size()[1] % self.taille[1] != 0:
+            raise ValueError("la taille de l'image n'est pas un multiple de la taille des images")
+        for y in range(self.image.get_size()[1] // self.taille[1]):
+            for x in range(self.image.get_size()[0] // self.taille[0]):
+                texture=self.image.subsurface(
+                            pygame.Rect(x * self.taille[0], y * self.taille[1], self.taille[0], self.taille[1]))
+                if not surfaces_egales(texture,genere_texture(self.taille,(0,0,0,0))):
+                    images.append(
+                        Image(
+                            texture
+                            )
+                        )
+        return images
+
+
+    @staticmethod
+    def asseble(list_surface:list[pygame.Surface],taille:tuple[int,int])->pygame.Surface:
+        """assemble les images"""
+        image=genere_texture(taille,(0,0,0,0))
+        for i in range(len(list_surface)):
+            image.blit(list_surface[i],(taille[0]*(i%taille[0]),taille[1]*(i//taille[0])))
+        return image
+    
 class Image:
     """class pour gérer les images
     avec des fonctions pour les afficher et les redimentionner
@@ -104,7 +128,7 @@ class Image:
         """affiche l'image sur la fenêtre"""
         if surface is None:
             surface = screen
-        if self.if_in_zone(position, (0, 0), surface.get_size()):
+        if self.if_in_zone(position, self.ancre, surface.get_size()):
             emplacement = (position[0] - self.ancre[0], position[1] - self.ancre[1])
             surface.blit(self.texture, emplacement)
 
@@ -162,8 +186,8 @@ class Zone:
 
         """
         return (
-            self.coordonnee[0] <= point[0] < self.coordonnee[0] + self.__taille[0]
-        ) and (self.coordonnee[1] <= point[1] < self.coordonnee[1] + self.__taille[1])
+            self.coordonnee[0] <= point[0] < self.coordonnee[0] + self.set_size()[0]
+        ) and (self.coordonnee[1] <= point[1] < self.coordonnee[1] + self.set_size()[1])
 
     def collision_in_axe(self, obj_pos: int, obj_size: int, axe: int) -> bool:
         """pemet de voir si un objet a une colisiont sur un plan
@@ -207,7 +231,7 @@ class Zone:
             bool: si l'objet
         """
         coin_1_self = self.coordonnee
-        coin_2_self = [self.coordonnee[i] + self.__taille[i] for i in range(2)]
+        coin_2_self = [self.get_pos()[i] + self.get_size()[i] for i in range(2)]
 
         coin_1_zone = pos_zone
         coin_2_zone = [pos_zone[0] + size_zone[0], pos_zone[1] + size_zone[1]]
@@ -269,6 +293,9 @@ class ObjetGraphique(Zone):
         """donne l'image actuel"""
         return self.texture[self.animation]
 
+    def imgage_dans_surface(self, pos_surface:tuple[int,int], taille_surface:tuple[int,int]) -> bool:
+        """permet de savoir si l'image est dans une surface"""
+        return self.image_actuel().if_in_zone(pos_surface, (0, 0), taille_surface)
     def redimentione_all_image(self, taille: tuple[int]):
         """redimentionne toute les images"""
         for image in self.texture:
@@ -292,7 +319,7 @@ class ObjetGraphique(Zone):
         if decalage is None:
             decalage = (0, 0)
         # print(self.animation)
-        if self.objet_dans_zone(decalage, surface.get_size()):
+        if self.imgage_dans_surface(decalage, surface.get_size()):
             self.texture[self.animation].afficher(
                 (self.coordonnee[0] - decalage[0], self.coordonnee[1] - decalage[1]),
                 surface,
@@ -300,6 +327,14 @@ class ObjetGraphique(Zone):
             return True
         return False
 
+def surfaces_egales(surface1 :pygame.Surface, surface2:pygame.Surface) -> bool:
+    if surface1.get_size() != surface2.get_size():
+        return False
+    # Conversion des surfaces en tableaux de pixels
+    pixels1 = pygame.surfarray.array3d(surface1)
+    pixels2 = pygame.surfarray.array3d(surface2)
+    
+    return nup.array_equal(pixels1, pixels2)
 
 def genere_texture(taille: tuple[int, int], color: tuple) -> pygame.Surface:
     """génere une texture rectangulaire
@@ -338,20 +373,7 @@ def charge_png_dans_dossier(chemin: str) -> list[Image]:
             images[i].ancre=ancre[i]
     return images
 
-def decoupe_spritesheet(image: pygame.Surface, taille: tuple[int, int]) -> list[Image]:
-    if image.get_size()[0] % taille[0] != 0 or image.get_size()[1] % taille[1] != 0:
-        raise ValueError("la taille de l'image n'est pas un multiple de la taille")
-    images = []
-    vide=pygame.Surface(taille)
-    for y in range(image.get_size()[1] // taille[1]):
-        for x in range(image.get_size()[0] // taille[0]):
-            texture=image.subsurface(
-                        pygame.Rect(x * taille[0], y * taille[1], taille[0], taille[1]))
-            images.append(
-                Image(
-                    texture
-                    )
-                )
+
             
     
     
