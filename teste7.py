@@ -4,7 +4,7 @@ from interface.actualisation_pygame import actualise_event
 
 from game.entity.playeur import Playeur ,PlayeurTest
 from game.interface.game import Game
-from game.map.map import Mur, Porte
+from game.map.composant import Mur, Porte
 
 # from game.inventaire.item import Item, Membre, MembreSens, Corps
 

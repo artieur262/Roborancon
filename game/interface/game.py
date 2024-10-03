@@ -2,7 +2,7 @@ import pygame
 
 from game.entity.playeur import Playeur  # [import-error]
 from game.entity.entity import Entity
-from game.map.map import Mur, Porte
+from game.map.composant import Mur, Porte
 from interface.class_clavier import Clavier, Souris
 from interface.graphique import screen,Zone
 
