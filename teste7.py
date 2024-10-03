@@ -4,7 +4,7 @@ from interface.actualisation_pygame import actualise_event
 
 from game.entity.playeur import Playeur ,PlayeurTest
 from game.interface.game import Game
-from game.map import Mur, Porte
+from game.map.map import Mur, Porte
 
 # from game.inventaire.item import Item, Membre, MembreSens, Corps
 
@@ -13,7 +13,7 @@ from autre import save
 # pylint: disable=no-member
 
 def main(): # pylint: disable=missing-function-docstring
-    test=True
+    test=False
     if test:
         porte=Porte((100,150),(30,10),[("textures/teste/test_porte/porte 1 pos1.png",(17,47))
             ,("textures/teste/test_porte/porte 1 pos2.png",(17,47))])
