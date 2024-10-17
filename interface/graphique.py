@@ -138,6 +138,18 @@ class Image:
             (position[0] + self.ancre[0], position[1] + self.ancre[1]), self.texture
         )
 
+    def fusionne(self, image:"Image",position:tuple)->"Image":
+        self_ancre = self.get_ancre()
+        self_size = self.get_size()
+        img_ancre = self.get_ancre()
+        img_size = self.get_size()
+        ancre=(max(self_ancre[0],img_ancre[0]),max(self_ancre[1],img_ancre[1]))
+        taille=(max(self_size[0]-self_ancre[0],position[0]+img_size[0]-img_ancre[0])+ancre[0],
+                max(self_size[1]-self_ancre[1],position[1]+img_size[1]-img_ancre[1])+ancre[1])
+        new_image=Image(pygame.Surface(taille,pygame.SRCALPHA),ancre)
+        new_image.ajoute_image(self,(0,0))
+        new_image.ajoute_image(image,position)
+        return new_image
 
 class Zone:
     """class pour gérer les zones"""
