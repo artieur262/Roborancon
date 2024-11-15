@@ -24,7 +24,10 @@ import numpy as nup
 from autre import save
 class LienSpritesheet:
     """class pour gérer les lien des spritesheet"""
-    def __init__(self, image:pygame.Surface, taille: tuple[int, int]):
+    def __init__(self, image:pygame.Surface|str, taille: tuple[int, int]):
+        if isinstance(image,str):
+            image = pygame.image.load(image)
+            image.convert()
         self.image:pygame.Surface = image
         self.taille = taille
 
