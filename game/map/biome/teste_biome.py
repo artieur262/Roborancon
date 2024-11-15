@@ -8,7 +8,7 @@ from interface.graphique import LienSpritesheet, Image
 class TesteBiome(Biome):
     def __init__(self, seed):
         random.seed(seed)
-        self.taille_grille = (20, 20)
+        self.taille_grille = (30, 18)
         self.echelle = (32,32)
         self.taille = (self.taille_grille[0]*self.echelle[0], self.taille_grille[1]*self.echelle[1])
         self.fond = pygame.Surface(self.taille, pygame.SRCALPHA)
@@ -16,8 +16,8 @@ class TesteBiome(Biome):
         self.composants:list[Composant] = []
         self.sol = []
         self.image = LienSpritesheet("textures/herbe.png",(32,32)).decoupe()
-        self.grille_fond = [["vide" for _ in range(self.taille_grille[0])] for _ in range(self.taille_grille[1])]
-        self.grille_comp = [["vide" for _ in range(self.taille_grille[0])] for _ in range(self.taille_grille[1])]
+        self.grille_fond = [["vide" for _ in range(self.taille_grille[1])] for _ in range(self.taille_grille[0])]
+        self.grille_comp = [["vide" for _ in range(self.taille_grille[1])] for _ in range(self.taille_grille[0])]
 
     def get_fond(self)->pygame.Surface:
         """Retourne le fond du biome"""
@@ -33,23 +33,25 @@ class TesteBiome(Biome):
         pos_herbe_cyan = []
         #ajout de l'herbe_cyan
         for _ in range(random.randint(1, 5)):
-            y = random.randint(0, self.taille_grille[0]-1)
-            x = random.randint(0, self.taille_grille[1]-1)
+            x = random.randint(0, self.taille_grille[0]-1)
+            y = random.randint(0, self.taille_grille[1]-1)
             self.grille_fond[x][y] = "herbe_cyan"
-            pos_herbe_cyan.append((y, x))
-        
+            pos_herbe_cyan.append((x, y))
+       
         
         
         # propagation de l'herbe_cyan
-        for _ in range(random.randint(1,10)):
+        for _ in range(random.randint(2,10)):
             for pos in pos_herbe_cyan:
                 if random.random() < 0.5:
-                    y = pos[0] + random.randint(-1, 1)
-                    x = pos[1] + random.randint(-1, 1)
-                    if 0 <= y < self.taille_grille[0] and 0 <= x < self.taille_grille[1] and (y!=0 or x!=0):
-                        self.grille_fond[x][y] = "herbe_cyan"
-                        pos_herbe_cyan.append((y, x))
+                    y = random.randint(-1, 1)
+                    x = random.randint(-1, 1)
+                    if 0 <= pos[0]+x < self.taille_grille[0] and 0 <= pos[1]+y < self.taille_grille[1] and (x!=0 or y!=0):
+                        self.grille_fond[pos[0]+x][pos[1]+y] = "herbe_cyan"
+                        pos_herbe_cyan.append((pos[0]+x, pos[1]+y))
+                    
         
+      
         # self.grille_fond[4][5] = "herbe_cyan"
         # self.grille_fond[5][4] = "herbe_cyan"
         # self.grille_fond[6][5] = "herbe_cyan"
@@ -61,12 +63,14 @@ class TesteBiome(Biome):
                     self.grille_fond[x][y] = "herbe_bleu"
 
         # ajout de l'herbe_cyan si au moin 3 autre herbe_cyan la touche 
+
         for x in range(self.taille_grille[0]):
             for y in range(self.taille_grille[1]):
                 if "herbe_bleu"==self.grille_fond[x][y]:
                     autours = self.get_autour((x,y))
                     if (sum(("herbe_cyan"==autours[1], "herbe_cyan"==autours[3], "herbe_cyan"==autours[4],"herbe_cyan"==autours[6]))>=3):
                         self.grille_fond[x][y] = "herbe_cyan"
+
         
     def genere_comp(self):
         """Génère les composants du biome"""
@@ -93,7 +97,7 @@ class TesteBiome(Biome):
     def genère_herbe(self,pos:tuple[int,int],taille:tuple[int,int])->Sol:
         """Génère de l'herbe selon l'herbe autour dans la grille"""
         autour = self.get_autour(pos)
-        debug = True
+        debug = False
         if debug:
             if self.grille_fond[pos[0]][pos[1]] == "herbe_cyan":
                 return Sol((pos[0]*self.echelle[0],pos[1]*self.echelle[1]),taille,self.image[7])
