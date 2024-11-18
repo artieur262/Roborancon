@@ -30,53 +30,53 @@ class TesteBiome(Biome):
     def genere_grille(self):
         """Génère la grille du biome"""
         
-        pos_herbe_cyan = []
-        #ajout de l'herbe_cyan
+        pos_terre_cyan = []
+        #ajout de la terre_cyan
         for _ in range(random.randint(1, 6)):
             x = random.randint(0, self.taille_grille[0]-1)
             y = random.randint(0, self.taille_grille[1]-1)
-            self.grille_fond[x][y] = "herbe_cyan"
-            pos_herbe_cyan.append((x, y))
+            self.grille_fond[x][y] = "terre_cyan"
+            pos_terre_cyan.append((x, y))
        
         
         
-        # propagation de l'herbe_cyan
+        # propagation de l'terre_cyan
         for _ in range(random.randint(2,10)):
-            for pos in pos_herbe_cyan:
+            for pos in pos_terre_cyan:
                 if random.random() < 0.5:
                     y = random.randint(-1, 1)
                     x = random.randint(-1, 1)
                     if 0 <= pos[0]+x < self.taille_grille[0] and 0 <= pos[1]+y < self.taille_grille[1] and (x!=0 or y!=0):
-                        self.grille_fond[pos[0]+x][pos[1]+y] = "herbe_cyan"
-                        pos_herbe_cyan.append((pos[0]+x, pos[1]+y))
+                        self.grille_fond[pos[0]+x][pos[1]+y] = "terre_cyan"
+                        pos_terre_cyan.append((pos[0]+x, pos[1]+y))
                     
         
       
-        # self.grille_fond[4][5] = "herbe_cyan"
-        # self.grille_fond[5][4] = "herbe_cyan"
-        # self.grille_fond[6][5] = "herbe_cyan"
+        # self.grille_fond[4][5] = "terre_cyan"
+        # self.grille_fond[5][4] = "terre_cyan"
+        # self.grille_fond[6][5] = "terre_cyan"
 
-        #place l'herbe_bleu la ou il n'y a pas de l'herbe_cyan
+        #place l'herbe_bleu la ou il n'y a pas de la terre_cyan
         for x in range(self.taille_grille[0]):
             for y in range(self.taille_grille[1]):
                 if self.grille_fond[x][y] == "vide":
                     self.grille_fond[x][y] = "herbe_bleu"
 
-        # ajout de l'herbe_cyan s'il y a 4 autre herbe_cyan qui la touche 
+        # ajout de la terre_cyan s'il y a 4 autre terre_cyan qui la touche 
 
         for x in range(self.taille_grille[0]):
             for y in range(self.taille_grille[1]):
                 if "herbe_bleu"==self.grille_fond[x][y]:
                     autours = self.get_autour((x,y))
-                    if (sum(("herbe_cyan"==autours[1], "herbe_cyan"==autours[3], "herbe_cyan"==autours[4],"herbe_cyan"==autours[6]))==4):
-                        self.grille_fond[x][y] = "herbe_cyan"
+                    if (sum(("terre_cyan"==autours[1], "terre_cyan"==autours[3], "terre_cyan"==autours[4],"terre_cyan"==autours[6]))==4):
+                        self.grille_fond[x][y] = "terre_cyan"
 
         
     def genere_comp(self):
         """Génère les composants du biome"""
         for x in range(self.taille_grille[0]):
             for y in range(self.taille_grille[1]):
-                if self.grille_fond[x][y] == "herbe_cyan":
+                if self.grille_fond[x][y] == "terre_cyan":
                     self.sol.append(self.genère_herbe((x,y),self.echelle))
                 if self.grille_fond[x][y] == "herbe_bleu":
                     self.sol.append(self.genère_herbe((x,y),self.echelle))
@@ -100,11 +100,11 @@ class TesteBiome(Biome):
         autour = self.get_autour(pos)
         debug = False
         if debug:
-            if self.grille_fond[pos[0]][pos[1]] == "herbe_cyan":
+            if self.grille_fond[pos[0]][pos[1]] == "terre_cyan":
                 return Sol((pos[0]*self.echelle[0],pos[1]*self.echelle[1]),taille,self.image[7])
             if self.grille_fond[pos[0]][pos[1]] == "herbe_bleu":
                 return Sol((pos[0]*self.echelle[0],pos[1]*self.echelle[1]),taille,self.image[10])
-        if self.grille_fond[pos[0]][pos[1]] == "herbe_cyan":
+        if self.grille_fond[pos[0]][pos[1]] == "terre_cyan":
             if "herbe_bleu"== autour[1] or "herbe_bleu"== autour[3] or "herbe_bleu"== autour[4] or "herbe_bleu"== autour[6]:
                 image=self.image[random.choice([22,23])]
                 rand=random.choice([0, 90, 180, 270])
@@ -120,48 +120,48 @@ class TesteBiome(Biome):
         elif self.grille_fond[pos[0]][pos[1]] == "herbe_bleu":
 
             #triple coin
-            if "herbe_cyan"==autour[1] and "herbe_cyan"==autour[3] and "herbe_cyan"==autour[4]:
+            if "terre_cyan"==autour[1] and "terre_cyan"==autour[3] and "terre_cyan"==autour[4]:
                 return Sol((pos[0]*self.echelle[0],pos[1]*self.echelle[1]),taille,self.image[29])
-            if "herbe_cyan"==autour[1] and "herbe_cyan"==autour[3] and "herbe_cyan"==autour[6]:
+            if "terre_cyan"==autour[1] and "terre_cyan"==autour[3] and "terre_cyan"==autour[6]:
                 return Sol((pos[0]*self.echelle[0],pos[1]*self.echelle[1]),taille,self.image[25])
-            if "herbe_cyan"==autour[1] and "herbe_cyan"==autour[4] and "herbe_cyan"==autour[6]:
+            if "terre_cyan"==autour[1] and "terre_cyan"==autour[4] and "terre_cyan"==autour[6]:
                 return Sol((pos[0]*self.echelle[0],pos[1]*self.echelle[1]),taille,self.image[33])
-            if "herbe_cyan"==autour[3] and "herbe_cyan"==autour[4] and "herbe_cyan"==autour[6]:
+            if "terre_cyan"==autour[3] and "terre_cyan"==autour[4] and "terre_cyan"==autour[6]:
                 return Sol((pos[0]*self.echelle[0],pos[1]*self.echelle[1]),taille,self.image[31])
 
             #coin inverse
-            if "herbe_cyan"==autour[1] and "herbe_cyan"==autour[3]:
+            if "terre_cyan"==autour[1] and "terre_cyan"==autour[3]:
                 return Sol((pos[0]*self.echelle[0],pos[1]*self.echelle[1]),taille,self.image[3])
-            if "herbe_cyan"==autour[1] and "herbe_cyan"==autour[4]:
+            if "terre_cyan"==autour[1] and "terre_cyan"==autour[4]:
                 return Sol((pos[0]*self.echelle[0],pos[1]*self.echelle[1]),taille,self.image[15])
-            if "herbe_cyan"==autour[4] and "herbe_cyan"==autour[6]:
+            if "terre_cyan"==autour[4] and "terre_cyan"==autour[6]:
                 return Sol((pos[0]*self.echelle[0],pos[1]*self.echelle[1]),taille,self.image[17])
-            if "herbe_cyan"==autour[3] and "herbe_cyan"==autour[6]:
+            if "terre_cyan"==autour[3] and "terre_cyan"==autour[6]:
                 return Sol((pos[0]*self.echelle[0],pos[1]*self.echelle[1]),taille,self.image[5])
             #coté
-            if "herbe_cyan"== autour[1]:
+            if "terre_cyan"== autour[1]:
                 return Sol((pos[0]*self.echelle[0],pos[1]*self.echelle[1]),taille,self.image[random.choice([8,9])])
-            if "herbe_cyan"== autour[3]:
+            if "terre_cyan"== autour[3]:
                 return Sol((pos[0]*self.echelle[0],pos[1]*self.echelle[1]),taille,self.image[random.choice([13,4])])
-            if "herbe_cyan"== autour[4]:
+            if "terre_cyan"== autour[4]:
                 return Sol((pos[0]*self.echelle[0],pos[1]*self.echelle[1]),taille,self.image[random.choice([1,16])])
-            if "herbe_cyan"== autour[6]:
+            if "terre_cyan"== autour[6]:
                 return Sol((pos[0]*self.echelle[0],pos[1]*self.echelle[1]),taille,self.image[random.choice([6,11])])
             
             #double coin
-            if "herbe_cyan"==autour[0] and "herbe_cyan"==autour[7]:
+            if "terre_cyan"==autour[0] and "terre_cyan"==autour[7]:
                 return Sol((pos[0]*self.echelle[0],pos[1]*self.echelle[1]),taille,self.image[19])
-            if "herbe_cyan"==autour[2] and "herbe_cyan"==autour[5]:
+            if "terre_cyan"==autour[2] and "terre_cyan"==autour[5]:
                 return Sol((pos[0]*self.echelle[0],pos[1]*self.echelle[1]),taille,self.image[18])
 
             #Coin 
-            if "herbe_cyan"==autour[0]:
+            if "terre_cyan"==autour[0]:
                 return Sol((pos[0]*self.echelle[0],pos[1]*self.echelle[1]),taille,self.image[14])
-            if "herbe_cyan"==autour[2]:
+            if "terre_cyan"==autour[2]:
                 return Sol((pos[0]*self.echelle[0],pos[1]*self.echelle[1]),taille,self.image[2])
-            if "herbe_cyan"==autour[5]:
+            if "terre_cyan"==autour[5]:
                 return Sol((pos[0]*self.echelle[0],pos[1]*self.echelle[1]),taille,self.image[12])
-            if "herbe_cyan"==autour[7]:
+            if "terre_cyan"==autour[7]:
                 return Sol((pos[0]*self.echelle[0],pos[1]*self.echelle[1]),taille,self.image[0])
             
             rand=random.randint(0,100)
