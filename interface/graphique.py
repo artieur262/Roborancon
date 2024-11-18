@@ -81,7 +81,7 @@ class Image:
             texture = pygame.image.load(texture)
             texture.convert()
         self.ancre: tuple[int, int] = ancre
-        self.texture: pygame.surface = texture
+        self.texture: pygame.Surface = texture
 
     def get_texture(self) -> pygame.surface:
         """retourne la texture de l'objet"""

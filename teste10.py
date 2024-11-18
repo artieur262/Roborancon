@@ -3,7 +3,9 @@ import pygame
 from interface.graphique import screen
 from game.map.biome.teste_biome import TesteBiome
 def main():
-    biome = TesteBiome(random.randint(0, 1000000))
+    seed=random.randint(0,100000)
+    print("seed: " +str(seed))
+    biome = TesteBiome(seed)
     biome.genere_grille()
     biome.genere_comp()
     

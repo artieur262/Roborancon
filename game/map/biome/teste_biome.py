@@ -32,7 +32,7 @@ class TesteBiome(Biome):
         
         pos_herbe_cyan = []
         #ajout de l'herbe_cyan
-        for _ in range(random.randint(1, 5)):
+        for _ in range(random.randint(1, 6)):
             x = random.randint(0, self.taille_grille[0]-1)
             y = random.randint(0, self.taille_grille[1]-1)
             self.grille_fond[x][y] = "herbe_cyan"
@@ -62,13 +62,13 @@ class TesteBiome(Biome):
                 if self.grille_fond[x][y] == "vide":
                     self.grille_fond[x][y] = "herbe_bleu"
 
-        # ajout de l'herbe_cyan si au moin 3 autre herbe_cyan la touche 
+        # ajout de l'herbe_cyan s'il y a 4 autre herbe_cyan qui la touche 
 
         for x in range(self.taille_grille[0]):
             for y in range(self.taille_grille[1]):
                 if "herbe_bleu"==self.grille_fond[x][y]:
                     autours = self.get_autour((x,y))
-                    if (sum(("herbe_cyan"==autours[1], "herbe_cyan"==autours[3], "herbe_cyan"==autours[4],"herbe_cyan"==autours[6]))>=3):
+                    if (sum(("herbe_cyan"==autours[1], "herbe_cyan"==autours[3], "herbe_cyan"==autours[4],"herbe_cyan"==autours[6]))==4):
                         self.grille_fond[x][y] = "herbe_cyan"
 
         
@@ -94,6 +94,7 @@ class TesteBiome(Biome):
                 elif x!=0 or y!=0:
                     autour.append("border")
         return autour
+    
     def genère_herbe(self,pos:tuple[int,int],taille:tuple[int,int])->Sol:
         """Génère de l'herbe selon l'herbe autour dans la grille"""
         autour = self.get_autour(pos)
@@ -105,11 +106,29 @@ class TesteBiome(Biome):
                 return Sol((pos[0]*self.echelle[0],pos[1]*self.echelle[1]),taille,self.image[10])
         if self.grille_fond[pos[0]][pos[1]] == "herbe_cyan":
             if "herbe_bleu"== autour[1] or "herbe_bleu"== autour[3] or "herbe_bleu"== autour[4] or "herbe_bleu"== autour[6]:
-                return Sol((pos[0]*self.echelle[0],pos[1]*self.echelle[1]),taille,self.image[random.choice([22,23])])
+                image=self.image[random.choice([22,23])]
+                rand=random.choice([0, 90, 180, 270])
+                return Sol((pos[0]*self.echelle[0],pos[1]*self.echelle[1]),taille,pygame.transform.rotate(image.texture,rand))
+            
             if "herbe_bleu"== autour[0] or "herbe_bleu"== autour[2] or "herbe_bleu"== autour[5] or "herbe_bleu"== autour[7]:
-                return Sol((pos[0]*self.echelle[0],pos[1]*self.echelle[1]),taille,self.image[random.choice([7,23])])
+                image=self.image[random.choice([7,23])] 
+                rand=random.choice([0, 90, 180, 270])
+                return Sol((pos[0]*self.echelle[0],pos[1]*self.echelle[1]),taille,pygame.transform.rotate(image.texture,rand))
+            
             return Sol((pos[0]*self.echelle[0],pos[1]*self.echelle[1]),taille,self.image[7])
+        
         elif self.grille_fond[pos[0]][pos[1]] == "herbe_bleu":
+
+            #triple coin
+            if "herbe_cyan"==autour[1] and "herbe_cyan"==autour[3] and "herbe_cyan"==autour[4]:
+                return Sol((pos[0]*self.echelle[0],pos[1]*self.echelle[1]),taille,self.image[29])
+            if "herbe_cyan"==autour[1] and "herbe_cyan"==autour[3] and "herbe_cyan"==autour[6]:
+                return Sol((pos[0]*self.echelle[0],pos[1]*self.echelle[1]),taille,self.image[25])
+            if "herbe_cyan"==autour[1] and "herbe_cyan"==autour[4] and "herbe_cyan"==autour[6]:
+                return Sol((pos[0]*self.echelle[0],pos[1]*self.echelle[1]),taille,self.image[33])
+            if "herbe_cyan"==autour[3] and "herbe_cyan"==autour[4] and "herbe_cyan"==autour[6]:
+                return Sol((pos[0]*self.echelle[0],pos[1]*self.echelle[1]),taille,self.image[31])
+
             #coin inverse
             if "herbe_cyan"==autour[1] and "herbe_cyan"==autour[3]:
                 return Sol((pos[0]*self.echelle[0],pos[1]*self.echelle[1]),taille,self.image[3])
@@ -119,7 +138,6 @@ class TesteBiome(Biome):
                 return Sol((pos[0]*self.echelle[0],pos[1]*self.echelle[1]),taille,self.image[17])
             if "herbe_cyan"==autour[3] and "herbe_cyan"==autour[6]:
                 return Sol((pos[0]*self.echelle[0],pos[1]*self.echelle[1]),taille,self.image[5])
-            
             #coté
             if "herbe_cyan"== autour[1]:
                 return Sol((pos[0]*self.echelle[0],pos[1]*self.echelle[1]),taille,self.image[random.choice([8,9])])
