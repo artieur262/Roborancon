@@ -56,17 +56,17 @@ class TesteBiome(Biome):
         # self.grille_fond[5][4] = "terre_cyan"
         # self.grille_fond[6][5] = "terre_cyan"
 
-        #place l'herbe_bleu la ou il n'y a pas de la terre_cyan
+        #place l'herbe_cyan la ou il n'y a pas de la terre_cyan
         for x in range(self.taille_grille[0]):
             for y in range(self.taille_grille[1]):
                 if self.grille_fond[x][y] == "vide":
-                    self.grille_fond[x][y] = "herbe_bleu"
+                    self.grille_fond[x][y] = "herbe_cyan"
 
         # ajout de la terre_cyan s'il y a 4 autre terre_cyan qui la touche 
 
         for x in range(self.taille_grille[0]):
             for y in range(self.taille_grille[1]):
-                if "herbe_bleu"==self.grille_fond[x][y]:
+                if "herbe_cyan"==self.grille_fond[x][y]:
                     autours = self.get_autour((x,y))
                     if (sum(("terre_cyan"==autours[1], "terre_cyan"==autours[3], "terre_cyan"==autours[4],"terre_cyan"==autours[6]))==4):
                         self.grille_fond[x][y] = "terre_cyan"
@@ -78,7 +78,7 @@ class TesteBiome(Biome):
             for y in range(self.taille_grille[1]):
                 if self.grille_fond[x][y] == "terre_cyan":
                     self.sol.append(self.genère_herbe((x,y),self.echelle))
-                if self.grille_fond[x][y] == "herbe_bleu":
+                if self.grille_fond[x][y] == "herbe_cyan":
                     self.sol.append(self.genère_herbe((x,y),self.echelle))
                     
         for sol in self.sol:
@@ -102,22 +102,22 @@ class TesteBiome(Biome):
         if debug:
             if self.grille_fond[pos[0]][pos[1]] == "terre_cyan":
                 return Sol((pos[0]*self.echelle[0],pos[1]*self.echelle[1]),taille,self.image[7])
-            if self.grille_fond[pos[0]][pos[1]] == "herbe_bleu":
+            if self.grille_fond[pos[0]][pos[1]] == "herbe_cyan":
                 return Sol((pos[0]*self.echelle[0],pos[1]*self.echelle[1]),taille,self.image[10])
         if self.grille_fond[pos[0]][pos[1]] == "terre_cyan":
-            if "herbe_bleu"== autour[1] or "herbe_bleu"== autour[3] or "herbe_bleu"== autour[4] or "herbe_bleu"== autour[6]:
+            if "herbe_cyan"== autour[1] or "herbe_cyan"== autour[3] or "herbe_cyan"== autour[4] or "herbe_cyan"== autour[6]:
                 image=self.image[random.choice([22,23])]
                 rand=random.choice([0, 90, 180, 270])
                 return Sol((pos[0]*self.echelle[0],pos[1]*self.echelle[1]),taille,pygame.transform.rotate(image.texture,rand))
             
-            if "herbe_bleu"== autour[0] or "herbe_bleu"== autour[2] or "herbe_bleu"== autour[5] or "herbe_bleu"== autour[7]:
+            if "herbe_cyan"== autour[0] or "herbe_cyan"== autour[2] or "herbe_cyan"== autour[5] or "herbe_cyan"== autour[7]:
                 image=self.image[random.choice([7,23])] 
                 rand=random.choice([0, 90, 180, 270])
                 return Sol((pos[0]*self.echelle[0],pos[1]*self.echelle[1]),taille,pygame.transform.rotate(image.texture,rand))
             
             return Sol((pos[0]*self.echelle[0],pos[1]*self.echelle[1]),taille,self.image[7])
         
-        elif self.grille_fond[pos[0]][pos[1]] == "herbe_bleu":
+        elif self.grille_fond[pos[0]][pos[1]] == "herbe_cyan":
 
             #triple coin
             if "terre_cyan"==autour[1] and "terre_cyan"==autour[3] and "terre_cyan"==autour[4]:
