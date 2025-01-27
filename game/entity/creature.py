@@ -145,7 +145,7 @@ class Forolo(Creature):
         info["comportement"] = comportement
         
         #stats
-        stats={"vie_max": (random.randint(90,110)+self.stats["vie_max"]+partenaire.stats["vie_max"])//3+1, "vitesse_min": 2, "vitesse_max":4,}
+        stats={"vie_max": (random.randint(90,110)+self.stats["vie_max"]+partenaire.stats["vie_max"])//3+5, "vitesse_min": 2, "vitesse_max":4,}
 
         return Forolo(self.coordonnee, self.taille, stats, info)
 
