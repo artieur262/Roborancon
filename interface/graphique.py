@@ -199,10 +199,10 @@ class Zone:
 
         retun (bool) : si le point est dans l'objet
 
-        """
+        """        
         return (
-            self.coordonnee[0] <= point[0] < self.coordonnee[0] + self.set_size()[0]
-        ) and (self.coordonnee[1] <= point[1] < self.coordonnee[1] + self.set_size()[1])
+            self.coordonnee[0] <= point[0] < self.coordonnee[0] + self.get_size()[0]
+        ) and (self.coordonnee[1] <= point[1] < self.coordonnee[1] + self.get_size()[1])
 
     def collision_in_axe(self, obj_pos: int, obj_size: int, axe: int) -> bool:
         """pemet de voir si un objet a une colisiont sur un plan

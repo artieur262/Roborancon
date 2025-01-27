@@ -119,7 +119,7 @@ class StartMenu:
     def actualise_over(self, souris):
         """actualise les boutons"""
         for bouton in self.bouton:
-            if bouton.point_dans_objet(souris.pos):
+            if bouton.point_dans_objet(souris.get_pos()):
                 bouton.animation = 1
             else:
                 bouton.animation = 0
