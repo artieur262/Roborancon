@@ -18,7 +18,7 @@ def main():
     lien_langue = "option/langue.json"
     graphisme = save.load_json(lien_graphisme)
     langue = save.load_json(lien_langue)
-    convert_text.actualise_control(save.load_json(lien_control))
+    convert_text.add_dico_and_balise(save.load_json(lien_control))
     if graphisme["fullscreen"]:
         change_fullscreen()
 

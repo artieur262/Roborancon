@@ -581,7 +581,7 @@ class MenuOption:
         save.save_json(self.lien_graphisme, self.graphisme)
         save.save_json(self.lien_controle, self.controle)
         save.save_json(self.lien_langue, self.langue_option)
-        convert_text.actualise_control(self.controle)
+        convert_text.add_dico_and_balise(self.controle)
     @staticmethod
     def main(clavier: Clavier, souris: Souris, langue: str):
         """lance le menu de démarrage"""
