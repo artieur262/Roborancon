@@ -23,6 +23,8 @@ from interface.actualisation_pygame import (
     get_fullscreen,
     change_fullscreen,
 )
+
+from interface import convert_text
 from menu.pop_up import PopUp
 from menu.sousmenu_option import MenuChangeTouche, MenuChoixLangue
 from menu.menu_choix import MenuChoix
@@ -436,8 +438,6 @@ class MenuOption:
                         case "touche":
                             # print(self.lien_controles_defaut)
                             par_default = save.load_json(self.lien_controle_defaut)
-                            print((self.controle[1][bouton.data[2]], self.controle[0][bouton.data[2]]))
-                            print(bouton.data)
                             touche = MenuChangeTouche.main(
                                 Clavier(),
                                 Souris(),
@@ -491,9 +491,7 @@ class MenuOption:
                 if bouton.point_dans_objet(self.souris.pos):
                     match bouton.data[1]:
                         case "save":
-                            save.save_json(self.lien_graphisme, self.graphisme)
-                            save.save_json(self.lien_controle, self.controle)
-                            save.save_json(self.lien_langue, self.langue_option)
+                            self.save()
                             texture = assembleur.cadre(
                                 (500, 150), (125, 125, 125), (100, 100, 100), 5
                             )
@@ -578,7 +576,12 @@ class MenuOption:
     def play(self):
         """lance le menu de démarrage"""
         return self.actualise()
-
+    def save(self):
+        """sauvegarde les options"""
+        save.save_json(self.lien_graphisme, self.graphisme)
+        save.save_json(self.lien_controle, self.controle)
+        save.save_json(self.lien_langue, self.langue_option)
+        convert_text.actualise_control(self.controle)
     @staticmethod
     def main(clavier: Clavier, souris: Souris, langue: str):
         """lance le menu de démarrage"""
@@ -614,9 +617,7 @@ class MenuOption:
                     menu.traduction[menu.menu_langue]["popup"][2],
                     menu.traduction[menu.menu_langue]["popup"][3],
                 ):
-                    save.save_json(menu.lien_graphisme, menu.graphisme)
-                    save.save_json(menu.lien_controle, menu.controle)
-                    save.save_json(menu.lien_langue, menu.langue_option)
+                    menu.save()
                 encour = False
                 temp = "quitter"
                 clavier.lacher_tout()

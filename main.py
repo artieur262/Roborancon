@@ -5,6 +5,7 @@
 # from interface.graphique import gener_texture
 from interface.actualisation_pygame import change_fullscreen
 from interface.class_clavier import Clavier, Souris
+from interface import convert_text
 from menu.start_menu import StartMenu
 from menu.menu_option import MenuOption
 from autre import save
@@ -17,6 +18,7 @@ def main():
     lien_langue = "option/langue.json"
     graphisme = save.load_json(lien_graphisme)
     langue = save.load_json(lien_langue)
+    convert_text.actualise_control(save.load_json(lien_control))
     if graphisme["fullscreen"]:
         change_fullscreen()
 

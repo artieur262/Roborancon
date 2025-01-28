@@ -86,7 +86,7 @@ def main():
         list_text[2]=place_texte_in_texture(list_text[2],"vitesse_min : "+str(playeur.stats["vitesse_min"]),pygame.font.Font(None, 36),(0,0,0),"haut_gauche")
         list_text[3]=place_texte_in_texture(list_text[3],"vitesse_max : "+str(playeur.stats["vitesse_max"]),pygame.font.Font(None, 36),(0,0,0),"haut_gauche")
         list_text[4]=place_texte_in_texture(list_text[4],"tick : "+str(tick),pygame.font.Font(None, 36),(0,0,0),"haut_gauche")
-        list_text[5]=place_texte_in_texture(list_text[5],convert_text.transforme("h pour de l'aide {{interagir}}"),pygame.font.Font(None, 36),(0,0,0),"haut_gauche")   
+        list_text[5]=place_texte_in_texture(list_text[5],"h pour de l'aide",pygame.font.Font(None, 36),(0,0,0),"haut_gauche")   
                                       
         for i,text in enumerate(list_text):
             screen.blit(text,(0,25*i))
