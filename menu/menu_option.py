@@ -436,7 +436,8 @@ class MenuOption:
                         case "touche":
                             # print(self.lien_controles_defaut)
                             par_default = save.load_json(self.lien_controle_defaut)
-
+                            print((self.controle[1][bouton.data[2]], self.controle[0][bouton.data[2]]))
+                            print(bouton.data)
                             touche = MenuChangeTouche.main(
                                 Clavier(),
                                 Souris(),
@@ -452,6 +453,7 @@ class MenuOption:
                             )
                             self.controle[1][bouton.data[2]] = touche[0]
                             self.controle[0][bouton.data[2]] = touche[1]
+                            bouton.data=(bouton.data[0],bouton.data[1],bouton.data[2],(touche[0],touche[1]))
                             bouton.set_text(
                                 touche[0], pygame.font.Font(None, 26), (0, 0, 0)
                             )
