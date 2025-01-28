@@ -1,9 +1,11 @@
 import time
 import pygame
 from interface.graphique import screen,genere_texture,place_texte_in_texture
+from interface import convert_text
 from game.entity.playeur import Playeur
 from game.inventaire.item import Item, Membre, MembreSens, Corps
 from autre import save
+
 
 # pylint: disable=no-member
 
@@ -26,11 +28,14 @@ def main():
                                      pygame.font.Font(None, 36),(0,0,0),"haut_droit")
     list_text = [genere_texture((250,25),(0,0,0,0)) for _ in range(6)]
     playeur.set_pos((200, 110))
-    while True:
+    encour=True
+    while encour:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 exit()
             if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    encour = False
                 if event.key == pygame.K_SPACE:
                     action = "marche" if action == "rien" else "rien"
                     if action == "rien":
@@ -81,7 +86,8 @@ def main():
         list_text[2]=place_texte_in_texture(list_text[2],"vitesse_min : "+str(playeur.stats["vitesse_min"]),pygame.font.Font(None, 36),(0,0,0),"haut_gauche")
         list_text[3]=place_texte_in_texture(list_text[3],"vitesse_max : "+str(playeur.stats["vitesse_max"]),pygame.font.Font(None, 36),(0,0,0),"haut_gauche")
         list_text[4]=place_texte_in_texture(list_text[4],"tick : "+str(tick),pygame.font.Font(None, 36),(0,0,0),"haut_gauche")
-        list_text[5]=place_texte_in_texture(list_text[5],"h pour de l'aide",pygame.font.Font(None, 36),(0,0,0),"haut_gauche")                                  
+        list_text[5]=place_texte_in_texture(list_text[5],convert_text.transforme("h pour de l'aide {{interagir}}"),pygame.font.Font(None, 36),(0,0,0),"haut_gauche")   
+                                      
         for i,text in enumerate(list_text):
             screen.blit(text,(0,25*i))
         if aide:
