@@ -1,4 +1,4 @@
-from interface.graphique import Image, ObjetGraphique, charge_png_dans_dossier
+from interface.graphique import Image, ObjetGraphique, charge_png_dans_dossier, LienSpritesheet
 
 
 class Item:
@@ -83,7 +83,7 @@ class Membre(Item):
         nom: str,
         description: str,
         icone: str,
-        texture: str,
+        texture: str|dict[str, str|tuple[int,int]|None],
         quantite: int,
         max_quantite: int,
         stats: dict,
@@ -96,9 +96,12 @@ class Membre(Item):
 
     def charge_texture(self):
         """charge les textures"""
-        self.texture = [
-            image for image in charge_png_dans_dossier(self.texture_lien)
-        ]
+        if isinstance(self.texture_lien, str):
+            self.texture = [
+                image for image in charge_png_dans_dossier(self.texture_lien)
+            ]
+        else:
+            self.texture = LienSpritesheet(self.texture_lien["lien"], self.texture_lien["taille"]).decoupe()
 
     def get_etat(self):
         """retourne l'état"""
