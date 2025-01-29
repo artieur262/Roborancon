@@ -83,7 +83,7 @@ class Membre(Item):
         nom: str,
         description: str,
         icone: str,
-        texture: list[str]|dict[str, str|tuple[int,int]|None],
+        texture: dict[str, str|tuple[int,int]|None],
         quantite: int,
         max_quantite: int,
         stats: dict,
@@ -97,9 +97,7 @@ class Membre(Item):
     def charge_texture(self):
         """charge les textures"""
         if isinstance(self.texture_lien, list):
-            self.texture = [
-                image for image in charge_png_dans_dossier(self.texture_lien)
-            ]
+            raise ValueError("les textures doivent être un dictionnaire")
         else:
             self.texture = LienSpritesheet(self.texture_lien["lien"], self.texture_lien["taille"]).decoupe()
 
@@ -172,14 +170,8 @@ class MembreSens(Membre):
 
     def charge_texture(self):
         """charge les textures"""
-        self.texture = [
-            texture
-            for texture in charge_png_dans_dossier(self.texture_lien[self.sens])
-        ]
-        if isinstance(self.texture_lien[self.sens], list):
-            self.texture = [
-                image for image in charge_png_dans_dossier(self.texture_lien[self.sens])
-            ]
+        if isinstance(self.texture_lien, list):
+            raise ValueError("les textures doivent être un dictionnaire")
         else:
             self.texture = LienSpritesheet(self.texture_lien[self.sens]["lien"], self.texture_lien[self.sens]["taille"]).decoupe()
 
