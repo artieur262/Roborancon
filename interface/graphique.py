@@ -62,8 +62,8 @@ class LienSpritesheet:
                             texture
                             )
                         )
-                if self.data is not None:
-                    pos:int=self.data["grille_pos"].index((x,y))
+                if self.data is not None and "grille_pos" in self.data:
+                    pos:int=self.data["grille_pos"].index([x,y])
                     if "ancre" in self.data:
                         images[-1].ancre=self.data["ancre"][pos]
         return images
