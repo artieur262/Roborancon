@@ -83,7 +83,7 @@ class Membre(Item):
         nom: str,
         description: str,
         icone: str,
-        texture: str|dict[str, str|tuple[int,int]|None],
+        texture: list[str]|dict[str, str|tuple[int,int]|None],
         quantite: int,
         max_quantite: int,
         stats: dict,
@@ -96,7 +96,7 @@ class Membre(Item):
 
     def charge_texture(self):
         """charge les textures"""
-        if isinstance(self.texture_lien, str):
+        if isinstance(self.texture_lien, list):
             self.texture = [
                 image for image in charge_png_dans_dossier(self.texture_lien)
             ]
@@ -153,7 +153,7 @@ class MembreSens(Membre):
         nom: str,
         description: str,
         icone: str,
-        texture: dict[str],
+        texture: dict[list[str]|dict[str, str|tuple[int,int]|None]],
         quantite: int,
         max_quantite: int,
         stats: dict,
@@ -176,6 +176,13 @@ class MembreSens(Membre):
             texture
             for texture in charge_png_dans_dossier(self.texture_lien[self.sens])
         ]
+        if isinstance(self.texture_lien[self.sens], list):
+            self.texture = [
+                image for image in charge_png_dans_dossier(self.texture_lien[self.sens])
+            ]
+        else:
+            self.texture = LienSpritesheet(self.texture_lien[self.sens]["lien"], self.texture_lien[self.sens]["taille"]).decoupe()
+
 
     def get_sens(self):
         """retourne le sens"""
@@ -219,7 +226,7 @@ class Corps(Membre):
         nom: str,
         description: str,
         icone: str,
-        texture: list[str],
+        texture: list[str]|dict[str, str|tuple[int,int]|None],
         quantite: int,
         max_quantite: int,
         stats: dict,
