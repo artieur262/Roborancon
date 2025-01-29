@@ -24,12 +24,20 @@ import numpy as nup
 from autre import save
 class LienSpritesheet:
     """class pour gérer les lien des spritesheet"""
-    def __init__(self, image:pygame.Surface|str, taille: tuple[int, int]):
-        if isinstance(image,str):
-            image = pygame.image.load(image)
-            image.convert()
-        self.image:pygame.Surface = image
-        self.taille = taille
+    def __init__(self, image:pygame.Surface|str, taille: tuple[int, int]|None):
+        if taille is not None:
+            if isinstance(image,str):
+                image = pygame.image.load(image)
+                image.convert()
+            self.image:pygame.Surface = image
+            self.taille = taille
+            self.data=None
+        elif isinstance(image,str):
+            self.data=save.load_json(image+".json")
+            self.image=pygame.image.load(image+".png")
+            self.image.convert()
+            self.taille=self.data["taille"]
+
 
     def get_image(self) -> str:
         """renvoi le lien de la spritesheet"""
@@ -40,7 +48,7 @@ class LienSpritesheet:
         return self.taille
 
     def decoupe(self) -> list["Image"]:
-        """decoupe la spritesheet"""
+        """decoupe la spritesheet et ajoute les données"""
         images = []
         if self.image.get_size()[0] % self.taille[0] != 0 or self.image.get_size()[1] % self.taille[1] != 0:
             raise ValueError("la taille de l'image n'est pas un multiple de la taille des images")
@@ -54,12 +62,17 @@ class LienSpritesheet:
                             texture
                             )
                         )
+                if self.data is not None and "grille_pos" in self.data:
+                    pos:int=self.data["grille_pos"].index([x,y])
+                    if "ancre" in self.data:
+                        images[-1].ancre=self.data["ancre"][pos]
         return images
 
-
     @staticmethod
-    def asseble(list_surface:list[pygame.Surface],taille:tuple[int,int])->pygame.Surface:
-        """assemble les images"""
+    def assemble(list_surface:list[pygame.Surface],taille:tuple[int,int])->pygame.Surface:
+        """assemble les images (il est un peu obsolète)
+        il y a un autre programme qui le fait en mieux 
+        """
         image=genere_texture(taille,(0,0,0,0))
         for i in range(len(list_surface)):
             image.blit(list_surface[i],(taille[0]*(i%taille[0]),taille[1]*(i//taille[0])))

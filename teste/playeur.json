@@ -32,7 +32,11 @@
    "quantite": 1,
    "max_quantite": 1,
    "stats": {},
-   "texture": "textures/entity/playeur/corps",
+   "texture": {
+    "type": "spritesheet",
+    "lien": "textures/entity/playeur/corps/corps",
+    "taille": null
+   },
    "membre_emplacement": {
     "tete": [
      0,
@@ -76,7 +80,11 @@
    "quantite": 1,
    "max_quantite": 1,
    "stats": {},
-   "texture": "textures/entity/playeur/tete/"
+   "texture": {
+    "type": "spritesheet",
+    "lien": "textures/entity/playeur/tete/tete",
+    "taille": null
+   }
   },
   "bras_droit": {
    "type": "membre_sens",
@@ -87,8 +95,16 @@
    "max_quantite": 1,
    "stats": {},
    "texture": {
-    "droit": "textures/entity/playeur/bras d",
-    "gauche": "textures/entity/playeur/bras g"
+    "droit": {
+     "type": "spritesheet",
+     "lien": "textures/entity/playeur/bras d/bras d",
+     "taille": null
+    },
+    "gauche": {
+     "type": "spritesheet",
+     "lien": "textures/entity/playeur/bras g/bras g",
+     "taille": null
+    }
    },
    "sens": "droit"
   },
@@ -101,8 +117,16 @@
    "max_quantite": 1,
    "stats": {},
    "texture": {
-    "droit": "textures/entity/playeur/jambe d",
-    "gauche": "textures/entity/playeur/jambe g"
+    "droit": {
+     "type": "spritesheet",
+     "lien": "textures/entity/playeur/jambe d/jambe d",
+     "taille": null
+    },
+    "gauche": {
+     "type": "spritesheet",
+     "lien": "textures/entity/playeur/jambe g/jambe g",
+     "taille": null
+    }
    },
    "sens": "droit"
   },
@@ -115,8 +139,16 @@
    "max_quantite": 1,
    "stats": {},
    "texture": {
-    "droit": "textures/entity/playeur/bras d",
-    "gauche": "textures/entity/playeur/bras g"
+    "droit": {
+     "type": "spritesheet",
+     "lien": "textures/entity/playeur/bras d/bras d",
+     "taille": null
+    },
+    "gauche": {
+     "type": "spritesheet",
+     "lien": "textures/entity/playeur/bras g/bras g",
+     "taille": null
+    }
    },
    "sens": "gauche"
   },
@@ -129,8 +161,16 @@
    "max_quantite": 1,
    "stats": {},
    "texture": {
-    "droit": "textures/entity/playeur/jambe d",
-    "gauche": "textures/entity/playeur/jambe g"
+    "droit": {
+     "type": "spritesheet",
+     "lien": "textures/entity/playeur/jambe d/jambe d",
+     "taille": null
+    },
+    "gauche": {
+     "type": "spritesheet",
+     "lien": "textures/entity/playeur/jambe g/jambe g",
+     "taille": null
+    }
    },
    "sens": "gauche"
   }

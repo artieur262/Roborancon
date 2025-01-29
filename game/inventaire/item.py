@@ -1,4 +1,4 @@
-from interface.graphique import Image, ObjetGraphique, charge_png_dans_dossier
+from interface.graphique import Image, ObjetGraphique, charge_png_dans_dossier, LienSpritesheet
 
 
 class Item:
@@ -83,7 +83,7 @@ class Membre(Item):
         nom: str,
         description: str,
         icone: str,
-        texture: str,
+        texture: dict[str, str|tuple[int,int]|None],
         quantite: int,
         max_quantite: int,
         stats: dict,
@@ -96,9 +96,10 @@ class Membre(Item):
 
     def charge_texture(self):
         """charge les textures"""
-        self.texture = [
-            image for image in charge_png_dans_dossier(self.texture_lien)
-        ]
+        if isinstance(self.texture_lien, list):
+            raise ValueError("les textures doivent être un dictionnaire")
+        else:
+            self.texture = LienSpritesheet(self.texture_lien["lien"], self.texture_lien["taille"]).decoupe()
 
     def get_etat(self):
         """retourne l'état"""
@@ -150,7 +151,7 @@ class MembreSens(Membre):
         nom: str,
         description: str,
         icone: str,
-        texture: dict[str],
+        texture: dict[list[str]|dict[str, str|tuple[int,int]|None]],
         quantite: int,
         max_quantite: int,
         stats: dict,
@@ -169,10 +170,11 @@ class MembreSens(Membre):
 
     def charge_texture(self):
         """charge les textures"""
-        self.texture = [
-            texture
-            for texture in charge_png_dans_dossier(self.texture_lien[self.sens])
-        ]
+        if isinstance(self.texture_lien, list):
+            raise ValueError("les textures doivent être un dictionnaire")
+        else:
+            self.texture = LienSpritesheet(self.texture_lien[self.sens]["lien"], self.texture_lien[self.sens]["taille"]).decoupe()
+
 
     def get_sens(self):
         """retourne le sens"""
@@ -216,7 +218,7 @@ class Corps(Membre):
         nom: str,
         description: str,
         icone: str,
-        texture: list[str],
+        texture: list[str]|dict[str, str|tuple[int,int]|None],
         quantite: int,
         max_quantite: int,
         stats: dict,

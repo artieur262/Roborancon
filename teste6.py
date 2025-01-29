@@ -11,7 +11,11 @@ def main():
         "corps",
         "j'aime les chatons",
         "textures/entity/playeur/corps/corps0.png",
-        "textures/entity/playeur/corps",
+        {
+            "type": "spritesheet",
+            "lien": "textures/entity/playeur/corps/corps",
+            "taille": None,
+         },
         1,
         1,
         {},
@@ -29,7 +33,11 @@ def main():
         "tete",
         "j'aime les chatons",
         "textures/entity/playeur/tete/tete0.png",
-        "textures/entity/playeur/tete/",
+        {
+            "type": "spritesheet",
+            "lien": "textures/entity/playeur/tete/tete",
+            "taille": None,
+        },
         1,
         1,
         {},
@@ -40,7 +48,11 @@ def main():
         "j'aime les chatons",
         "textures/entity/playeur/bras d/bras0 d.png",
         {
-            sens: f"textures/entity/playeur/bras {lettre}"
+            sens: {
+                "type": "spritesheet",
+                "lien":f"textures/entity/playeur/bras {lettre}/bras {lettre}",
+                "taille": None,
+                }
             for lettre, sens in zip(("d", "g"), ("droit", "gauche"))
         },
         1,
@@ -53,7 +65,11 @@ def main():
         "j'aime les chatons",
         "textures/entity/playeur/jambe d/jambe0 d.png",
         {
-            sens: f"textures/entity/playeur/jambe {lettre}"
+            sens: {
+                "type": "spritesheet",
+                "lien":f"textures/entity/playeur/jambe {lettre}/jambe {lettre}",
+                "taille": None,
+                }
             for lettre, sens in zip(("d", "g"), ("droit", "gauche"))
         },
         1,
@@ -66,7 +82,11 @@ def main():
         "j'aime les chatons",
         "textures/entity/playeur/bras g/bras0 g.png",
         {
-            sens: f"textures/entity/playeur/bras {lettre}"
+            sens: {
+                "type": "spritesheet",
+                "lien":f"textures/entity/playeur/bras {lettre}/bras {lettre}",
+                "taille": None,
+                }
             for lettre, sens in zip(("d", "g"), ("droit", "gauche"))
         },
         1,
@@ -79,7 +99,11 @@ def main():
         "j'aime les chatons",
         "textures/entity/playeur/jambe g/jambe0 g.png",
         {
-            sens: f"textures/entity/playeur/jambe {lettre}"
+            sens: {
+                "type": "spritesheet",
+                "lien":f"textures/entity/playeur/jambe {lettre}/jambe {lettre}",
+                "taille": None,
+                }
             for lettre, sens in zip(("d", "g"), ("droit", "gauche"))
         },
         1,
