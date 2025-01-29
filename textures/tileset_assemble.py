@@ -70,8 +70,8 @@ def main():
     data_taille=True 
     pygame.init()
     screen = pygame.display.set_mode((800, 600))
-    nom_dossier="textures/entity/playeur/"
-    nom="bras g"
+    nom_dossier="textures/entity/playeur/corps/"
+    nom="corps"
     img=liste_image_dossier(nom_dossier,nom)
     taille=(64,64)
     
@@ -95,7 +95,7 @@ def main():
     tile_set=assembleur.get_fond()
     # tile_set.convert_alpha()
     pygame.display.init()
-    pygame.image.save(tile_set, nom + ".png")
+    pygame.image.save(tile_set,nom_dossier+ nom + ".png")
     if len(data_add)>1:
         save_json(nom_dossier+nom+".json",data_add)
 
