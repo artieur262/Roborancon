@@ -41,7 +41,9 @@ def save_json(lien: str, contenu):
         json.dump(contenu, file, indent=1)
         # file.close()
 
-def assemble_data(data_add:dict, grille_pos:list[tuple[int,int]],ancre:list[tuple[int,int]]):
+def assemble_data(data_add:dict, grille_pos:list[tuple[int,int]],taille:tuple[int,int],ancre:list[tuple[int,int]]):
+    if taille is not None:
+        data_add["taille"]=taille
     if grille_pos is not None:
         data_add["grille_pos"]=[i for i in grille_pos]
     else:
@@ -55,6 +57,7 @@ def main():
     grille_pos=None
     data_add={}
     ancre=None
+    data_taille=True 
     pygame.init()
     screen = pygame.display.set_mode((800, 600))
     nom="textures/teste/test_playeur/imgset"
@@ -95,8 +98,8 @@ def main():
     [21,37]
 ]
     img=image_loader(img)
-    data_add=assemble_data(data_add,grille_pos,ancre)
-    assembleur=AssembleurTileSet(img,grille_pos,taille,decalage)
+    data_add=assemble_data(data_add,grille_pos,taille if data_taille else None ,ancre)
+    assembleur=AssembleurTileSet(img,grille_pos,taille,decalage,)
     tile_set=assembleur.get_fond()
     # tile_set.convert_alpha()
     pygame.display.init()
