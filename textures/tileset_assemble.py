@@ -45,12 +45,13 @@ def save_json(lien: str, contenu):
 def assemble_data(data_add:dict, grille_pos:list[tuple[int,int]],taille:tuple[int,int],ancre:list[tuple[int,int]]):
     if taille is not None:
         data_add["taille"]=taille
-    if grille_pos is not None:
-        data_add["grille_pos"]=[i for i in grille_pos]
-    else:
-        data_add["grille_pos"]=[(i,0) for i in range(len(ancre))]
-    if ancre is not None:
-        data_add["ancre"]=[i for i in ancre]
+    if (ancre is not None):
+        if grille_pos is not None :
+            data_add["grille_pos"]=[i for i in grille_pos]
+        else:
+            data_add["grille_pos"]=[(i,0) for i in range(len(ancre))]
+        if ancre is not None:
+            data_add["ancre"]=[i for i in ancre]
     return data_add
 
 def liste_image_dossier(nom_dossier:str, fichier:str)->list[str]:
@@ -70,25 +71,11 @@ def main():
     data_taille=True 
     pygame.init()
     screen = pygame.display.set_mode((800, 600))
-    nom_dossier="textures/entity/playeur/tete/"
-    nom="tete"
+    nom_dossier="textures/entity/playeur/corps/"
+    nom="corps"
     img=liste_image_dossier(nom_dossier,nom)
     taille=(64,64)
     
-    ancre=[
-    [21,37],
-    [21,37],
-    [21,37],
-    [21,37],
-    [21,37],
-    [21,37],
-    [21,37],
-    [21,37],
-    [21,37],
-    [21,37],
-    [21,37],
-    [21,37]
-]
     img=image_loader(img)
     data_add=assemble_data(data_add,grille_pos,taille if data_taille else None ,ancre)
     assembleur=AssembleurTileSet(img,grille_pos,taille,decalage,)
