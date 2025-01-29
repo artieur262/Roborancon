@@ -70,8 +70,8 @@ def main():
     data_taille=True 
     pygame.init()
     screen = pygame.display.set_mode((800, 600))
-    nom_dossier="textures/entity/playeur/corps/"
-    nom="corps"
+    nom_dossier="textures/entity/playeur/tete/"
+    nom="tete"
     img=liste_image_dossier(nom_dossier,nom)
     taille=(64,64)
     
