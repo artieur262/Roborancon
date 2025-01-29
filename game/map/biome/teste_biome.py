@@ -15,7 +15,7 @@ class TesteBiome(Biome):
         self.fond.fill((0, 0, 0, 0))
         self.composants:list[Composant] = []
         self.sol = []
-        self.image = LienSpritesheet("textures/herbe.png",(32,32)).decoupe()
+        self.image = LienSpritesheet("textures/map/herbe",None).decoupe()
         self.grille_fond = [["vide" for _ in range(self.taille_grille[1])] for _ in range(self.taille_grille[0])]
         self.grille_comp = [["vide" for _ in range(self.taille_grille[1])] for _ in range(self.taille_grille[0])]
 
