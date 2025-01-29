@@ -1,3 +1,4 @@
+import os
 import json
 import pygame
 
@@ -51,6 +52,15 @@ def assemble_data(data_add:dict, grille_pos:list[tuple[int,int]],taille:tuple[in
     if ancre is not None:
         data_add["ancre"]=[i for i in ancre]
     return data_add
+
+def liste_image_dossier(nom_dossier:str, fichier:str)->list[str]:
+    liste=os.listdir(nom_dossier)
+    liste=[nom_dossier+i for i in liste if len(i)>=4 and i[-4:]==".png" and i!=fichier+".png"]
+    return liste
+
+
+
+
 def main():
     taille=None
     decalage=None
@@ -60,29 +70,11 @@ def main():
     data_taille=True 
     pygame.init()
     screen = pygame.display.set_mode((800, 600))
-    nom="textures/teste/test_playeur/imgset"
-    img=[
-        "textures/teste/test_playeur/img0.png",
-        "textures/teste/test_playeur/img01.png",
-        "textures/teste/test_playeur/img02.png",
-        "textures/teste/test_playeur/img06.png",
-        "textures/teste/test_playeur/img07.png",
-        "textures/teste/test_playeur/img08.png",
-        "textures/teste/test_playeur/img03.png",
-        "textures/teste/test_playeur/img04.png",
-        "textures/teste/test_playeur/img05.png",
-        "textures/teste/test_playeur/img09.png",
-        "textures/teste/test_playeur/img10.png",
-        "textures/teste/test_playeur/img11.png",
-    ]
+    nom_dossier="textures/entity/playeur/bras g/"
+    nom="bras g"
+    img=liste_image_dossier(nom_dossier,nom)
     taille=(64,64)
     
-    grille_pos=[
-        (0,0),(1,0),(2,0),
-        (0,1),(1,1),(2,1),
-        (0,2),(1,2),(2,2),
-        (0,3),(1,3),(2,3),
-    ]
     ancre=[
     [21,37],
     [21,37],
