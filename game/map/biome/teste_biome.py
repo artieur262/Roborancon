@@ -41,7 +41,7 @@ class TesteBiome(Biome):
         
         
         # propagation de l'terre_bleu
-        for _ in range(random.randint(2,10)):
+        for _ in range(random.randint(3,10)):
             for pos in pos_terre_bleu:
                 if random.random() < 0.5:
                     y = random.randint(-1, 1)
