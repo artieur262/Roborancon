@@ -317,6 +317,10 @@ class ObjetGraphique(Zone):
         """change l'animation de l'objet"""
         self.animation = animation
 
+    def get_animation(self) -> int:
+        """retourne l'animation de l'objet"""
+        return self.animation
+
     def image_actuel(self) -> Image:
         """donne l'image actuel"""
         return self.texture[self.animation]
