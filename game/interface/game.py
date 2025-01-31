@@ -62,19 +62,38 @@ class Game:
         pos_p=self.playeur.get_pos()
         size_p=self.playeur.get_size()
         if self.clavier.get_pression(self.controls["interagir"]) =="vien_presser":
+            # axe=None
+            # if self.playeur.sens in ("haut","bas"):
+            #     axe=0
+            # elif self.playeur.sens in ("gauche","droite"):
+            #     axe=1
+            pos_z=None
+            size_z=None
+            longueur=65
             match self.playeur.sens:
-                case "bas":
-                    zone_dection=Zone([pos_p[0]-12,pos_p[1]+size_p[1]],(50,100))
                 case "haut":
-                    zone_dection=Zone((pos_p[0]-12,pos_p[1]-100),(50,100)) 
+                    pos_z=(pos_p[0],pos_p[1]-size_p[1])
+                    size_z=(size_p[0],longueur)
+                case "bas":
+                    pos_z=(pos_p[0],pos_p[1])
+                    size_z=(size_p[0],longueur)
                 case "gauche":
-                    zone_dection=Zone((pos_p[0]-100,pos_p[1]-12),(100,50))
+                    pos_z=(pos_p[0]-size_p[0],pos_p[1])
+                    size_z=(longueur,size_p[1])
                 case "droite":
-                    zone_dection=Zone([pos_p[0]+size_p[0],pos_p[1]-12],(100,50))
+                    pos_z=(pos_p[0],pos_p[1])
+                    size_z=(longueur,size_p[1])
                     
             for porte in self.porte:
-                if not porte.collision(pos_p,size_p) and porte.collision(zone_dection.get_pos(),zone_dection.get_size()):
-                    porte.ouvrir_fermer()
+                if porte.collision(pos_z,size_z):
+                    if not self.playeur.collision(porte.get_pos(),porte.get_size()):
+                        if porte.etat=="ferme":
+                            porte.ouvrir()
+                        else:
+                            porte.fermer()
+
+
+                
                     
             # zone_dection
     def afficher(self):

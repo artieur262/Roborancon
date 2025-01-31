@@ -64,7 +64,7 @@ class Mur(Composant):
 class Porte(Composant):
     def __init__(self, coordonnee: tuple[int, int], taille: tuple[int, int], texture: list[str|tuple[str,tuple[int,int]]]) -> None:
         super().__init__(coordonnee, taille,texture)
-        self.etat = "ferme"
+        self.etat = "fermer"
 
     def get_ouverture(self):
         return self.etat
@@ -74,15 +74,15 @@ class Porte(Composant):
         self.etat = "ouvert"
         self.animation = 1
     
-    def ferme(self):
-        self.etat = "ferme"
+    def fermer(self):
+        self.etat = "fermer"
         self.animation = 0
     
     def ouvrir_fermer(self):
-        if self.etat == "ferme":
+        if self.etat == "fermer":
             self.ouvrir()
         else:
-            self.ferme()
+            self.fermer()
 
     def convet_to_dict(self) -> dict:
         sorti=super().convet_to_dict()
