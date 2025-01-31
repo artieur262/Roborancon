@@ -18,12 +18,18 @@ def main():
     data_taille=True 
     pygame.init()
     screen = pygame.display.set_mode((800, 600))
-    nom="textures/map/decor/arbres_bleu"
+    nom="textures/entity/passif/lezardus"
     taille=(32,32)
-    temp=LienSpritesheet("textures/autre",None).decoupe()
-    img_graf+=[temp[44],temp[45],temp[48],temp[49]]
+    img_graf+=LienSpritesheet("textures/entity/passif/lezardus",None).decoupe()
+    img_graf+=LienSpritesheet("textures/entity/passif/lezardus g",None).decoupe()
+    img_graf+=LienSpritesheet("textures/entity/passif/lezardus h",None).decoupe()
+    img_graf+=LienSpritesheet("textures/entity/passif/lezardus d",None).decoupe()
 
-    grille_pos=[(0,0),(1,0),(0,1),(1,1)]
+    grille_pos=[(0,0),(1,0),(2,0),(3,0),
+                (0,1),(1,1),(2,1),(3,1),
+                (0,2),(1,2),(2,2),(3,2),
+                (0,3),(1,3),(2,3),(3,3)
+                ]
     
     surface+=img_vers_surface(img_graf)
     surface+=image_loader(surface_str)
