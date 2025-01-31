@@ -4,7 +4,7 @@ from autre import id_gestion
 from game.entity.entity import Entity
 from game.inventaire.item import Item, Membre, Corps,genere_item
 from game.inventaire.inventaire import Inventaire
-from interface.graphique import Zone, Image, genere_texture,charge_png_dans_dossier
+from interface.graphique import Zone, Image, genere_texture,charge_png_dans_dossier, LienSpritesheet
 
 
 class Playeur(Entity):
@@ -202,17 +202,16 @@ class Playeur(Entity):
 
 class PlayeurTest(Playeur):
     def actualise_texture(self):
-        self.texture = charge_png_dans_dossier("textures/teste/test_playeur")
-    
+        self.texture = LienSpritesheet("textures/teste/test_playeur/imgset",None).decoupe()
     def actualise_animation(self,tick:int):
         if self.action == "rien" and tick%5== 0:
             match self.sens:
                 case "bas": 
                     self.set_animation(0)
         
-                case "haut":
-                    self.set_animation(3)
                 case "droite":
+                    self.set_animation(3)
+                case "haut":
                     self.set_animation(6)
                 case "gauche":
                     self.set_animation(9)
@@ -221,9 +220,9 @@ class PlayeurTest(Playeur):
             match self.sens:
                 case "bas":
                     self.set_animation(1)
-                case "haut":
-                    self.set_animation(4)
                 case "droite":
+                    self.set_animation(4)
+                case "haut":
                     self.set_animation(7)
                 case "gauche":
                     self.set_animation(10)
@@ -232,9 +231,9 @@ class PlayeurTest(Playeur):
             match self.sens:
                 case "bas":   
                     self.set_animation(2)
-                case "haut":
-                    self.set_animation(5)
                 case "droite":
+                    self.set_animation(5)
+                case "haut":
                     self.set_animation(8)
                 case "gauche":
                     self.set_animation(11)    
