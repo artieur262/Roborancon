@@ -13,7 +13,7 @@ class Creature(EntityAI):
         super().__init__(coordonnee, taille, stats)
         if "nom" not in info:
             raise ValueError("Il manque le nom dans les info")
-        if "compotement" not in info:
+        if "comportement" not in info:
             raise ValueError("Il manque le comportement dans les info")
         if "sexe" not in info:
             raise ValueError("Il manque le sexe dans les info")
@@ -35,10 +35,12 @@ class Forolo(Creature):
         
 
     def actualise_texture(self):
-        if self.info == "adulte":
-            self.texture = LienSpritesheet("textures/entity/passif/forolo",None)
-        if self.info == "enfant":
-            self.texture = LienSpritesheet("textures/entity/passif/forolo",None)
+        if self.info["age"] == "adulte":
+            self.texture = LienSpritesheet("textures/entity/passif/forolo",None).decoupe()
+        elif self.info["age"] == "enfant":
+            self.texture = LienSpritesheet("textures/entity/passif/forolo",None).decoupe()
+        else:
+            raise ValueError("age inconnu")
     
 
 
@@ -83,7 +85,7 @@ class Forolo(Creature):
                 comportement = list_comp[i]
         info["comportement"] = comportement
         stats={"vie_max": random.randint(90,110), "vitesse_min": 2, "vitesse_max":4,}
-        Forolo(coordonnee, taille, stats, info)
+        return Forolo(coordonnee, taille, stats, info)
 
     def compatibilite_amour(self,partenaire:"Forolo")->bool:
         return (self.info["sexe"] in partenaire.info["orientation_sexuel"] and
@@ -147,10 +149,12 @@ class Lezardus(Creature):
         self.actualise_texture()
     
     def actualise_texture(self):
-        if self.info == "adulte":
-            self.texture = LienSpritesheet("textures/entity/passif/lezardus",None)
-        if self.info == "enfant":
-            self.texture = LienSpritesheet("textures/entity/passif/lezardus",None)
+        if self.info["age"] == "adulte":
+            self.texture = LienSpritesheet("textures/entity/passif/lezardus.png",(32,32)).decoupe()
+        elif self.info["age"] == "enfant":
+            self.texture = LienSpritesheet("textures/entity/passif/lezardus.png",(32,32)).decoupe()
+        else:
+            raise ValueError("age inconnu")
 
     
     def actualise_animation(self):
@@ -158,27 +162,17 @@ class Lezardus(Creature):
         match self.action:
             case "rien":
                 match self.sens:
-                    case "haut":
-                        self.set_animation(0)
                     case "bas":
-                        self.set_animation(4)
-                    case "gauche":
-                        self.set_animation(8)
-                    case "droite":
-                        self.set_animation(12)
-            case "marche":
-                match self.sens:
-                    case "haut":
                         if self.get_animation() not in (1, 2, 0):
                             self.set_animation(0)
                         else:
                             self.set_animation(self.get_animation()+1)
-                    case "bas":
+                    case "gauche":
                         if self.get_animation() not in (5, 6, 4):
                             self.set_animation(4)
                         else:
                             self.set_animation(self.get_animation()+1)
-                    case "gauche":
+                    case "haut":
                         if self.get_animation() not in (9, 10, 8):
                             self.set_animation(8)
                         else:
@@ -188,6 +182,7 @@ class Lezardus(Creature):
                             self.set_animation(12)
                         else:
                             self.set_animation(self.get_animation()+1)
+            
 
     @staticmethod
     def random_sauvage(coordonnee: tuple[int, int], taille: tuple[int, int])->"Lezardus":
@@ -225,15 +220,16 @@ class Lezardus(Creature):
                    "timide",  "peureux", "territorial", "autiste"]
         proba_comp=[20,20,17,15,
                     10,10, 7,1]
-        
+        rand = 100
         somme = 0
-        for i in range(1, len(proba_comp)):
+        for i in range(0, len(proba_comp)):
             somme += proba_comp[i]
             if rand <= somme:
                 comportement = list_comp[i]
+                break
         info["comportement"] = comportement
         stats={"vie_max": random.randint(90,110), "vitesse_min": 2, "vitesse_max":4,}
-        Lezardus(coordonnee, taille, stats, info)
+        return Lezardus(coordonnee, taille, stats, info)
 
     def compatibilite_amour(self,partenaire:"Forolo")->bool:
         return (self.info["sexe"] in partenaire.info["orientation_sexuel"] and
