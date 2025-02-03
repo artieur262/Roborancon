@@ -61,41 +61,47 @@ class Game:
     def interaction(self):
         pos_p=self.playeur.get_pos()
         size_p=self.playeur.get_size()
-        if self.clavier.get_pression(self.controls["interagir"]) =="vien_presser":
-            # axe=None
-            # if self.playeur.sens in ("haut","bas"):
-            #     axe=0
-            # elif self.playeur.sens in ("gauche","droite"):
-            #     axe=1
-            pos_z=None
-            size_z=None
-            longueur=65
-            match self.playeur.sens:
-                case "haut":
-                    pos_z=(pos_p[0],pos_p[1]-size_p[1])
-                    size_z=(size_p[0],longueur)
-                case "bas":
-                    pos_z=(pos_p[0],pos_p[1])
-                    size_z=(size_p[0],longueur)
-                case "gauche":
-                    pos_z=(pos_p[0]-size_p[0],pos_p[1])
-                    size_z=(longueur,size_p[1])
-                case "droite":
-                    pos_z=(pos_p[0],pos_p[1])
-                    size_z=(longueur,size_p[1])
-                    
-            for porte in self.porte:
-                if porte.collision(pos_z,size_z):
-                    if not self.playeur.collision(porte.get_pos(),porte.get_size()):
-                        if porte.etat=="fermer":
-                            porte.ouvrir()
-                        else:
-                            porte.fermer()
+        if self.mode=="libre":
+        
+            if self.clavier.get_pression(self.controls["interagir"]) =="vien_presser":
+                # axe=None
+                # if self.playeur.sens in ("haut","bas"):
+                #     axe=0
+                # elif self.playeur.sens in ("gauche","droite"):
+                #     axe=1
+                pos_z=None
+                size_z=None
+                longueur=65
+                match self.playeur.sens:
+                    case "haut":
+                        pos_z=(pos_p[0],pos_p[1]-size_p[1])
+                        size_z=(size_p[0],longueur)
+                    case "bas":
+                        pos_z=(pos_p[0],pos_p[1])
+                        size_z=(size_p[0],longueur)
+                    case "gauche":
+                        pos_z=(pos_p[0]-size_p[0],pos_p[1])
+                        size_z=(longueur,size_p[1])
+                    case "droite":
+                        pos_z=(pos_p[0],pos_p[1])
+                        size_z=(longueur,size_p[1])
+                        
+                for porte in self.porte:
+                    if porte.collision(pos_z,size_z):
+                        if not self.playeur.collision(porte.get_pos(),porte.get_size()):
+                            if porte.etat=="fermer":
+                                porte.ouvrir()
+                            else:
+                                porte.fermer()
+            if self.clavier.get_pression(self.controls["construction"]) =="vien_presser":
+                self.mode="construction"
 
-
-                
+        elif self.mode=="construction":
+            if self.clavier.get_pression(self.controls["construction"]) =="vien_presser":
+                self.mode="libre"
                     
-            # zone_dection
+                        
+                # zone_dection
     def afficher(self):
         screen.fill((0, 0, 0))
         list_affiche=[mur for mur in self.mur if mur.imgage_dans_surface((0,0),screen.get_size())]
