@@ -45,15 +45,15 @@ class Playeur(Entity):
                     self.set_animation(self.animation -1)
        
     def equipe_membre(self, indice_iventaire, emplacement: str):
-        """Équipe un item"""
+        """Équipe un item qui est dans l'inventaire"""
         item = self.inventaire.get_item(indice_iventaire)
         if emplacement not in self.membre_equipe:
             return False
         if self.membre_equipe[emplacement] is not None:
-            self.inventaire.supprime(indice_iventaire)
-            self.inventaire.ajoute_item(item)
-        else:
-            self.membre_equipe[emplacement] = item
+            self.inventaire.remplacer(self.membre_equipe[emplacement],indice_iventaire)
+        
+        self.membre_equipe[emplacement] = item
+        self.actualise_texture()
         return True
 
     def calcul_stats(self):
