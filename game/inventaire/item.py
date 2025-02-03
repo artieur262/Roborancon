@@ -91,23 +91,18 @@ class Membre(Item):
         super().__init__(nom, description, icone, quantite, max_quantite)
         self.stats = stats
         self.texture_lien = texture
-        self.charge_texture()
         self.etat = "normal"
 
-    def charge_texture(self):
+    def charge_texture(self)->list[Image]:
         """charge les textures"""
         if isinstance(self.texture_lien, list):
             raise ValueError("les textures doivent être un dictionnaire")
         else:
-            self.texture = LienSpritesheet(self.texture_lien["lien"], self.texture_lien["taille"]).decoupe()
+            return LienSpritesheet(self.texture_lien["lien"], self.texture_lien["taille"]).decoupe()
 
     def get_etat(self):
         """retourne l'état"""
         return self.etat
-
-    def get_texture(self, index: int) -> Image:
-        """retourne la texture à l'index"""
-        return self.texture[index]
 
     def get_stat(self, stat: str):
         """retourne la valeur de la stat"""
@@ -168,12 +163,12 @@ class MembreSens(Membre):
             stats,
         )
 
-    def charge_texture(self):
+    def charge_texture(self)->list[Image]:
         """charge les textures"""
         if isinstance(self.texture_lien, list):
             raise ValueError("les textures doivent être un dictionnaire")
         else:
-            self.texture = LienSpritesheet(self.texture_lien[self.sens]["lien"], self.texture_lien[self.sens]["taille"]).decoupe()
+            return LienSpritesheet(self.texture_lien[self.sens]["lien"], self.texture_lien[self.sens]["taille"]).decoupe()
 
 
     def get_sens(self):
