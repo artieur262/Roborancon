@@ -17,9 +17,7 @@ def save_image(surface:pygame.Surface, path:str):
 
 def main():
     seed=random.randint(0,100000)
-    # seed=95282
-    # seed=83035
-    # seed=52715 #bug rare
+    # seed=37538 #bug rare
     print("seed: " +str(seed))
     biome = TesteBiome(seed)
     biome.genere_grille()
