@@ -35,7 +35,7 @@ class Game:
             self.playeur.actualise_animation(self.tick)
 
     def deplacement_playeur(self):
-        obstacle = self.mur+[porte for porte in self.porte if porte.etat=="ferme"]
+        obstacle = self.mur+[porte for porte in self.porte if porte.etat=="fermer"]
         if self.clavier.get_pression(self.controls["courir"])in ("presser","vien_presser"):
             if self.clavier.get_pression(self.controls["haut"])in ("presser","vien_presser"):
                 self.playeur.courir("haut",obstacle,self.tick)
@@ -87,7 +87,7 @@ class Game:
             for porte in self.porte:
                 if porte.collision(pos_z,size_z):
                     if not self.playeur.collision(porte.get_pos(),porte.get_size()):
-                        if porte.etat=="ferme":
+                        if porte.etat=="fermer":
                             porte.ouvrir()
                         else:
                             porte.fermer()
