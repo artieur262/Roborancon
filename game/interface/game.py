@@ -102,7 +102,7 @@ class Game:
 
         elif self.mode=="construction":
             fourni=self.list_fourniture[self.index_fourniture]
-            fourni.set_pos([corrige_grille(self.souris.get_pos()[i]-fourni.get_size()[i]//2,64) for i in range(2)])
+            fourni.set_pos([corrige_grille(self.souris.get_pos()[i]-fourni.get_size()[i]//2,32) for i in range(2)])
             if self.clavier.get_pression(self.controls["construction"]) =="vien_presser":
                 self.mode="libre"
             if self.clavier.get_pression(self.controls["droite"]) =="vien_presser":
@@ -130,7 +130,7 @@ class Game:
             
         if self.mode=="construction":
             fourni=self.list_fourniture[self.index_fourniture]
-            fourni.set_pos([corrige_grille(self.souris.get_pos()[i]-fourni.get_size()[i]//2,64) for i in range(2)])
+            fourni.set_pos([corrige_grille(self.souris.get_pos()[i]-fourni.get_size()[i]//2,32) for i in range(2)])
             fourni.afficher()
         # pygame.display.flip()
     

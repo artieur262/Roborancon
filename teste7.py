@@ -13,7 +13,7 @@ from autre import save
 # pylint: disable=no-member
 
 def main(): # pylint: disable=missing-function-docstring
-    test=False
+    test=True
     if test:
         porte=Porte((100,150),(30,10),[("textures/teste/test_porte/porte 1 pos1.png",(17,47))
             ,("textures/teste/test_porte/porte 1 pos2.png",(17,47))])
