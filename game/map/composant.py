@@ -61,6 +61,15 @@ class Mur(Composant):
             mur.image_actuel().afficher()
             Mur(mur_pos,(self_size[0]+mur_size[0],self_size[1]))
 
+    
+    def copy(self):
+        """retourne une copie du mur
+        fait une copie pronfonde de l'objet sauf pour l'image
+        """
+        return Mur([self.get_pos()[0], self.get_pos()[1]],
+                    (self.get_size()[0],self.get_size()[1]),
+                    self.image_actuel())
+
 class Porte(Composant):
     def __init__(self, coordonnee: tuple[int, int], taille: tuple[int, int], texture: list[str|tuple[str,tuple[int,int]]]) -> None:
         super().__init__(coordonnee, taille,texture)
