@@ -8,7 +8,7 @@ from interface.graphique import LienSpritesheet, Image
 class TesteBiome(Biome):
     def __init__(self, seed):
         random.seed(seed)
-        self.taille_grille = (30, 18)
+        self.taille_grille = (38, 19)
         self.echelle = (32,32)
         self.taille = (self.taille_grille[0]*self.echelle[0], self.taille_grille[1]*self.echelle[1])
         self.fond = pygame.Surface(self.taille, pygame.SRCALPHA)
@@ -32,7 +32,7 @@ class TesteBiome(Biome):
         
         pos_terre_bleu = []
         #ajout de la terre_bleu
-        for _ in range(random.randint(1, 6)):
+        for _ in range(random.randint(2, 7)):
             x = random.randint(0, self.taille_grille[0]-1)
             y = random.randint(0, self.taille_grille[1]-1)
             self.grille_fond[x][y] = "terre_bleu"
@@ -41,7 +41,7 @@ class TesteBiome(Biome):
         
         
         # propagation de l'terre_bleu
-        for _ in range(random.randint(3,10)):
+        for _ in range(random.randint(4,11)):
             for pos in pos_terre_bleu:
                 if random.random() < 0.5:
                     y = random.randint(-1, 1)
