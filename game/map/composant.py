@@ -61,10 +61,19 @@ class Mur(Composant):
             mur.image_actuel().afficher()
             Mur(mur_pos,(self_size[0]+mur_size[0],self_size[1]))
 
+    
+    def copy(self):
+        """retourne une copie du mur
+        fait une copie pronfonde de l'objet sauf pour l'image
+        """
+        return Mur([self.get_pos()[0], self.get_pos()[1]],
+                    (self.get_size()[0],self.get_size()[1]),
+                    self.image_actuel())
+
 class Porte(Composant):
     def __init__(self, coordonnee: tuple[int, int], taille: tuple[int, int], texture: list[str|tuple[str,tuple[int,int]]]) -> None:
         super().__init__(coordonnee, taille,texture)
-        self.etat = "ferme"
+        self.etat = "fermer"
 
     def get_ouverture(self):
         return self.etat
@@ -74,15 +83,15 @@ class Porte(Composant):
         self.etat = "ouvert"
         self.animation = 1
     
-    def ferme(self):
-        self.etat = "ferme"
+    def fermer(self):
+        self.etat = "fermer"
         self.animation = 0
     
     def ouvrir_fermer(self):
-        if self.etat == "ferme":
+        if self.etat == "fermer":
             self.ouvrir()
         else:
-            self.ferme()
+            self.fermer()
 
     def convet_to_dict(self) -> dict:
         sorti=super().convet_to_dict()

@@ -272,11 +272,15 @@ class Zone:
             or coin_1_self[1] <= coin_1_zone[1] < coin_2_self[1]
         )
 
+    def calcul_distace_au_carre(self,zone:"Zone")->float:
+        """calcule la distance au carre entre 2 zones"""
+        return ((self.get_center()[0]-zone.get_center()[0])**2 +
+                (self.get_center()[1]-zone.get_center()[1])**2)
+    
     def calcul_distace(self,zone:"Zone")->float:
         """calcule la distance entre 2 zones"""
-        return ((self.get_center()[0]-zone.get_center()[0])**2 +
-                (self.get_center()[1]-zone.get_center()[1])**2
-               )**0.5
+        return self.calcul_distace_au_carre(zone)**0.5
+               
         
     
 

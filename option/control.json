@@ -5,7 +5,8 @@
   "haut": 122,
   "bas": 115,
   "gauche": 113,
-  "droite": 100
+  "droite": 100,
+  "construction": 99
  },
  {
   "interagir": "f",
@@ -13,6 +14,7 @@
   "haut": "z",
   "bas": "s",
   "gauche": "q",
-  "droite": "d"
+  "droite": "d",
+  "construction": "c"
  }
 ]

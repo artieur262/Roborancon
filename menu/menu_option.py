@@ -49,6 +49,7 @@ class MenuOption:
                 "bas": "bas",
                 "gauche": "gauche",
                 "droite": "droite",
+                "construction": "construction",
             },
             "zonetexte": [
                 "plein écran",
@@ -72,6 +73,7 @@ class MenuOption:
                 "bas": "down",
                 "gauche": "left",
                 "droite": "right",
+                "construction": "construction",
             },
             "zonetexte": [
                 "fullscreen",
