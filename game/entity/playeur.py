@@ -23,6 +23,7 @@ class Playeur(Entity):
         self.membre_equipe: dict[str, Membre | None] = {"corps": None}
         super().__init__(coordonnee, taille, stats)
         self.inventaire = Inventaire(10)
+        self.actualise_texture()
 
     def actualise_animation(self,tick:int):
         if self.action == "rien" and tick%5== 0:
@@ -74,19 +75,20 @@ class Playeur(Entity):
         """Actualise la texture du playeur"""
         nombre_texture = 7
         corps = self.membre_equipe["corps"]
+        texture_membre :dict[str, list[Image]] = {clee : value.charge_texture() for clee, value in self.membre_equipe.items() if value is not None}
         taille = (64, 64)
+        self.texture = []
         if not isinstance(corps, Corps):
             for i in range(nombre_texture):
                 self.texture.append(Image(genere_texture(taille, (0, 0, 0, 0))))
             return
-        self.texture = []
         for i in range(nombre_texture):
             image = Image(genere_texture(taille, (0, 0, 0, 0)))
-
             for clee in corps.ordre_affichage:
-                membre = self.membre_equipe[clee]
-                position = corps.membre_emplacement[clee]
-                image.ajoute_image(membre.get_texture(i), position)
+                if clee in texture_membre:
+                    membre = texture_membre[clee]
+                    position = corps.membre_emplacement[clee]
+                    image.ajoute_image(membre[i], position)
             image.ancre=(21,37)
             self.texture.append(image)
         
