@@ -7,6 +7,8 @@ from interface.class_clavier import Clavier, Souris
 from interface.graphique import screen,Zone
 
 
+MUR= Mur((0,0),(64,10),("textures/teste/test_mur/mur1.png",(0,54)))
+FABRICATEUR = Mur((0,0),(64,10),"textures/teste/construction/fabricateur.png")
 
 class Game:
     def __init__(
@@ -23,8 +25,11 @@ class Game:
         self.projectille = []
         self.mur:list[Mur] = []
         self.porte:list[Porte] = []
+        self.fourniture = []
         self.mode="libre"
         self.tick=0
+        self.list_fourniture=[MUR,FABRICATEUR]
+        self.index_fourniture=0
     def actualise(self):
         self.tick+=1
         self.deplacement()
@@ -35,7 +40,7 @@ class Game:
             self.playeur.actualise_animation(self.tick)
 
     def deplacement_playeur(self):
-        obstacle = self.mur+[porte for porte in self.porte if porte.etat=="fermer"]
+        obstacle = self.mur+self.fourniture+[porte for porte in self.porte if porte.etat=="fermer"]
         if self.clavier.get_pression(self.controls["courir"])in ("presser","vien_presser"):
             if self.clavier.get_pression(self.controls["haut"])in ("presser","vien_presser"):
                 self.playeur.courir("haut",obstacle,self.tick)
@@ -62,7 +67,6 @@ class Game:
         pos_p=self.playeur.get_pos()
         size_p=self.playeur.get_size()
         if self.mode=="libre":
-        
             if self.clavier.get_pression(self.controls["interagir"]) =="vien_presser":
                 # axe=None
                 # if self.playeur.sens in ("haut","bas"):
@@ -97,8 +101,18 @@ class Game:
                 self.mode="construction"
 
         elif self.mode=="construction":
+            fourni=self.list_fourniture[self.index_fourniture]
+            fourni.set_pos([corrige_grille(self.souris.get_pos()[i]-fourni.get_size()[i]//2,64) for i in range(2)])
             if self.clavier.get_pression(self.controls["construction"]) =="vien_presser":
                 self.mode="libre"
+            if self.clavier.get_pression(self.controls["droite"]) =="vien_presser":
+                self.index_fourniture=1
+            if self.clavier.get_pression(self.controls["gauche"]) =="vien_presser":
+                self.index_fourniture=0
+            if self.clavier.get_pression(self.controls["interagir"]) =="vien_presser":
+                self.fourniture.append(fourni.copy())
+
+                
                     
                         
                 # zone_dection
@@ -108,12 +122,16 @@ class Game:
         list_affiche+=[entity for entity in self.entity if entity.imgage_dans_surface((0,0),screen.get_size())]
         list_affiche+=[projectille for projectille in self.projectille if projectille.imgage_dans_surface((0,0),screen.get_size())]
         list_affiche+=[porte for porte in self.porte if porte.imgage_dans_surface((0,0),screen.get_size())]
+        list_affiche+=[fourniture for fourniture in self.fourniture if fourniture.imgage_dans_surface((0,0),screen.get_size())]
         if self.playeur.imgage_dans_surface((0,0),screen.get_size()):
             list_affiche.append(self.playeur)
-
         for affiche in quick_sort_y(list_affiche):
             affiche.afficher()
             
+        if self.mode=="construction":
+            fourni=self.list_fourniture[self.index_fourniture]
+            fourni.set_pos([corrige_grille(self.souris.get_pos()[i]-fourni.get_size()[i]//2,64) for i in range(2)])
+            fourni.afficher()
         # pygame.display.flip()
     
 
@@ -136,3 +154,8 @@ def quick_sort_y(list:list[Zone]):
         else:
             list_sup.append(list[i])
     return quick_sort_y(list_inf)+[pivot]+quick_sort_y(list_sup)
+
+def corrige_grille(pos:int,taille:int)->int:
+    sup = taille if pos%taille>taille//2 else 0
+    return pos-pos%taille+sup
+    
