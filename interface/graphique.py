@@ -104,6 +104,10 @@ class Image:
         """retourne la dimention de l'objet"""
         return self.texture.get_size()
 
+    def set_ancre(self, ancre: tuple[int, int]):
+        """defini l'ancre de l'objet"""
+        self.ancre = ancre
+
     def get_ancre(self):
         """retourne l'ancre de l'objet"""
         return self.ancre
@@ -303,6 +307,8 @@ class ObjetGraphique(Zone):
     ):
         super().__init__(coordonnee, taille)
         self.texture: list[Image] = []
+        if isinstance(texture, str):
+            self.texture=LienSpritesheet(texture,None).decoupe()
         for i in texture:
             if isinstance(i, str):
                 self.texture.append(Image(i))
