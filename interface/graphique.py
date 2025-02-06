@@ -96,6 +96,10 @@ class Image:
         self.ancre: tuple[int, int] = ancre
         self.texture: pygame.Surface = texture
 
+    def colorier(self, color: tuple[int, int, int, int]|tuple[int, int, int]):
+        """colorie l'image"""
+        self.texture.fill(color)
+
     def get_texture(self) -> pygame.surface:
         """retourne la texture de l'objet"""
         return self.texture
