@@ -171,7 +171,7 @@ class Image:
         new_image.ajoute_image(image,position)
         return new_image
     @staticmethod
-    def genere_list_Image(entre:list[str|"Image"|tuple[str|tuple[int,int]]|LienSpritesheet]|str)->list["Image"]:
+    def genere_list_Image(entre:list[str|tuple[str|tuple[int,int]]|LienSpritesheet]|str)->list['Image']:
 
         if isinstance(entre, str):
             sortie=LienSpritesheet(entre,None).decoupe()
