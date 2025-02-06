@@ -170,6 +170,27 @@ class Image:
         new_image.ajoute_image(self,(0,0))
         new_image.ajoute_image(image,position)
         return new_image
+    @staticmethod
+    def genere_list_Image(entre:list[str|"Image"|tuple[str|tuple[int,int]]|LienSpritesheet]|str)->list["Image"]:
+
+        if isinstance(entre, str):
+            sortie=LienSpritesheet(entre,None).decoupe()
+        elif isinstance(entre, list):
+            sortie=[]
+            for i in entre:
+                if isinstance(i, str):
+                    sortie.append(Image(i))
+                elif isinstance(i, tuple):
+                    sortie.append(Image(i[0], i[1]))
+                elif isinstance(i, pygame.Surface):
+                    sortie.append(Image(i))
+                elif isinstance(i, Image):
+                    sortie.append(i)
+                elif isinstance(i, LienSpritesheet):
+                    sortie+=i.decoupe()
+        else:
+            raise ValueError("entre doit être une str ou une list")
+        return sortie
 
 class Zone:
     """class pour gérer les zones"""
@@ -306,7 +327,7 @@ class ObjetGraphique(Zone):
         animation: int = 0,
     ):
         super().__init__(coordonnee, taille)
-        self.texture:list[Image]=genere_list_Image(texture)
+        self.texture:list[Image]=Image.genere_list_Image(texture)
         
         self.animation = animation
 
@@ -355,27 +376,6 @@ class ObjetGraphique(Zone):
             )
             return True
         return False
-
-def genere_list_Image(entre:list[str|Image|tuple[str|tuple[int,int]]|LienSpritesheet]|str)->list[Image]:
-
-    if isinstance(entre, str):
-        sortie=LienSpritesheet(entre,None).decoupe()
-    elif isinstance(entre, list):
-        sortie=[]
-        for i in entre:
-            if isinstance(i, str):
-                sortie.append(Image(i))
-            elif isinstance(i, tuple):
-                sortie.append(Image(i[0], i[1]))
-            elif isinstance(i, pygame.Surface):
-                sortie.append(Image(i))
-            elif isinstance(i, Image):
-                sortie.append(i)
-            elif isinstance(i, LienSpritesheet):
-                sortie+=i.decoupe()
-    else:
-        raise ValueError("entre doit être une str ou une list")
-    return sortie
 
 def surfaces_egales(surface1 :pygame.Surface, surface2:pygame.Surface) -> bool:
     if surface1.get_size() != surface2.get_size():
