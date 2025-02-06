@@ -10,7 +10,7 @@ et 2 dictionnaire:
 """
 
 import pygame
-
+from typing import Literal
 
 class Clavier:
     """cette class permet de gérer le clavier
@@ -91,7 +91,7 @@ class Clavier:
         for clee in clee_a_supprimer:
             del self.dict_touches[clee]
 
-    def get_pression(self, clee: int):
+    def get_pression(self, clee: int)->Literal["vien_presser", "presser", "vien_lacher", "lacher"]:
         """get la pression d'une touche
         
         retrun : Literal["vien_presser", "presser", "vien_lacher", "lacher"]
@@ -100,6 +100,7 @@ class Clavier:
             return self.dict_touches[clee]
         else:
             return "lacher"
+       
 
     def set_pression(self, clee: str, value: str):
         """change la pression d'une touche"""
