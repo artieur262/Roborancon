@@ -6,7 +6,9 @@
   "bas": 115,
   "gauche": 113,
   "droite": 100,
-  "construction": 99
+  "construction": 99,
+  "next_var": 0,
+  "prev_var": 0
  },
  {
   "interagir": "f",
@@ -15,6 +17,8 @@
   "bas": "s",
   "gauche": "q",
   "droite": "d",
-  "construction": "c"
+  "construction": "c",
+  "next_var": "tab",
+  "prev_var": "shift tab"
  }
 ]
