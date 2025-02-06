@@ -1,6 +1,6 @@
 import random
 from game.entity.entity import EntityAI
-from interface.graphique import Image,charge_png_dans_dossier,LienSpritesheet
+from interface.graphique import Image,LienSpritesheet
 
 class Creature(EntityAI):
     def __init__(
