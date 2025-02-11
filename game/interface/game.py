@@ -2,9 +2,11 @@ import pygame
 
 from game.entity.playeur import Playeur  # [import-error]
 from game.entity.entity import Entity
+from game.interface.contruction import MenuConstruction
 from game.map.composant import Mur, Porte
 from interface.class_clavier import Clavier, Souris
 from interface.graphique import screen,Zone
+
 
 
 MUR= Mur((0,0),(64,10),("textures/teste/test_mur/mur1.png",(0,54)))
@@ -28,8 +30,8 @@ class Game:
         self.fourniture = []
         self.mode="libre"
         self.tick=0
-        self.list_fourniture=[MUR,FABRICATEUR]
-        self.index_fourniture=0
+        self.construction=MenuConstruction()
+
     def actualise(self):
         self.tick+=1
         self.deplacement()
@@ -101,16 +103,13 @@ class Game:
                 self.mode="construction"
 
         elif self.mode=="construction":
-            fourni=self.list_fourniture[self.index_fourniture]
-            fourni.set_pos([corrige_grille(self.souris.get_pos()[i]-fourni.get_size()[i]//2,32) for i in range(2)])
+            comp=self.construction.gestion_touche(self.controls,self.clavier)
+            if comp is not None:
+                pos=corrige_grille(pos_p[0],64),corrige_grille(pos_p[1],64)
+                comp.set_pos(pos)
+                self.fourniture.append(comp)
             if self.clavier.get_pression(self.controls["construction"]) =="vien_presser":
                 self.mode="libre"
-            if self.clavier.get_pression(self.controls["droite"]) =="vien_presser":
-                self.index_fourniture=1
-            if self.clavier.get_pression(self.controls["gauche"]) =="vien_presser":
-                self.index_fourniture=0
-            if self.clavier.get_pression(self.controls["interagir"]) =="vien_presser":
-                self.fourniture.append(fourni.copy())
 
                 
                     
@@ -129,9 +128,7 @@ class Game:
             affiche.afficher()
             
         if self.mode=="construction":
-            fourni=self.list_fourniture[self.index_fourniture]
-            fourni.set_pos([corrige_grille(self.souris.get_pos()[i]-fourni.get_size()[i]//2,32) for i in range(2)])
-            fourni.afficher()
+            self.construction.afficher()
         # pygame.display.flip()
     
 
