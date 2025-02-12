@@ -28,7 +28,6 @@ class FuturComp(ObjetGraphique):
     
     def actuel_comp(self)->Composant:
         """retourne le composant actuel"""
-        print(self.fabrique_comp(self.variante))
         return self.fabrique_comp(self.variante)
     
     def fabrique_comp(self,info)->Composant:
@@ -203,8 +202,6 @@ class MenuConstruction:
         return self.comp[self.categorie][self.index]
     
     def get_comp(self)->Composant:
-        print(self.comp[self.categorie][self.index])
-        print(self.comp[self.categorie][self.index].actuel_comp())
         return self.comp[self.categorie][self.index].actuel_comp()
     
     def next_variante(self,sens=1):
@@ -237,7 +234,6 @@ class MenuConstruction:
         elif clavier.get_pression(controle["droite"])=="vien_presser":
             self.next_variante(-1)
         elif clavier.get_pression(controle["interagir"])=="vien_presser":
-            print("interagir :", self.get_comp())
             return self.get_comp()
 
     def assemblage(self):
