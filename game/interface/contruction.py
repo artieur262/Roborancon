@@ -1,6 +1,6 @@
 import pygame
 
-from interface.graphique import ObjetGraphique, Image,LienSpritesheet,place_texte_in_texture,genere_texture
+from interface.graphique import ObjetGraphique, Image,LienSpritesheet,place_texte_in_texture,genere_texture,screen
 from interface.class_clavier import Clavier
 from game.map.composant import Composant, Mur, Porte,Sol
 
@@ -59,6 +59,7 @@ class FuturComp(ObjetGraphique):
         """retourne si il y a plusieurs variante"""
         return False
 
+   
 class ListFuturComp(FuturComp):
     """
     varainte: list[tuple[str,tuple[int,int],tuple[int,int],(list[str|Image]|str),(list|None)]]
@@ -133,7 +134,6 @@ class TileFuturComp(FuturComp):
         return self.fabrique_comp(info)
 
     def next_variante(self,sens=1):
-        print(self.variante_actuel)
         self.variante_actuel=(self.variante_actuel+sens)%len(self.title)
         self.actualise_animation()
     
@@ -156,6 +156,7 @@ class TileFuturComp(FuturComp):
 class MenuConstruction:
     
     TEXTURE_FOND=(125,125,125,125)
+    LARGEUR=200
     def __init__(self):
         self.comp:list[list[FuturComp]]= [
             [TileFuturComp((0,0),"textures/map/construction/bariere_plan",(32,32),[
@@ -180,7 +181,7 @@ class MenuConstruction:
         self.ordre=["mur", "sol", "fourniture","cloture"]
         self.categorie=0
         self.index=0
-        self.fond = Image(genere_texture((200,800),self.TEXTURE_FOND))
+        self.fond = Image(genere_texture((self.LARGEUR,screen.get_size()[1]),self.TEXTURE_FOND))
         self.assemblage()
 
     def get_categorie(self):
@@ -195,6 +196,9 @@ class MenuConstruction:
         self.index=(self.index+sens)%len(self.comp[self.categorie])
         if sens!=0:
             self.assemblage()
+    
+    def get_futurcomp(self)->FuturComp:
+        return self.comp[self.categorie][self.index]
     
     def get_comp(self)->Composant:
         return self.comp[self.categorie][self.index].actuel_comp()
@@ -232,7 +236,9 @@ class MenuConstruction:
             return self.get_comp()
 
     def assemblage(self):
-        self.fond.colorier(self.TEXTURE_FOND)
+        self.fond=Image(genere_texture((self.LARGEUR,screen.get_size()[1]),self.TEXTURE_FOND))
+        centre=(self.LARGEUR//2,self.fond.get_size()[1]//2)
+        espacement=(50,50)
         police=pygame.font.Font(None, 30)
         self.fond.ajoute_image(Image(place_texte_in_texture(
             genere_texture((200,100),(0,0,0,0)),
@@ -240,13 +246,17 @@ class MenuConstruction:
             police,
             (255,255,255,255)
             )),(0,0))
-        self.fond.ajoute_image(self.get_next_apercu(),(50,375))
-        self.fond.ajoute_image(self.get_next_apercu(-1),(100,375))
-        self.fond.ajoute_image(self.get_apercu(),(75,375))
-        self.fond.ajoute_image(self.get_next_block_apercu(-2),(75,275))
-        self.fond.ajoute_image(self.get_next_block_apercu(-1),(75,300))
-        self.fond.ajoute_image(self.get_next_block_apercu(2),(75,475))
-        self.fond.ajoute_image(self.get_next_block_apercu(),(75,450))
+        
+        self.fond.ajoute_image(self.get_next_block_apercu(-2),(centre[0]-25,centre[1]-25-espacement[1]*2))
+        self.fond.ajoute_image(self.get_next_block_apercu(-1),(centre[0]-25,centre[1]-25-espacement[1]))
+        self.fond.ajoute_image(self.get_next_block_apercu(2),(centre[0]-25,centre[1]-25+espacement[1]*2))
+        self.fond.ajoute_image(self.get_next_block_apercu(),(centre[0]-25,centre[1]-25+espacement[1]))
+        self.fond.ajoute_image(self.get_next_apercu(),(centre[0]-espacement[0]-25,centre[1]-25))
+        self.fond.ajoute_image(self.get_next_apercu(-1),(centre[0]+espacement[0]-25,centre[1]-25))
+        self.fond.ajoute_image(self.get_apercu(),(centre[0]-25,centre[1]-25))
+    
+    def redimentione(self):
+        self.assemblage()
     
     def afficher(self,position=None,surface=None):
         if position is None:

@@ -51,6 +51,8 @@ def main(): # pylint: disable=missing-function-docstring
         game.afficher()
         if "quitter" in event:
             encour=False
+        if "redimentione" in event:
+            game.redimentione()
         fps.fill((0,0,0,0))
         place_texte_in_texture(fps,str(int(clook.get_fps())),pygame.font.Font(None,25),(255,255,255))
         screen.blit(fps,(0,0))

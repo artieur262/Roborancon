@@ -101,6 +101,7 @@ class Game:
                                 porte.fermer()
             if self.clavier.get_pression(self.controls["construction"]) =="vien_presser":
                 self.mode="construction"
+                self.construction.redimentione()
 
         elif self.mode=="construction":
             comp=self.construction.gestion_touche(self.controls,self.clavier)
@@ -110,6 +111,7 @@ class Game:
                 self.fourniture.append(comp)
             if self.clavier.get_pression(self.controls["construction"]) =="vien_presser":
                 self.mode="libre"
+            
 
                 
                     
@@ -128,9 +130,18 @@ class Game:
             affiche.afficher()
             
         if self.mode=="construction":
+            futurcomp=self.construction.get_futurcomp()
+            futurcomp.set_pos((corrige_grille(self.souris.get_pos()[0],16),corrige_grille(self.souris.get_pos()[1],16)))
+            futurcomp.afficher()
             self.construction.afficher()
         # pygame.display.flip()
+
+    def redimentione(self):
+        if self.mode=="construction":
+            self.construction.redimentione()
     
+
+
 
 def tri_decroisant_y(list:list[Zone]):
     for i in range(len(list)):
