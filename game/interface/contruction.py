@@ -224,13 +224,13 @@ class MenuConstruction:
             self.next_index(-1)
         elif clavier.get_pression(controle["bas"])=="vien_presser":
             self.next_index(1)
-        elif clavier.get_pression(controle["gauche"])=="vien_presser":
+        elif clavier.get_pression(controle["next_cat"])=="vien_presser":
             self.next_categorie(-1)
-        elif clavier.get_pression(controle["droite"])=="vien_presser":
+        elif clavier.get_pression(controle["prev_cat"])=="vien_presser":
             self.next_categorie(1)
-        elif clavier.get_pression(controle["next_var"])=="vien_presser":
+        elif clavier.get_pression(controle["gauche"])=="vien_presser":
             self.next_variante(1)
-        elif clavier.get_pression(controle["prev_var"])=="vien_presser":
+        elif clavier.get_pression(controle["droite"])=="vien_presser":
             self.next_variante(-1)
         elif clavier.get_pression(controle["interagir"])=="vien_presser":
             return self.get_comp()

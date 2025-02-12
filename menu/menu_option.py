@@ -50,8 +50,8 @@ class MenuOption:
                 "gauche": "gauche",
                 "droite": "droite",
                 "construction": "construction",
-                "next_var": "prochaine variante",
-                "prev_var": "précédente variante",
+                "next_cat": "prochaine catégorie",
+                "prev_cat": "précédente catégorie",
             },
             "zonetexte": [
                 "plein écran",
@@ -76,8 +76,8 @@ class MenuOption:
                 "gauche": "left",
                 "droite": "right",
                 "construction": "construction",
-                "next_var": "next variant",
-                "prev_var": "previous variant",
+                "next_cat": "next category",
+                "prev_cat": "previous category",
             },
             "zonetexte": [
                 "fullscreen",

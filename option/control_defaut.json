@@ -7,8 +7,8 @@
         "gauche": 113,
         "droite": 100,
         "construction": 99,
-        "next_var":0,
-        "prev_var":0
+        "next_cat":0,
+        "prev_cat":0
     },
     {
         "interagir": "f",
@@ -18,8 +18,8 @@
         "gauche": "q",
         "droite": "d",
         "construction": "c",
-        "next_var":"tab",
-        "prev_var":"shift tab"
+        "next_cat":"tab",
+        "prev_cat":"shift tab"
 
     }
    ]
