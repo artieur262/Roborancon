@@ -13,6 +13,7 @@ MUR= Mur((0,0),(64,10),("textures/teste/test_mur/mur1.png",(0,54)))
 FABRICATEUR = Mur((0,0),(64,10),"textures/teste/construction/fabricateur.png")
 
 class Game:
+    CADRIAGE=16
     def __init__(
         self,
         controls: dict[str, int],
@@ -66,6 +67,7 @@ class Game:
             else:
                 self.playeur.arrete()
     def interaction(self):
+        pos_s=self.souris.get_pos()
         pos_p=self.playeur.get_pos()
         size_p=self.playeur.get_size()
         if self.mode=="libre":
@@ -106,7 +108,7 @@ class Game:
         elif self.mode=="construction":
             comp=self.construction.gestion_touche(self.controls,self.clavier)
             if comp is not None:
-                pos=corrige_grille(pos_p[0],64),corrige_grille(pos_p[1],64)
+                pos=corrige_grille(pos_s[0],self.CADRIAGE),corrige_grille(pos_s[1],self.CADRIAGE)
                 comp.set_pos(pos)
                 self.fourniture.append(comp)
             if self.clavier.get_pression(self.controls["construction"]) =="vien_presser":
@@ -131,7 +133,10 @@ class Game:
             
         if self.mode=="construction":
             futurcomp=self.construction.get_futurcomp()
-            futurcomp.set_pos((corrige_grille(self.souris.get_pos()[0],16),corrige_grille(self.souris.get_pos()[1],16)))
+            futurcomp.set_pos((
+                corrige_grille(self.souris.get_pos()[0],self.CADRIAGE),
+                corrige_grille(self.souris.get_pos()[1],self.CADRIAGE)
+            ))
             futurcomp.afficher()
             self.construction.afficher()
         # pygame.display.flip()

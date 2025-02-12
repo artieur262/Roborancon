@@ -28,6 +28,7 @@ class FuturComp(ObjetGraphique):
     
     def actuel_comp(self)->Composant:
         """retourne le composant actuel"""
+        print(self.fabrique_comp(self.variante))
         return self.fabrique_comp(self.variante)
     
     def fabrique_comp(self,info)->Composant:
@@ -40,7 +41,8 @@ class FuturComp(ObjetGraphique):
             return Sol((self.get_pos()[0]+info[1][0],self.get_pos()[1]+info[1][1]),info[2],info[3])
         elif info[0] == "composant":
             return Composant((self.get_pos()[0]+info[1][0],self.get_pos()[1]+info[1][1]),info[2], info[3])
-    
+        else:
+            raise ValueError("le type de composant n'est pas compatible avec les tiles")
     def get_apercu(self)->Image:
         return self.apercu
     
@@ -127,7 +129,7 @@ class TileFuturComp(FuturComp):
         
     
     def actuel_comp(self)->Composant:
-        variante = self.variante
+        variante = self.variante[self.variante_actuel]
         info= (variante[0],variante[1],variante[2],self.title[self.variante_actuel],variante[3])
         if info[0] in ("porte","composant"):
             raise ValueError("le type de composant n'est pas compatible avec les tiles")
@@ -201,6 +203,8 @@ class MenuConstruction:
         return self.comp[self.categorie][self.index]
     
     def get_comp(self)->Composant:
+        print(self.comp[self.categorie][self.index])
+        print(self.comp[self.categorie][self.index].actuel_comp())
         return self.comp[self.categorie][self.index].actuel_comp()
     
     def next_variante(self,sens=1):
@@ -233,6 +237,7 @@ class MenuConstruction:
         elif clavier.get_pression(controle["droite"])=="vien_presser":
             self.next_variante(-1)
         elif clavier.get_pression(controle["interagir"])=="vien_presser":
+            print("interagir :", self.get_comp())
             return self.get_comp()
 
     def assemblage(self):
