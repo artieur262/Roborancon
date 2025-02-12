@@ -108,8 +108,8 @@ class Game:
         elif self.mode=="construction":
             comp=self.construction.gestion_touche(self.controls,self.clavier)
             if comp is not None:
-                pos=corrige_grille(pos_s[0],self.CADRIAGE),corrige_grille(pos_s[1],self.CADRIAGE)
-                comp.set_pos(pos)
+                # pos=corrige_grille(pos_s[0],self.CADRIAGE),corrige_grille(pos_s[1],self.CADRIAGE)
+                # comp.set_pos(pos)
                 self.fourniture.append(comp)
             if self.clavier.get_pression(self.controls["construction"]) =="vien_presser":
                 self.mode="libre"
@@ -148,24 +148,24 @@ class Game:
 
 
 
-def tri_decroisant_y(list:list[Zone]):
-    for i in range(len(list)):
-        for j in range(i+1,len(list)):
-            if list[i].get_pos()[1]+list[i].get_size()[1]>list[j].get_pos()[1]+list[j].get_size()[1]:
-                list[i],list[j]=list[j],list[i]
-    return list
+def tri_decroisant_y(liste:list[Zone]):
+    for i in range(len(liste)):
+        for j in range(i+1,len(liste)):
+            if liste[i].get_pos()[1]+liste[i].get_size()[1]>liste[j].get_pos()[1]+liste[j].get_size()[1]:
+                liste[i],liste[j]=liste[j],liste[i]
+    return liste
 
-def quick_sort_y(list:list[Zone]):
-    if len(list)<=1:
-        return list
-    pivot=list[0]
+def quick_sort_y(liste:list[Zone]):
+    if len(liste)<=1:
+        return liste
+    pivot=liste[0]
     list_inf=[]
     list_sup=[]
-    for i in range(1,len(list)):
-        if list[i].get_pos()[1]+list[i].get_size()[1]<pivot.get_pos()[1]+pivot.get_size()[1]:
-            list_inf.append(list[i])
+    for i in range(1,len(liste)):
+        if liste[i].get_pos()[1]+liste[i].get_size()[1]<pivot.get_pos()[1]+pivot.get_size()[1]:
+            list_inf.append(liste[i])
         else:
-            list_sup.append(list[i])
+            list_sup.append(liste[i])
     return quick_sort_y(list_inf)+[pivot]+quick_sort_y(list_sup)
 
 def corrige_grille(pos:int,taille:int)->int:
