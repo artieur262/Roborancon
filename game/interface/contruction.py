@@ -15,11 +15,8 @@ class FuturComp(ObjetGraphique):
         super().__init__(coordonnee, texture, taille)
         self.lien_textures = []
         self.variante = variante 
-        decalage = self.variante[1]
-        for img in self.texture:
-            img.set_ancre((decalage[1][0]+img.get_ancre()[0],decalage[1][1]+img.get_ancre()[1]))  
-        self.charger_apercu(apercu)
-  
+        self.charger_apercu(apercu) 
+
     def charger_apercu(self,apercu:Image|str):
         if isinstance(apercu,str):
             self.apercu = Image(apercu)
@@ -71,13 +68,9 @@ class ListFuturComp(FuturComp):
         super().__init__(coordonnee, texture, taille, variante[variante_actuel])
         self.variante_actuel = variante_actuel
         self.list_variante = variante
-        #peut être optimisé 
-        #car on fait une fois une boucle pour rien dans super().__init__
-        for i,img in enumerate(self.texture):
-            decalage = self.list_variante[i][1]
-            img.set_ancre((decalage[0]+img.get_ancre()[0],decalage[1]+img.get_ancre()[1]))
         self.apercu:list[Image] = Image.genere_list_Image(apercu)
-    
+        
+
     def charger_apercu(self, apercu:list[str|Image]|str):
         self.apercu = Image.genere_list_Image(apercu)
 
@@ -160,24 +153,29 @@ class MenuConstruction:
     LARGEUR=200
     def __init__(self):
         self.comp:list[list[FuturComp]]= [
-            [TileFuturComp((0,0),"textures/map/construction/bariere_plan",(32,32),[
-                ("mur",(0,0),(18,32),None),
-                ("mur",(0,13),(32,19),None),
-                ("mur",(14,13),(18,19),None),
-                ("mur",(0,13),(18,19),None),
-                ("mur",(14,0),(32,32),None),
-                ("mur",(0,0),(32,32),None),
-                ("mur",(14,0),(4,32),None),
-                ("mur",(0,0),(4,19),None),
-                ("mur",(0,13),(4,19),None),
-                ("mur",(13,12),(6,4),None),
-                ("mur",(14,0),(18,4),None),
-                ("mur",(0,0),(32,18),None),
-                ("mur",(0,0),(18,18),None),
-                ("mur",(14,13),(18,4),None),
-                ("mur",(0,13),(32,4),None),
-                ("mur",(0,13),(18,4),None),
-            ],"textures/map/construction/bariere","textures/map/construction/bariere")],
+            [
+                TileFuturComp((0,0),"textures/map/construction/bariere_plan",(32,32),[
+                    ("mur",(0,0),(18,32),None),
+                    ("mur",(0,13),(32,19),None),
+                    ("mur",(14,13),(18,19),None),
+                    ("mur",(0,13),(18,19),None),
+                    ("mur",(14,0),(32,32),None),
+                    ("mur",(0,0),(32,32),None),
+                    ("mur",(14,0),(4,32),None),
+                    ("mur",(0,0),(4,19),None),
+                    ("mur",(0,13),(4,19),None),
+                    ("mur",(13,12),(6,4),None),
+                    ("mur",(14,0),(18,4),None),
+                    ("mur",(0,0),(32,18),None),
+                    ("mur",(0,0),(18,18),None),
+                    ("mur",(14,13),(18,4),None),
+                    ("mur",(0,13),(32,4),None),
+                    ("mur",(0,13),(18,4),None),
+                ],"textures/map/construction/bariere","textures/map/construction/bariere"),
+                FuturComp((0,0),["textures/teste/construction/fabricateur.png"],(64,64),("mur",(0,0),(32,32),"textures/teste/construction/fabricateur.png",None),"textures/teste/construction/fabricateur.png"),
+            ],
+
+
         ]
         self.ordre=["mur", "sol", "fourniture","cloture"]
         self.categorie=0

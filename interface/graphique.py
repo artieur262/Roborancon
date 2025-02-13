@@ -49,7 +49,8 @@ class LienSpritesheet:
 
     def decoupe(self) -> list["Image"]:
         """decoupe la spritesheet et ajoute les données"""
-        images = []
+        images:list["Image"] = []
+        i=0
         if self.image.get_size()[0] % self.taille[0] != 0 or self.image.get_size()[1] % self.taille[1] != 0:
             raise ValueError("la taille de l'image n'est pas un multiple de la taille des images")
         for y in range(self.image.get_size()[1] // self.taille[1]):
@@ -62,10 +63,16 @@ class LienSpritesheet:
                             texture
                             )
                         )
+                    if "ancre" in self.data:
+                        print(self.data["ancre"])
+                        print(i, "len",len(self.data["ancre"]))
+                        images[-1].ancre=self.data["ancre"][i]
+                    i+=1
                 if self.data is not None and "grille_pos" in self.data:
                     pos:int=self.data["grille_pos"].index([x,y])
                     if "ancre" in self.data:
                         images[-1].ancre=self.data["ancre"][pos]
+                
         return images
 
     @staticmethod

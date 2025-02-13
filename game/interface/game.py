@@ -134,8 +134,8 @@ class Game:
         if self.mode=="construction":
             futurcomp=self.construction.get_futurcomp()
             futurcomp.set_pos((
-                corrige_grille(self.souris.get_pos()[0],self.CADRIAGE),
-                corrige_grille(self.souris.get_pos()[1],self.CADRIAGE)
+                corrige_grille(self.souris.get_pos()[0]-futurcomp.get_size()[0]//2,self.CADRIAGE),
+                corrige_grille(self.souris.get_pos()[1]-futurcomp.get_size()[1]//2,self.CADRIAGE)
             ))
             futurcomp.afficher()
             self.construction.afficher()
