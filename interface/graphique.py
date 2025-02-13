@@ -64,8 +64,6 @@ class LienSpritesheet:
                             )
                         )
                     if "ancre" in self.data:
-                        print(self.data["ancre"])
-                        print(i, "len",len(self.data["ancre"]))
                         images[-1].ancre=self.data["ancre"][i]
                     i+=1
                 if self.data is not None and "grille_pos" in self.data:
