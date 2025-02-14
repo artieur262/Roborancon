@@ -2,6 +2,7 @@ import pygame
 
 from interface.graphique import ObjetGraphique, Image,LienSpritesheet,place_texte_in_texture,genere_texture,screen
 from interface.class_clavier import Clavier
+from interface import convert_text
 from game.map.composant import Composant, Mur, Porte,Sol
 
 
@@ -154,7 +155,12 @@ class MenuConstruction:
     def __init__(self):
         self.comp:list[list[FuturComp]]= [
             [
-                TileFuturComp((0,0),"textures/map/construction/bariere_plan",(32,32),[
+                FuturComp((0,0),["textures/teste/test_mur/mur1.png"],(64,10),("mur",(0,54),(64,10),("textures/mur/mur1.png",(0,54)),None),"textures/mur/mur1.png"),
+            ],
+            [ 
+                FuturComp((0,0),["textures/teste/construction/fabricateur.png"],(64,64),("mur",(0,0),(32,32),"textures/teste/construction/fabricateur.png",None),"textures/teste/construction/fabricateur.png"),
+            ],
+            [    TileFuturComp((0,0),"textures/map/construction/bariere_plan",(32,32),[
                     ("mur",(0,0),(18,32),None),
                     ("mur",(0,13),(32,19),None),
                     ("mur",(14,13),(18,19),None),
@@ -172,12 +178,11 @@ class MenuConstruction:
                     ("mur",(0,13),(32,4),None),
                     ("mur",(0,13),(18,4),None),
                 ],"textures/map/construction/bariere","textures/map/construction/bariere"),
-                FuturComp((0,0),["textures/teste/construction/fabricateur.png"],(64,64),("mur",(0,0),(32,32),"textures/teste/construction/fabricateur.png",None),"textures/teste/construction/fabricateur.png"),
-            ],
+            ]
 
 
         ]
-        self.ordre=["mur", "sol", "fourniture","cloture"]
+        self.ordre=["mur","usine", "cloture","fourniture",]
         self.categorie=0
         self.index=0
         self.fond = Image(genere_texture((self.LARGEUR,screen.get_size()[1]),self.TEXTURE_FOND))
@@ -239,12 +244,25 @@ class MenuConstruction:
         centre=(self.LARGEUR//2,self.fond.get_size()[1]//2)
         espacement=(50,50)
         police=pygame.font.Font(None, 30)
-        self.fond.ajoute_image(Image(place_texte_in_texture(
+        zone_texte=Image(place_texte_in_texture(
             genere_texture((200,100),(0,0,0,0)),
             self.get_categorie(),
             police,
             (255,255,255,255)
-            )),(0,0))
+            ))
+        place_texte_in_texture(zone_texte.get_texture(),
+            convert_text.transforme("{{prev_cat}}"),
+            police,
+            (255,255,255,255),
+            "gauche_centre",
+            )
+        place_texte_in_texture(zone_texte.get_texture(),
+            convert_text.transforme("{{next_cat}}"),
+            police,
+            (255,255,255,255),
+            "haut_droit",
+            )
+        self.fond.ajoute_image(zone_texte,(0,0))
         
         self.fond.ajoute_image(self.get_next_block_apercu(-2),(centre[0]-25,centre[1]-25-espacement[1]*2))
         self.fond.ajoute_image(self.get_next_block_apercu(-1),(centre[0]-25,centre[1]-25-espacement[1]))

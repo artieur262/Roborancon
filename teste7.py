@@ -49,7 +49,7 @@ def main(): # pylint: disable=missing-function-docstring
         event=actualise_event(game.clavier,game.souris)
         game.actualise()
         game.afficher()
-        if "quitter" in event:
+        if "quitter" in event :
             encour=False
         if "redimentione" in event:
             game.redimentione()
@@ -58,7 +58,7 @@ def main(): # pylint: disable=missing-function-docstring
         screen.blit(fps,(0,0))
         pygame.display.update()
         clook.tick(60)
-        
+
 if __name__ == "__main__":
     main()
 

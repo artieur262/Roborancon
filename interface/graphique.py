@@ -105,6 +105,10 @@ class Image:
         """colorie l'image"""
         self.texture.fill(color)
 
+    def set_texture(self, texture: pygame.surface):
+        """defini la texture de l'objet"""
+        self.texture=texture
+
     def get_texture(self) -> pygame.surface:
         """retourne la texture de l'objet"""
         return self.texture
@@ -337,6 +341,9 @@ class ObjetGraphique(Zone):
     ):
         super().__init__(coordonnee, taille)
         self.texture:list[Image]=Image.genere_list_Image(texture)
+        if len(self.texture)==0:
+            print("erreur texture vide")
+            print(texture)
         
         self.animation = animation
 
