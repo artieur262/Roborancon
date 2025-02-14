@@ -9,7 +9,7 @@ from interface import convert_text
 from menu.start_menu import StartMenu
 from menu.menu_option import MenuOption
 from autre import save
-import teste5
+import teste7
 
 def main():
     """fonction principale"""
@@ -39,7 +39,7 @@ def main():
             if temp == "jouer":
                 action = "jeu"
         if action == "jeu":
-            teste5.main()
+            teste7.main()
             action = "menu_start"
         if action == "menu_option":
             temp = MenuOption.main(clavier, souris, langue["menu"])

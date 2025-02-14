@@ -58,6 +58,8 @@ def main(): # pylint: disable=missing-function-docstring
         screen.blit(fps,(0,0))
         pygame.display.update()
         clook.tick(60)
-main()
+        
+if __name__ == "__main__":
+    main()
 
 
